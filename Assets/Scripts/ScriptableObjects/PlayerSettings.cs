@@ -10,4 +10,6 @@ public class PlayerSettings : ScriptableObject
 
     [Header("Values")]
     public float movementSpeed;
+    [Range(0.1f, 3f)]
+    public float rotationSpeed;
 }

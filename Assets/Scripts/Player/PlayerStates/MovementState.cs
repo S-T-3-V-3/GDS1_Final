@@ -12,6 +12,7 @@ public class MovementState : PlayerState
 
     Rigidbody playerRB;
 
+    Vector3 movementVelocity;
     Vector2 moveInput;
     float deltaX;
 
@@ -38,7 +39,12 @@ public class MovementState : PlayerState
 
     public void MovePlayer()
     {
-        if(moveInput.x != 0)
+
+        movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.movementSpeed * Time.fixedDeltaTime;
+
+        //Below is relative movement towards forward direction
+
+        /*if(moveInput.x != 0)
         {
             playerRB.velocity += transform.right * moveInput.x * playerSettings.movementSpeed * Time.fixedDeltaTime;
         }
@@ -46,11 +52,14 @@ public class MovementState : PlayerState
         if(moveInput.y != 0)
         {
             playerRB.velocity += transform.forward * moveInput.y * playerSettings.movementSpeed * Time.fixedDeltaTime;
-        }
+        }*/
+
+        playerRB.velocity += movementVelocity;
+
     }
 
     public void RotatePlayer()
     {
-        transform.Rotate(0, deltaX * 0.5f, 0);
+        transform.Rotate(0, deltaX * playerSettings.rotationSpeed, 0);
     }
 }

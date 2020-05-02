@@ -15,3 +15,4 @@ MonoBehaviour:
   playerPrefab: {fileID: 9171722624489351093, guid: d6a6857b7ced440e28658f9704cac30d,
     type: 3}
   movementSpeed: 6
+  rotationSpeed: 2.01
