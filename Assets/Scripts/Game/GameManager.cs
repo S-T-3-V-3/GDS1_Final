@@ -5,9 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
+    
+    [Header("Prefabs")]
+    public GameObject TileManagerPrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;
+
+    [Header("Scene Objects")]
+    public TileManager tileManager;
 
     private void Awake()
     {
@@ -15,6 +21,8 @@ public class GameManager : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         else
             Instance = this;
+
+        tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
     }
 
     void Start()
