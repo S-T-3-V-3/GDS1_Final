@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   playerSettings: {fileID: 11400000, guid: 20fc192b4b1144b83bff43935df95f5f, type: 2}
+  worldTiles: {fileID: 0}
+  Weapons: []

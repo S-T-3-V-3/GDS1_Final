@@ -4,34 +4,27 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static GameManager Instance = null;
 
     [Header("Settings")]
     public GameSettings gameSettings;
 
     private void Awake()
     {
-        if(instance != null)
-            Destroy(gameObject);
+        if(Instance != null)
+            GameObject.Destroy(this.gameObject);
         else
-            instance = this;
+            Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         SpawnPlayer();
     }
 
-    // Update is called once per frame
-    void Update()
+    void SpawnPlayer()
     {
-        
-    }
-
-    void SpawnPlayer() //Only needed when  spawning from gamemanager
-    {
-        Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 5, 0), Quaternion.identity);
+        GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 5, 0), Quaternion.identity);
     }
     
 }

@@ -19,7 +19,7 @@ public class MovementState : PlayerState
     public override void BeginState()
     {
         playerController = GetComponent<PlayerController>();
-        playerSettings = GameManager.instance.gameSettings.playerSettings;
+        playerSettings = GameManager.Instance.gameSettings.playerSettings;
         playerInput = playerController.playerInput;
 
         playerRB = GetComponent<Rigidbody>();
@@ -40,7 +40,7 @@ public class MovementState : PlayerState
     public void MovePlayer()
     {
 
-        movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.movementSpeed * Time.fixedDeltaTime;
+        movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
 
         //Below is relative movement towards forward direction
 
