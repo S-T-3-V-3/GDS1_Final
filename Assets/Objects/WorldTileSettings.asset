@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc2053ffaa05484d80413f5faa75299, type: 3}
+  m_Name: WorldTileSettings
+  m_EditorClassIdentifier: 
+  startingTiles:
+  - {fileID: 4568532971259600910, guid: 47c7d673fa92797428945cec86d7d4e7, type: 3}
+  bossTiles: []
+  standardTiles:
+  - {fileID: 2302101864516894372, guid: ded59c1b93b758d4c9a28fd001cb4793, type: 3}
+  - {fileID: 2002726439781588513, guid: 92775c788f3746d4bbac5a95c242b258, type: 3}
+  - {fileID: 6322853510455661761, guid: 06edec178cc88664ebc7b3790282e959, type: 3}
+  - {fileID: 5536971280616310850, guid: d7e26f873ad549d4088d296d504ea880, type: 3}
+  - {fileID: 4303145306227984854, guid: 9f5866f90d7994845b7545590dcb85e1, type: 3}
+  - {fileID: 2641142787927660014, guid: 46bc845c9b0e11e4c824ab092bd8fc94, type: 3}
+  - {fileID: 4053712237269456043, guid: 09814d5531db9b5418b66a1d189faaca, type: 3}

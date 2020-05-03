@@ -7,4 +7,6 @@ public class GameSettings : ScriptableObject
 {
     [Header("Settings")]
     public PlayerSettings playerSettings;
+    public WorldTiles worldTiles;
+    public List<WeaponType> Weapons;
 }
