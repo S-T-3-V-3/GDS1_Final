@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Scene Objects")]
     public TileManager tileManager;
+    [HideInInspector] public PlayerController playerController;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
-        GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 5, 0), Quaternion.identity);
+        playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 5, 0), Quaternion.identity).GetComponent<PlayerController>();
     }
     
 }
