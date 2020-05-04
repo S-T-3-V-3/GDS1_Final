@@ -10,8 +10,6 @@ public class MovementState : PlayerState
     InputSystem playerInput;
     PlayerSettings playerSettings;
 
-    Rigidbody playerRB;
-
     Vector3 movementVelocity;
     Vector2 moveInput;
     float deltaX;
@@ -22,9 +20,8 @@ public class MovementState : PlayerState
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         playerInput = playerController.playerInput;
 
-        playerRB = GetComponent<Rigidbody>();
-
         playerInput.Player.Movement.performed += move => moveInput = move.ReadValue<Vector2>();
+        //playerInput.Player.Movement.performed += CheckInput; Use this for debugging only
         playerInput.Player.Movement.canceled += move => moveInput = Vector2.zero;
 
         playerInput.Player.RotationY.performed += delta => deltaX = delta.ReadValue<float>();
@@ -39,24 +36,28 @@ public class MovementState : PlayerState
 
     public void MovePlayer()
     {
-
-        movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
+        movementVelocity = Vector3.zero;
+        //movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
 
         //Below is relative movement towards forward direction
-
-        /*if(moveInput.x != 0)
+        if(moveInput.x != 0)
         {
-            playerRB.velocity += transform.right * moveInput.x * playerSettings.movementSpeed * Time.fixedDeltaTime;
+            movementVelocity += transform.right * moveInput.x * playerSettings.baseStats.moveSpeed * playerSettings.movementDelta;
         }
 
         if(moveInput.y != 0)
         {
-            playerRB.velocity += transform.forward * moveInput.y * playerSettings.movementSpeed * Time.fixedDeltaTime;
-        }*/
+            movementVelocity += transform.forward * moveInput.y * playerSettings.baseStats.moveSpeed * playerSettings.movementDelta;
+        }
 
-        playerRB.velocity += movementVelocity;
-
+        transform.position += movementVelocity;
     }
+
+    //Use this for debugging only
+    /*public void CheckInput(InputAction.CallbackContext context)
+    {
+        Debug.Log(context.ReadValue<Vector2>());
+    }*/
 
     public void RotatePlayer()
     {

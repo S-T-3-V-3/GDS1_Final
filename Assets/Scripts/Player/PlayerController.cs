@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = new InputSystem();
         stateManager = gameObject.AddComponent<PlayerStateManager>();
-        
     }
 
     // Start is called before the first frame update
