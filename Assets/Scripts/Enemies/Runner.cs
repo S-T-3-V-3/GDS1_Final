@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RunnerMove : MonoBehaviour
+public class Runner : MonoBehaviour
 {
-    public int speed;
     private GameObject player;
+    EnemyType runner;
 
     // Start is called before the first frame update
     void Start()
     {
+        runner = GameManager.Instance.gameSettings.runner;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -18,6 +19,6 @@ public class RunnerMove : MonoBehaviour
     {
         Vector3 localPosition = player.transform.position - transform.position;
         localPosition = localPosition.normalized;
-        transform.Translate(localPosition.x * Time.deltaTime * speed, localPosition.y * Time.deltaTime * speed, localPosition.z * Time.deltaTime * speed);
+        transform.Translate(localPosition.x * Time.deltaTime * runner.enemyStats.moveSpeed, localPosition.y * Time.deltaTime * runner.enemyStats.moveSpeed, localPosition.z * Time.deltaTime * runner.enemyStats.moveSpeed);
     }
 }

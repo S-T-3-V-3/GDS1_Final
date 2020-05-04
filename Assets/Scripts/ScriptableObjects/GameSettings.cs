@@ -8,5 +8,6 @@ public class GameSettings : ScriptableObject
     [Header("Settings")]
     public PlayerSettings playerSettings;
     public WorldTiles worldTiles;
+    public EnemyType runner;
     public List<WeaponType> Weapons;
 }
