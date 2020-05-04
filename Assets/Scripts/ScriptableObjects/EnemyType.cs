@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "New Enemy Type")]
 public class EnemyType : ScriptableObject
 {
-    public static string EnemyName;
-    public static GameObject EnemyPrefab;
+    public string EnemyName;
+    public GameObject EnemyPrefab;
     public EnemyStats enemyStats;
 }
 
+[System.Serializable]
 public class EnemyStats {
     public float health;
     public float moveSpeed;
