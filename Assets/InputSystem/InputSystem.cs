@@ -20,9 +20,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""5c63f715-516f-45ec-8f6d-41d0e9489308"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -41,7 +41,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""id"": ""1d664498-2947-4123-8209-9aa38f2b00f7"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
@@ -96,7 +96,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""id"": ""ac233e72-81c4-49a3-8397-e47f1dacba18"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
@@ -147,11 +147,11 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""PS4"",
+                    ""name"": ""GamePad"",
                     ""id"": ""5005a2f6-0b98-48b9-a545-549312af4dcf"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone(min=0.25)"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,
