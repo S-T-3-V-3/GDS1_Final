@@ -7,8 +7,11 @@ public class PlayerSettings : ScriptableObject
 {
     [Header("Prefabs")]
     public GameObject playerPrefab;
-    public float rotationSpeed; // This probably shouldn't exist, it would feel bad if it took time to rotate towards cursor or stick position
+    public float rotationSpeed = 2; // This probably shouldn't exist, it would feel bad if it took time to rotate towards cursor or stick position
     public PlayerStats baseStats;
+
+    [Header("Values")]
+    public float movementDelta = 0.04f;
 }
 
 [System.Serializable]
@@ -16,8 +19,8 @@ public class PlayerStats {
     public float maxHealth;
     public float currentHealth;
     public float healthRegenSpeed;
-    [Range(0.1f, 3f)]
-    public float moveSpeed;
+    //[Range(6, 20f)]
+    public float moveSpeed = 30;
     public float damage;
     public float fireRate;
     public float critChance;
