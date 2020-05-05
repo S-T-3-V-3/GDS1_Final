@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac31527f1cdcad84296d96a2ae6439fd, type: 3}
-  m_Name: Runner
+  m_Name: Runner Enemy
   m_EditorClassIdentifier: 
   EnemyName: Runner
   EnemyPrefab: {fileID: 3237054587080890714, guid: 794dcf184d598cc44b050f874b6736aa,
     type: 3}
   enemyStats:
     health: 0
-    moveSpeed: 5
+    moveSpeed: 4
     turnSpeed: 0
-    detectionRange: 0
+    detectionRange: 10
     perceptiveness: 0
     equippedWeapon: {fileID: 0}
     fireRate: 0

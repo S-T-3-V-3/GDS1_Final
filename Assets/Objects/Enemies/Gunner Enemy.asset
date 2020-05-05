@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac31527f1cdcad84296d96a2ae6439fd, type: 3}
-  m_Name: Gunner
+  m_Name: Gunner Enemy
   m_EditorClassIdentifier: 
   EnemyName: Gunner
   EnemyPrefab: {fileID: 0}
@@ -18,7 +18,7 @@ MonoBehaviour:
     health: 0
     moveSpeed: 0
     turnSpeed: 0
-    detectionRange: 0
+    detectionRange: 10
     perceptiveness: 0
     equippedWeapon: {fileID: 0}
     fireRate: 0
