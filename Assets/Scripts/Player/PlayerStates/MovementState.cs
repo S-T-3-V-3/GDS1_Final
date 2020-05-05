@@ -61,6 +61,13 @@ public class MovementState : PlayerState
 
     public void RotatePlayer()
     {
-        transform.Rotate(0, deltaX * playerSettings.rotationSpeed, 0);
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position);
+        Vector3 lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
+        
+        lookAtPos.y = transform.position.y;
+        transform.LookAt(lookAtPos);
+        // Maybe we want to put a bit of rotation speed/smooth damp towards look at pos?
+        //transform.Rotate(0, deltaX * playerSettings.rotationSpeed, 0);
     }
 }
