@@ -8,13 +8,15 @@ public class GameManager : MonoBehaviour
     
     [Header("Prefabs")]
     public GameObject TileManagerPrefab;
+    public GameObject CameraPrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;
 
     [Header("Scene Objects")]
     public TileManager tileManager;
-    [HideInInspector] public PlayerController playerController;
+    public Camera mainCamera;
+    public PlayerController playerController;
 
     private void Awake()
     {
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
+
+        mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
     }
 
     void Start()

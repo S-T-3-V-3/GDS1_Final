@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   playerSettings: {fileID: 11400000, guid: 20fc192b4b1144b83bff43935df95f5f, type: 2}
+  cameraSettings: {fileID: 11400000, guid: 90bb4e03b61f0d1408e145f1e86efea2, type: 2}
   worldTiles: {fileID: 11400000, guid: 3528f0e5f2c1d244c857cb4076b49d64, type: 2}
   Enemies:
   - {fileID: 11400000, guid: 06fed1892e4291841b34101f924e2407, type: 2}
