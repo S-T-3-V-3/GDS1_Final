@@ -5,22 +5,22 @@ using System.Linq;
 
 public class PrefabShooting : MonoBehaviour
 {
-    public GameObject bullet;
+    public GameObject bulletPrefab; // Needs to be clearer that it's a prefab
 
-    WeaponStats standardrifleStats;
+    WeaponStats standardRifleStats; // camelCase
 
     void Start()
     {
-        standardrifleStats = GameManager.Instance.gameSettings.Weapons.Where(x => x.weaponName == "StandardRifle").First().Stats;
+        standardRifleStats = GameManager.Instance.gameSettings.Weapons.Where(x => x.weaponName == "StandardRifle").First().Stats;
     }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject instBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-            Rigidbody instBulletRigidbody = instBullet.GetComponent<Rigidbody>();
-            instBulletRigidbody.AddForce(Vector3.forward * standardrifleStats.shotSpeed);
-            Destroy(instBullet, 3f);
+            GameObject currentBullet = GameObject.Instantiate(bulletPrefab, transform.position, transform.rotation);
+            currentBullet.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * standardRifleStats.shotSpeed);
+            GameObject.Destroy(currentBullet, 3f);
         }
     }
 }
