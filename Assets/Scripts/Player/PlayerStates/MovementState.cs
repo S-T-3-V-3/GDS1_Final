@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MovementState : PlayerState
 {
@@ -38,6 +38,16 @@ public class MovementState : PlayerState
     {
         movementVelocity = Vector3.zero;
         //movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }
+
+        if (Input.GetKey(KeyCode.Escape)){
+            Application.Quit();
+        }
 
         //Below is relative movement towards forward direction
         if(moveInput.x != 0)
