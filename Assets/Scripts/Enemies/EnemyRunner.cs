@@ -17,7 +17,7 @@ public class EnemyRunner : MonoBehaviour
         runnerStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.EnemyName == "Runner").First().enemyStats;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (hasTarget) {
             isTargetInRange = GetTargetDistance() <= runnerStats.detectionRange;
@@ -44,7 +44,7 @@ public class EnemyRunner : MonoBehaviour
 
     void MoveToTarget() {
         Vector3 targetDirection = Vector3.Normalize(this.transform.position - targetTransform.position);
-        Vector3 newPosition = this.transform.position - (targetDirection * Time.deltaTime * runnerStats.moveSpeed);
+        Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * runnerStats.moveSpeed);
         this.GetComponent<Rigidbody>().MovePosition(newPosition);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public InputSystem playerInput;
+    public InputSystem playerInput;
     [HideInInspector] public PlayerStateManager stateManager;
 
     void Awake()
@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
         stateManager = gameObject.AddComponent<PlayerStateManager>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         stateManager.AddState<MovementState>();

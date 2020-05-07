@@ -10,8 +10,10 @@ public class MovementState : PlayerState
     InputSystem playerInput;
     PlayerSettings playerSettings;
 
-    Vector3 movementVelocity;
+    Rigidbody playerRb;
+    Vector3 newPosition;
     Vector2 moveInput;
+    Transform cameraTransform;
     float deltaX;
 
     public override void BeginState()
@@ -26,6 +28,9 @@ public class MovementState : PlayerState
 
         playerInput.Player.RotationY.performed += delta => deltaX = delta.ReadValue<float>();
         playerInput.Player.RotationY.canceled += delta => deltaX = 0f;
+
+        cameraTransform = GameManager.Instance.mainCamera.transform;
+        playerRb = this.GetComponent<Rigidbody>();
     }
 
     public void FixedUpdate()
@@ -36,9 +41,7 @@ public class MovementState : PlayerState
 
     public void MovePlayer()
     {
-        movementVelocity = Vector3.zero;
-        //movementVelocity = new Vector3(moveInput.x, 0, moveInput.y) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
-
+        //////////// Debug Input ///////////////////
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Scene scene = SceneManager.GetActiveScene();
@@ -48,19 +51,15 @@ public class MovementState : PlayerState
         if (Input.GetKey(KeyCode.Escape)){
             Application.Quit();
         }
+        ////////////////////////////////////////////
+        
+        newPosition = Vector3.zero;
+        newPosition += cameraTransform.right * moveInput.x;
+        newPosition += cameraTransform.forward * moveInput.y;
+        newPosition.y = 0;
+        newPosition = Vector3.Normalize(newPosition) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
 
-        //Below is relative movement towards forward direction
-        if(moveInput.x != 0)
-        {
-            movementVelocity += transform.right * moveInput.x * playerSettings.baseStats.moveSpeed * playerSettings.movementDelta;
-        }
-
-        if(moveInput.y != 0)
-        {
-            movementVelocity += transform.forward * moveInput.y * playerSettings.baseStats.moveSpeed * playerSettings.movementDelta;
-        }
-
-        transform.position += movementVelocity;
+        playerRb.MovePosition(this.gameObject.transform.position + newPosition);
     }
 
     //Use this for debugging only
@@ -75,8 +74,8 @@ public class MovementState : PlayerState
         mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position);
         Vector3 lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
         
-        lookAtPos.y = transform.position.y;
-        transform.LookAt(lookAtPos);
+        lookAtPos.y = this.transform.position.y;
+        this.transform.LookAt(lookAtPos);
         // Maybe we want to put a bit of rotation speed/smooth damp towards look at pos?
         //transform.Rotate(0, deltaX * playerSettings.rotationSpeed, 0);
     }
