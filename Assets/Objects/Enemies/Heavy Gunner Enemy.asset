@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac31527f1cdcad84296d96a2ae6439fd, type: 3}
-  m_Name: Gunner Enemy
+  m_Name: Heavy Gunner Enemy
   m_EditorClassIdentifier: 
-  EnemyName: Gunner
-  EnemyPrefab: {fileID: 8582355962493277956, guid: 8587666287546c64c9197413ef7015b6,
-    type: 3}
+  EnemyName: Heavy Gunner
+  EnemyPrefab: {fileID: 0}
   enemyStats:
     health: 0
     moveSpeed: 0
@@ -22,5 +21,5 @@ MonoBehaviour:
     detectionRange: 10
     perceptiveness: 0
     equippedWeapon: {fileID: 0}
-    fireRate: 3
+    fireRate: 0
     damage: 0

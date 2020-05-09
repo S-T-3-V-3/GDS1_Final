@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6534201438454827210}
   - component: {fileID: 909824091073370048}
   m_Layer: 0
-  m_Name: Gunner
+  m_Name: EnemyGunnerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,6 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6438d8161003c844bb57064d97ddd2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunnerBulletPrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
+    type: 3}
 --- !u!54 &909824091073370048
 Rigidbody:
   m_ObjectHideFlags: 0
