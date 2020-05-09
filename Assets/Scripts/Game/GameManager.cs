@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
-        playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 5, 0), Quaternion.identity).GetComponent<PlayerController>();
+        playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
     }
     
 }

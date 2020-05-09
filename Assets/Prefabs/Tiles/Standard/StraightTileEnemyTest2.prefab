@@ -116,13 +116,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4895259896283574916}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -4.959}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4895259897900083136}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &4895259896310275747
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4895259897900083136}
   - component: {fileID: 4895259897900083139}
+  - component: {fileID: 5787423443974463964}
   m_Layer: 0
   m_Name: StraightTileEnemyTest2
   m_TagString: Untagged
@@ -298,9 +299,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91392a6399726f40b6e4969397cd62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTransform: {fileID: 4895259896283574919}
-  endTransform: {fileID: 4895259896688666677}
+  connections:
+  - transform: {fileID: 4895259896283574919}
+    otherTile: {fileID: 0}
+    isBlocked: 0
+  - transform: {fileID: 4895259896688666677}
+    otherTile: {fileID: 0}
+    isBlocked: 0
   startLocation: {fileID: 0}
+--- !u!65 &5787423443974463964
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4895259897900083137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 10, z: 20}
+  m_Center: {x: 0, y: 0, z: 5}
 --- !u!1 &4895259897961070857
 GameObject:
   m_ObjectHideFlags: 0
