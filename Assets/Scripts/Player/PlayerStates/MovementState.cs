@@ -62,7 +62,7 @@ public class MovementState : PlayerState
         playerRb.MovePosition(this.gameObject.transform.position + newPosition);
     }
 
-    //Use this for debugging only
+    /////////////// Use this for debugging only ////////////////
     /*public void CheckInput(InputAction.CallbackContext context)
     {
         Debug.Log(context.ReadValue<Vector2>());
