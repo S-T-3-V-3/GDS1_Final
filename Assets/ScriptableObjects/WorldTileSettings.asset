@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc2053ffaa05484d80413f5faa75299, type: 3}
   m_Name: WorldTileSettings
   m_EditorClassIdentifier: 
-  futureTileDepth: 15
-  pastTileDepth: 15
+  futureTileDepth: 3
+  pastTileDepth: 3
   startingTiles:
   - tilePrefab: {fileID: 4568532971259600910, guid: 47c7d673fa92797428945cec86d7d4e7,
       type: 3}
@@ -22,10 +22,10 @@ MonoBehaviour:
   standardTiles:
   - tilePrefab: {fileID: 2302101864516894372, guid: ded59c1b93b758d4c9a28fd001cb4793,
       type: 3}
-    tileWeight: 1
+    tileWeight: 0
   - tilePrefab: {fileID: 2002726439781588513, guid: 92775c788f3746d4bbac5a95c242b258,
       type: 3}
-    tileWeight: 1
+    tileWeight: 0
   - tilePrefab: {fileID: 6322853510455661761, guid: 06edec178cc88664ebc7b3790282e959,
       type: 3}
     tileWeight: 1
@@ -37,7 +37,7 @@ MonoBehaviour:
     tileWeight: 1
   - tilePrefab: {fileID: 2641142787927660014, guid: 46bc845c9b0e11e4c824ab092bd8fc94,
       type: 3}
-    tileWeight: 1
+    tileWeight: 0
   - tilePrefab: {fileID: 4053712237269456043, guid: 09814d5531db9b5418b66a1d189faaca,
       type: 3}
     tileWeight: 1
@@ -51,5 +51,11 @@ MonoBehaviour:
       type: 3}
     tileWeight: 1
   - tilePrefab: {fileID: 3708049001181780895, guid: 9f4076d38737d96429af0e27c897ff4f,
+      type: 3}
+    tileWeight: 6
+  - tilePrefab: {fileID: 4707529193351629264, guid: 0a9dc371e36be71478b45774d77e6b9d,
+      type: 3}
+    tileWeight: 6
+  - tilePrefab: {fileID: 6860436977720681361, guid: 151f5ce796d05df45b07e78632961510,
       type: 3}
     tileWeight: 6
