@@ -43,5 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c9e435b1bdba6418595c732d9aeb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingTiles: []
+  bossTiles: []
+  standardTiles: []
   currentTiles: []
-  maxTiles: 10
+  maxTiles: 5

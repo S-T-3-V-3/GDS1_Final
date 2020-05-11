@@ -23,7 +23,6 @@ public class MovementState : PlayerState
         playerInput = playerController.playerInput;
 
         playerInput.Player.Movement.performed += move => moveInput = move.ReadValue<Vector2>();
-        //playerInput.Player.Movement.performed += CheckInput; Use this for debugging only
         playerInput.Player.Movement.canceled += move => moveInput = Vector2.zero;
 
         playerInput.Player.RotationY.performed += delta => deltaX = delta.ReadValue<float>();
@@ -34,12 +33,6 @@ public class MovementState : PlayerState
     }
 
     public void FixedUpdate()
-    {
-        MovePlayer();
-        RotatePlayer();
-    }
-
-    public void MovePlayer()
     {
         //////////// Debug Input ///////////////////
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -60,23 +53,12 @@ public class MovementState : PlayerState
         newPosition = Vector3.Normalize(newPosition) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
 
         playerRb.MovePosition(this.gameObject.transform.position + newPosition);
-    }
 
-    /////////////// Use this for debugging only ////////////////
-    /*public void CheckInput(InputAction.CallbackContext context)
-    {
-        Debug.Log(context.ReadValue<Vector2>());
-    }*/
-
-    public void RotatePlayer()
-    {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position);
         Vector3 lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
         
         lookAtPos.y = this.transform.position.y;
         this.transform.LookAt(lookAtPos);
-        // Maybe we want to put a bit of rotation speed/smooth damp towards look at pos?
-        //transform.Rotate(0, deltaX * playerSettings.rotationSpeed, 0);
     }
 }

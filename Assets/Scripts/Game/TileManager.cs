@@ -5,26 +5,44 @@ using System.Linq;
 
 public class TileManager : MonoBehaviour
 {
-    public List<Tile> currentTiles;
-    public int maxTiles;
+    public Tile rootTile;
+    public int maxWeight = 0;
+
+    WorldTiles worldTiles;
 
     void Start() {
-        if (currentTiles == null)
-            currentTiles = new List<Tile>();
+        worldTiles = GameManager.Instance.gameSettings.worldTiles;
 
-        currentTiles.Add(GameObject.Instantiate(GameManager.Instance.gameSettings.worldTiles.GetStartingTile()).GetComponent<Tile>());
-
-        while (currentTiles.Count < maxTiles) {
-            AddTile();
+        // Add Standard Tiles
+        foreach(WeightedTile wt in worldTiles.standardTiles) {
+            maxWeight += wt.tileWeight;
         }
+
+        rootTile = GameObject.Instantiate(this.GetStartingTile(),this.transform).GetComponent<Tile>();
+        rootTile.AddNeighbours(null, GameManager.Instance.gameSettings.worldTiles.futureTileDepth);
     }
 
-    void AddTile() {
-        GameObject newTile = GameManager.Instance.gameSettings.worldTiles.GetStandardTile();
-        Tile currentTile = GameObject.Instantiate(newTile).GetComponent<Tile>();
-        Tile previousTile = currentTiles.Last();
-        currentTiles.Add(currentTile);
-        currentTile.transform.rotation = previousTile.endTransform.rotation;
-        currentTile.transform.position = previousTile.endTransform.position - currentTile.startTransform.position;
+    public GameObject GetStartingTile() {
+        return worldTiles.startingTiles[Random.Range(0, worldTiles.startingTiles.Count)].tilePrefab;
+    }
+
+    public GameObject GetBossTile() {
+        return worldTiles.bossTiles[Random.Range(0, worldTiles.bossTiles.Count)].tilePrefab;
+    }
+
+    public GameObject GetStandardTile() {
+        int selectedWeight = Random.Range(0,maxWeight + 1); // Unity random.range is garbage, eat some horse poop
+        int tileIndex = 0;
+
+        for (int i = 0; i < worldTiles.standardTiles.Count; i++) {
+            selectedWeight -= worldTiles.standardTiles[i].tileWeight;
+
+            if (selectedWeight <= 0 && worldTiles.standardTiles[i].tileWeight > 0) {
+                tileIndex = i;
+                i = worldTiles.standardTiles.Count;
+            }
+        }
+
+        return worldTiles.standardTiles[tileIndex].tilePrefab;
     }
 }
