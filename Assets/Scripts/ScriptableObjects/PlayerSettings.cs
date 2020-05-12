@@ -7,22 +7,7 @@ public class PlayerSettings : ScriptableObject
 {
     [Header("Prefabs")]
     public GameObject playerPrefab;
-    public PlayerStats baseStats;
-}
-
-[System.Serializable]
-public class PlayerStats {
-    public float maxHealth;
-    public float currentHealth;
-    public float healthRegenSpeed;
-    public float moveSpeed = 30;
-    public float damage;
-    public float fireRate;
-    public float critChance;
-    public float maxMana;
-    public float currentMana;
-    public float manaRegenSpeed;
-    
+    public ObjectStats baseStats;
 }
 
 // Used to track # skill points allocated to each stat

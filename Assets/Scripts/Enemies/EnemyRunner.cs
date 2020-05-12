@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System;
 
 public class EnemyRunner : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class EnemyRunner : MonoBehaviour
 
     bool hasTarget = false;
     bool isTargetInRange = false;
+    float timeSinceLastHit = 0f;
 
     void Start()
     {
@@ -46,5 +46,19 @@ public class EnemyRunner : MonoBehaviour
         Vector3 targetDirection = Vector3.Normalize(this.transform.position - targetTransform.position);
         Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * runnerStats.moveSpeed);
         this.GetComponent<Rigidbody>().MovePosition(newPosition);
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.GetComponent<IDamageable>() != null) {
+            DamageType damage;
+            damage.damagingObject = this.gameObject;
+            damage.impactPosition = other.contacts.First().point;
+            damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
+            damage.damageAmount = runnerStats.damage;
+            damage.isCrit = false;
+            damage.isPiercing = false;
+
+            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage);
+        }
     }
 }

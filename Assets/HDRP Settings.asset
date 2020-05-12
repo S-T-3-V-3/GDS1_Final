@@ -279,7 +279,7 @@ MonoBehaviour:
       m_LutSize: 32
       lutFormat: 48
     dynamicResolutionSettings:
-      enabled: 0
+      enabled: 1
       maxPercentage: 100
       minPercentage: 100
       dynResType: 1
