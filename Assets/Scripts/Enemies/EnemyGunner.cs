@@ -41,7 +41,6 @@ public class EnemyGunner : MonoBehaviour
         } else
         {
             SearchForTarget();
-            Debug.Log("No Target");
         }
         if (timeSinceLastFired < gunnerStats.fireRate)
             timeSinceLastFired += Time.deltaTime;
