@@ -10,7 +10,7 @@ public interface IDamageable
 }
 
 public struct DamageType {
-    public GameObject damagingObject;
+    public GameObject owningObject;
     public Vector3 impactPosition;
     public Vector3 impactVelocity;
     public float damageAmount;

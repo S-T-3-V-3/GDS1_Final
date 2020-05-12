@@ -6,33 +6,58 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Image foregroundImage;
-    public float updateSpeedSeconds;
+    public float sensitivity = 0.01f;
+    public float lerpSpeed = 1f; // Seconds
 
-    void Awake()
+    Coroutine currentCoroutine;
+    BasicPlayer playerRef;
+    float timeSinceModified = 0;
+
+    void Start()
     {
-        GetComponentInParent<Health>().OnHealthPercentChange += HandleHealthChange;
+        StartCoroutine(Initialize());
     }
 
-    private void HandleHealthChange(float percent)
+    private void UpdateHealth()
     {
-        StartCoroutine(ChangeToPercent(percent));
+        float targetHealthPercent = playerRef.playerStats.currentHealth / playerRef.playerStats.maxHealth;
+
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+        
+        currentCoroutine = StartCoroutine(UpdateImage(targetHealthPercent));
     }
 
-    IEnumerator ChangeToPercent(float newPercent)
+    IEnumerator UpdateImage(float targetHealthPercent)
     {
-        float previousPercent = foregroundImage.fillAmount;
-        float timeElapsed = 0f;
+        float currentHealthPercent = foregroundImage.fillAmount;
+        float startHealthPercent = currentHealthPercent;
+        timeSinceModified = 0f;
 
         //Lerp to the new health percent
-        while (timeElapsed < updateSpeedSeconds)
+        while (Mathf.Abs(currentHealthPercent - targetHealthPercent) > sensitivity)
         {
-            timeElapsed += Time.deltaTime;
-            foregroundImage.fillAmount = Mathf.Lerp(previousPercent, newPercent, timeElapsed / updateSpeedSeconds);
-            yield return null;
+            yield return new WaitForEndOfFrame();
+
+            timeSinceModified += Time.deltaTime;
+            currentHealthPercent = Mathf.Lerp(startHealthPercent, targetHealthPercent, timeSinceModified / lerpSpeed);
+            
+            foregroundImage.fillAmount = currentHealthPercent;
         }
 
         //Set image to the new health amount
-        foregroundImage.fillAmount = newPercent;
+        foregroundImage.fillAmount = targetHealthPercent;
     }
 
+    IEnumerator Initialize() {
+        while (playerRef == null) {
+            if (GameManager.Instance.playerController != null)
+                playerRef = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
+
+            yield return null;
+        }
+
+        playerRef.OnHealthChanged.AddListener(UpdateHealth);
+        UpdateHealth();
+    }
 }

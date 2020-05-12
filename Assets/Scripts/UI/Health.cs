@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     private int currentHealth;
 
     //= delegate to avoid null reference exception
-    public event Action<float> OnHealthPercentChange = delegate { };
+    public Action<float> OnHealthPercentChange = delegate { };
 
     void Start()
     {

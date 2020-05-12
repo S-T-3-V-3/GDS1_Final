@@ -51,7 +51,7 @@ public class EnemyRunner : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         if (other.gameObject.GetComponent<IDamageable>() != null) {
             DamageType damage;
-            damage.damagingObject = this.gameObject;
+            damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
             damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
             damage.damageAmount = runnerStats.damage;

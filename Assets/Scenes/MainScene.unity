@@ -316,6 +316,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4820513165822322620, guid: 4568553177761634a874cd540c7825c0,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4820513166456618387, guid: 4568553177761634a874cd540c7825c0,
         type: 3}
       propertyPath: m_Name
@@ -425,6 +430,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514650876880564643, guid: 4568553177761634a874cd540c7825c0,
+        type: 3}
+      propertyPath: sensitivity
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514650876880564643, guid: 4568553177761634a874cd540c7825c0,
+        type: 3}
+      propertyPath: lerpSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4568553177761634a874cd540c7825c0, type: 3}

@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BasicPlayer : MonoBehaviour, IDamageable
 {
     public ObjectStats playerStats;
-
+    public UnityEvent OnHealthChanged;
     GameManager gameManager;
     
 
@@ -19,6 +20,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         if (playerStats.canTakeDamage == false) return;
 
         playerStats.currentHealth -= damageType.damageAmount;
+        OnHealthChanged.Invoke();
 
         if (playerStats.currentHealth <= 0)
             OnDeath();
@@ -32,11 +34,12 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     {
         playerStats = gameManager.gameSettings.playerSettings.baseStats;
         playerStats.currentHealth = playerStats.maxHealth;
-        playerStats.currentMana = playerStats.maxMana;
+        playerStats.currentStamina = playerStats.maxStamina;
     }
 
     public void OnDeath()
     {
+        Debug.Log("u ded");
         // GameManager.onPlayerDeath.Invoke();
         // Play cool effect
     }

@@ -6,6 +6,7 @@ using System.Linq;
 public class PrefabShooting : MonoBehaviour
 {
     public GameObject bulletPrefab; // Needs to be clearer that it's a prefab
+    public GameObject owningObject;
 
     WeaponStats standardRifleStats; // camelCase
 
@@ -20,7 +21,8 @@ public class PrefabShooting : MonoBehaviour
         {
             GameObject currentBullet = GameObject.Instantiate(bulletPrefab, transform.position, transform.rotation);
             currentBullet.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * standardRifleStats.shotSpeed);
-            GameObject.Destroy(currentBullet, 3f);
+            currentBullet.GetComponent<BasicProjectile>().weaponStats = standardRifleStats;
+            currentBullet.GetComponent<BasicProjectile>().owningObject = owningObject;
         }
     }
 }

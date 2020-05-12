@@ -7,8 +7,8 @@ public struct ObjectStats {
     public float damage;
     public float fireRate;
     public float critChance;
-    public float maxMana;
-    public float currentMana;
-    public float manaRegenSpeed;
+    public float maxStamina;
+    public float currentStamina;
+    public float staminaRegenSpeed;
     public bool canTakeDamage;
 }

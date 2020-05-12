@@ -15,13 +15,14 @@ MonoBehaviour:
   playerPrefab: {fileID: 9171722624489351093, guid: d6a6857b7ced440e28658f9704cac30d,
     type: 3}
   baseStats:
-    maxHealth: 0
-    currentHealth: 0
-    healthRegenSpeed: 0
+    maxHealth: 100
+    currentHealth: 100
+    healthRegenSpeed: 1
     moveSpeed: 7
-    damage: 0
-    fireRate: 0
-    critChance: 0
-    maxMana: 0
-    currentMana: 0
-    manaRegenSpeed: 0
+    damage: 10
+    fireRate: 1
+    critChance: 0.05
+    maxMana: 100
+    currentMana: 100
+    manaRegenSpeed: 1
+    canTakeDamage: 1

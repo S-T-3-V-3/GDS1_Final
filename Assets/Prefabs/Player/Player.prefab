@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
     type: 3}
+  owningObject: {fileID: 9171722624489351093}
 --- !u!1 &2082005323253723942
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,10 +258,13 @@ MonoBehaviour:
     damage: 0
     fireRate: 0
     critChance: 0
-    maxMana: 0
-    currentMana: 0
-    manaRegenSpeed: 0
+    maxStamina: 0
+    currentStamina: 0
+    staminaRegenSpeed: 0
     canTakeDamage: 0
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &6116198577148776241
 Rigidbody:
   m_ObjectHideFlags: 0
