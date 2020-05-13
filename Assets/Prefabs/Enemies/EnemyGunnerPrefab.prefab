@@ -106,8 +106,8 @@ GameObject:
   - component: {fileID: 7230700597859468890}
   - component: {fileID: 8010630148170841428}
   - component: {fileID: 6406086956710420469}
-  - component: {fileID: 6534201438454827210}
   - component: {fileID: 909824091073370048}
+  - component: {fileID: 2732679925964373466}
   m_Layer: 0
   m_Name: EnemyGunnerPrefab
   m_TagString: Untagged
@@ -191,20 +191,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6534201438454827210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8582355962493277956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6438d8161003c844bb57064d97ddd2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunnerBulletPrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
-    type: 3}
 --- !u!54 &909824091073370048
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -221,3 +207,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2732679925964373466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8582355962493277956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06d07281bac686846a5a351b253979f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
