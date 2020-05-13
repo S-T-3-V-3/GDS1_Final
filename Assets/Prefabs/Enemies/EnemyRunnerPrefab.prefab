@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2816684945748926401}
   - component: {fileID: 7257946809275808414}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: EnemyRunnerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a677e454680483e48bbc003e7f16f2ca, type: 2}
+  - {fileID: 2100000, guid: e8318f1714e314cb988bf00550c8bf0c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,4 +124,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da0686c1b4c93f4cbc902b87d532266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5

@@ -15,12 +15,12 @@ MonoBehaviour:
   futureTileDepth: 3
   pastTileDepth: 3
   startingTiles:
-  - tilePrefab: {fileID: 4568532971259600910, guid: 47c7d673fa92797428945cec86d7d4e7,
+  - tilePrefab: {fileID: 4377507850951423220, guid: d7c41df76399e5b4a86e62e0e62f2993,
       type: 3}
     tileWeight: 1
   bossTiles: []
   standardTiles:
-  - tilePrefab: {fileID: 4707529193351629264, guid: 0a9dc371e36be71478b45774d77e6b9d,
+  - tilePrefab: {fileID: 272259745260780033, guid: f563d6f71a05e23439d885fecc5511e5,
       type: 3}
     tileWeight: 1
   - tilePrefab: {fileID: 6860436977720681361, guid: 151f5ce796d05df45b07e78632961510,
