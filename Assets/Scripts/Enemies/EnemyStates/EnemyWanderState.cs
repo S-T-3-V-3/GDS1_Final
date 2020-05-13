@@ -22,36 +22,48 @@ public class EnemyWanderState : EnemyState
         enemySettings = enemy.enemySettings;
         playerTransform = GameManager.Instance.playerController.transform;
 
+        if (enemySettings.traits.wanderDistance <= 0){
+            Debug.LogWarning($"{enemy.enemyType} has no wander distance set.");
+            enemy.SetState<EnemyInactiveState>();
+        }
+
         rb = this.GetComponent<Rigidbody>();
 
         UpdateTargetPosition();
 
-        StartCoroutine("DelayedPosition");
+        StartCoroutine(DelayedPositon());
     }
 
     public void RemoveState() {
-        StopCoroutine("DelayedPosition");
+        StopCoroutine(DelayedPositon());
     }
 
     void Update() {
-        if (timeSinceLastUpdate > enemySettings.wanderUpdateFrequency) {
+        if (timeSinceLastUpdate > enemySettings.traits.wanderUpdateFrequency) {
              UpdateTargetPosition();
         }
         else {
             timeSinceLastUpdate += Time.deltaTime;
 
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - currentTargetLocation);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.stats.moveSpeed);
+            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * (enemySettings.stats.moveSpeed/2));
             rb.MovePosition(newPosition);
 
             if (isStuck)
                 UpdateTargetPosition();
         }
+
+        if (BasicEnemy.IsPlayerInRange(this.enemy)) {
+            EnemyTransitionHandler.OnDetectPlayer(this.enemy);
+        }
     }
 
     void UpdateTargetPosition() {
-        Vector3 newTarget = new Vector3(Random.Range(-enemySettings.wanderDistance, enemySettings.wanderDistance),this.transform.position.y,Random.Range(-enemySettings.wanderDistance, enemySettings.wanderDistance));
-        currentTargetLocation = Vector3.ClampMagnitude(newTarget, enemySettings.wanderDistance);
+        Vector3 newTarget = new Vector3(Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance),0,Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance));
+
+        currentTargetLocation = Vector3.ClampMagnitude(newTarget, enemySettings.traits.wanderDistance);
+        currentTargetLocation += this.transform.position;
+
         timeSinceLastUpdate = 0f;
     }
 
@@ -59,7 +71,7 @@ public class EnemyWanderState : EnemyState
         return Vector3.Magnitude(this.transform.position - playerTransform.position);
     }
 
-    IEnumerable DelayedPositon() {
+    IEnumerator DelayedPositon() {
         Vector3 previousPosition;
         Vector3 currentPosition = Vector3.zero;
 
@@ -72,7 +84,7 @@ public class EnemyWanderState : EnemyState
             else {
                 previousPosition = currentPosition;
                 currentPosition = this.transform.position;
-                isStuck = Vector3.Magnitude(previousPosition - currentPosition) < enemySettings.wanderStuckDistance;
+                isStuck = Vector3.Magnitude(previousPosition - currentPosition) < enemySettings.traits.wanderStuckDistance;
             }
         }
     }

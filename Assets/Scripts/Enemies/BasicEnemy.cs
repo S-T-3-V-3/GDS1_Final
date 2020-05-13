@@ -7,15 +7,16 @@ using System.Linq;
 public class BasicEnemy : MonoBehaviour, IDamageable
 {
     public EnemyType enemyType;
+    public Transform firePoint;
+    public Light spotLight;
     [Space]
 
-    public UnityEvent OnHealthChanged;
-
+    [HideInInspector] public UnityEvent OnHealthChanged;
     [HideInInspector] public EnemySettings enemySettings;
-    public ObjectStats enemyStats;
+    [HideInInspector] public ObjectStats enemyStats;
 
     EnemyStateManager stateManager;
-    GameManager gameManager; 
+    GameManager gameManager;
 
     void Start()
     {
@@ -59,5 +60,20 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         // Add to player's score
         GameObject.Destroy(this.gameObject);
         Debug.Log("Enemy is Dead");
+    }
+
+    // Static Helper Functions
+    public static float GetTargetDistance(Transform t1, Transform t2) {
+        return Vector3.Magnitude(t1.position - t2.position);
+    }
+
+    public static float GetTargetDistance(Vector3 v1, Vector3 v2) {
+        return Vector3.Magnitude(v1 - v2);
+    }
+
+    public static bool IsPlayerInRange(BasicEnemy enemy) {
+        if (GameManager.Instance.playerController == null) return false;
+        
+        return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
     }
 }

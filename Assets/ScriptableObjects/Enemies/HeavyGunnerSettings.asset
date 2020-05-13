@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac31527f1cdcad84296d96a2ae6439fd, type: 3}
-  m_Name: Gunner Enemy
+  m_Name: HeavyGunnerSettings
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 8582355962493277956, guid: 8587666287546c64c9197413ef7015b6,
-    type: 3}
-  objectStats:
+  enemyType: 2
+  stats:
     maxHealth: 50
-    currentHealth: 50
+    currentHealth: 0
     healthRegenSpeed: 0
-    moveSpeed: 5
+    moveSpeed: 4
     damage: 10
-    fireRate: 0.75
+    fireRate: 0.5
     critChance: 0
     maxStamina: 0
     currentStamina: 0
     staminaRegenSpeed: 0
-    canTakeDamage: 1
-  enemyStats:
-    enemyName: Gunner
-    turnSpeed: 0
-    detectionRange: 10
-    perceptiveness: 0
+  weaponType: 0
+  turnSpeed: 0
+  detectionRange: 10
+  perceptiveness: 0
+  wanderDistance: 10
+  wanderUpdateFrequency: 5
+  wanderStuckDistance: 1

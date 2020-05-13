@@ -20,23 +20,8 @@ public class EnemyIdleState : EnemyState
     }
 
     void Update() {
-        if (GetTargetDistance() <= enemySettings.detectionRange) {
-            switch (enemyType) {
-                case EnemyType.RUSHER:
-                    enemy.SetState<EnemySeekingState>();
-                    break;
-
-                // Sniper
-                // Boomer
-                // Shotgunner
-
-                default:
-                    break;
-            }
+        if (BasicEnemy.IsPlayerInRange(this.enemy)) {
+            EnemyTransitionHandler.OnDetectPlayer(this.enemy);
         }
-    }
-
-    float GetTargetDistance() {
-        return Vector3.Magnitude(this.transform.position - targetTransform.position);
     }
 }

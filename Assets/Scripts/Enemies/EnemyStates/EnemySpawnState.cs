@@ -9,25 +9,14 @@ public class EnemySpawnState : EnemyState
     public override void BeginState() {
         enemy = this.GetComponent<BasicEnemy>();
 
-        StartCoroutine("GetNextState");
+        StartCoroutine(GetNextState());
     }
 
-    IEnumerable GetNextState() {
+    IEnumerator GetNextState() {
         while (GameManager.Instance == null) {
             yield return new WaitForEndOfFrame();
         }
 
-        switch (enemy.enemyType) {
-            case EnemyType.GUNNER:
-                enemy.SetState<EnemyWanderState>();
-                break;
-
-            case EnemyType.RUSHER:
-                enemy.SetState<EnemyIdleState>();
-                break;
-
-            default:
-                break;
-        }
+        EnemyTransitionHandler.OnStart(enemy);
     }
 }
