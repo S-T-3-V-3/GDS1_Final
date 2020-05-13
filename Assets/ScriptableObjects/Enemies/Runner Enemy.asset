@@ -12,15 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac31527f1cdcad84296d96a2ae6439fd, type: 3}
   m_Name: Runner Enemy
   m_EditorClassIdentifier: 
-  EnemyName: Runner
   EnemyPrefab: {fileID: 3237054587080890714, guid: 794dcf184d598cc44b050f874b6736aa,
     type: 3}
+  objectStats:
+    maxHealth: 50
+    currentHealth: 50
+    healthRegenSpeed: 0
+    moveSpeed: 6
+    damage: 10
+    fireRate: 1
+    critChance: 0
+    maxStamina: 0
+    currentStamina: 0
+    staminaRegenSpeed: 0
+    canTakeDamage: 1
   enemyStats:
-    health: 100
-    moveSpeed: 5
+    enemyName: Runner
     turnSpeed: 0
     detectionRange: 15
     perceptiveness: 0
-    equippedWeapon: {fileID: 0}
-    fireRate: 0
-    damage: 10

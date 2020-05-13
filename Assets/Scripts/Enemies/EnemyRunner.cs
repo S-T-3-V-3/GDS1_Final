@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+// TODO: Turn all this into state machines very soon!!!
 public class EnemyRunner : MonoBehaviour
 {
     Transform targetTransform;
-    EnemyStats runnerStats;
+    ObjectStats objectStats;
+    EnemyStats enemyStats;
 
     bool hasTarget = false;
     bool isTargetInRange = false;
@@ -14,13 +16,16 @@ public class EnemyRunner : MonoBehaviour
 
     void Start()
     {
-        runnerStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.EnemyName == "Runner").First().enemyStats;
+        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First().enemyStats;
+        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First().objectStats;
+
+        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First());
     }
 
     void FixedUpdate()
     {
         if (hasTarget) {
-            isTargetInRange = GetTargetDistance() <= runnerStats.detectionRange;
+            isTargetInRange = GetTargetDistance() <= enemyStats.detectionRange;
 
             if (isTargetInRange)
                 MoveToTarget();
@@ -44,7 +49,7 @@ public class EnemyRunner : MonoBehaviour
 
     void MoveToTarget() {
         Vector3 targetDirection = Vector3.Normalize(this.transform.position - targetTransform.position);
-        Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * runnerStats.moveSpeed);
+        Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * objectStats.moveSpeed);
         this.GetComponent<Rigidbody>().MovePosition(newPosition);
     }
 
@@ -54,7 +59,7 @@ public class EnemyRunner : MonoBehaviour
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
             damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
-            damage.damageAmount = runnerStats.damage;
+            damage.damageAmount = objectStats.damage;
             damage.isCrit = false;
             damage.isPiercing = false;
 

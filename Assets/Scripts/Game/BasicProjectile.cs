@@ -5,9 +5,9 @@ using System.Linq;
 
 public class BasicProjectile : MonoBehaviour
 {
-    public ObjectStats objectStats;
     public WeaponStats weaponStats;
     public GameObject owningObject;
+
     Vector3 startPos;
 
     private void Start()
@@ -22,13 +22,9 @@ public class BasicProjectile : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject == owningObject || owningObject == null)
-        {
-            Debug.Log("Owning Object: " + owningObject);
-            Debug.Log("Other.gameObject: " + other.gameObject);
-            Physics.IgnoreCollision(other.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
-        } 
-        else if (other.gameObject.GetComponent<IDamageable>() != null)
+        if (other.gameObject == owningObject || owningObject == null) return;
+
+        if (other.gameObject.GetComponent<IDamageable>() != null)
         {
             DamageType damage;
             damage.owningObject = owningObject;

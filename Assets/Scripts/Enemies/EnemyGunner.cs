@@ -5,34 +5,39 @@ using System.Linq;
 
 public class EnemyGunner : MonoBehaviour
 {
-    Transform targetTransform;
-    EnemyStats gunnerStats;
-
     public GameObject gunnerBulletPrefab;
+    public Transform firePoint;
 
+    Transform targetTransform;
+    ObjectStats objectStats;
+    EnemyStats enemyStats;
     WeaponStats standardRifleStats;
 
     bool hasTarget = false;
     bool isTargetInRange = false;
+
     private float timeSinceLastFired = 0;
 
     void Start()
     {
         targetTransform = GameManager.Instance.playerController.transform;
         standardRifleStats = GameManager.Instance.gameSettings.Weapons.Where(x => x.weaponName == "StandardRifle").First().Stats;
-        gunnerStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.EnemyName == "Gunner").First().enemyStats;
+        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First().enemyStats;
+        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First().objectStats;
+
+        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First());
     }
 
     void FixedUpdate()
     {
         if (hasTarget)
         {
-            isTargetInRange = GetTargetDistance() <= gunnerStats.detectionRange;
+            isTargetInRange = GetTargetDistance() <= enemyStats.detectionRange;
 
             if (isTargetInRange)
             {
                 transform.LookAt(targetTransform);
-                if (timeSinceLastFired >= gunnerStats.fireRate)
+                if (timeSinceLastFired >= objectStats.fireRate)
                 {
                     ShootAtTarget();
                     timeSinceLastFired = 0;
@@ -42,7 +47,7 @@ public class EnemyGunner : MonoBehaviour
         {
             SearchForTarget();
         }
-        if (timeSinceLastFired < gunnerStats.fireRate)
+        if (timeSinceLastFired < objectStats.fireRate)
             timeSinceLastFired += Time.deltaTime;
     }
 
@@ -61,8 +66,14 @@ public class EnemyGunner : MonoBehaviour
 
     void ShootAtTarget()
     {
-        GameObject currentBullet = GameObject.Instantiate(gunnerBulletPrefab, transform.position, transform.rotation);
+        BasicProjectile currentBullet = GameObject.Instantiate(gunnerBulletPrefab, firePoint).GetComponent<BasicProjectile>();
+        currentBullet.transform.parent = GameManager.Instance.transform;
+        currentBullet.owningObject = this.gameObject;
+        currentBullet.weaponStats = this.standardRifleStats;
+
         currentBullet.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * standardRifleStats.shotSpeed);
-        GameObject.Destroy(currentBullet, 3f);
+
+        ///////////////// kill this with fire
+        GameObject.Destroy(currentBullet, 3f); // TODO
     }
 }

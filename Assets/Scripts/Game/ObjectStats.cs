@@ -1,5 +1,6 @@
 ﻿[System.Serializable]
 public struct ObjectStats {
+    //public WeaponType currentWeapon;
     public float maxHealth;
     public float currentHealth;
     public float healthRegenSpeed;
