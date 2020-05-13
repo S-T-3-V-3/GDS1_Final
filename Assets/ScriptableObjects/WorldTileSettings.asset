@@ -20,42 +20,9 @@ MonoBehaviour:
     tileWeight: 1
   bossTiles: []
   standardTiles:
-  - tilePrefab: {fileID: 2302101864516894372, guid: ded59c1b93b758d4c9a28fd001cb4793,
-      type: 3}
-    tileWeight: 0
-  - tilePrefab: {fileID: 2002726439781588513, guid: 92775c788f3746d4bbac5a95c242b258,
-      type: 3}
-    tileWeight: 0
-  - tilePrefab: {fileID: 6322853510455661761, guid: 06edec178cc88664ebc7b3790282e959,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 5536971280616310850, guid: d7e26f873ad549d4088d296d504ea880,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 4303145306227984854, guid: 9f5866f90d7994845b7545590dcb85e1,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 2641142787927660014, guid: 46bc845c9b0e11e4c824ab092bd8fc94,
-      type: 3}
-    tileWeight: 0
-  - tilePrefab: {fileID: 4053712237269456043, guid: 09814d5531db9b5418b66a1d189faaca,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 8818457651800943592, guid: 40a2d277d1c152d46bf1e552116875bc,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 4895259897900083137, guid: 221a45335bac7a14c802ac5918c6e8c0,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 5200544823582903544, guid: fdb4616edc27c5a46a958e3b95d9a4a1,
-      type: 3}
-    tileWeight: 1
-  - tilePrefab: {fileID: 3708049001181780895, guid: 9f4076d38737d96429af0e27c897ff4f,
-      type: 3}
-    tileWeight: 6
   - tilePrefab: {fileID: 4707529193351629264, guid: 0a9dc371e36be71478b45774d77e6b9d,
       type: 3}
-    tileWeight: 6
+    tileWeight: 1
   - tilePrefab: {fileID: 6860436977720681361, guid: 151f5ce796d05df45b07e78632961510,
       type: 3}
-    tileWeight: 6
+    tileWeight: 1
