@@ -9,10 +9,12 @@ public class BasicProjectile : MonoBehaviour
     public GameObject owningObject;
 
     Vector3 startPos;
+    Rigidbody rb;
 
     private void Start()
     {
         startPos = this.gameObject.transform.position;
+        rb = this.gameObject.GetComponent<Rigidbody>();
     }
 
     private void Update() {

@@ -242,8 +242,9 @@ GameObject:
   - component: {fileID: 4285626604777814533}
   - component: {fileID: 7248657228242809534}
   - component: {fileID: 1745593661667547086}
+  - component: {fileID: 5717292818447728517}
   m_Layer: 0
-  m_Name: Projectile_Prefab
+  m_Name: BasicProjectilePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,6 +296,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5488856, y: 0.5139778, z: 1.7982945}
   m_Center: {x: 0.0083796205, y: -0.009986798, z: -0.013301471}
+--- !u!114 &5717292818447728517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3730659653983302890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91053cc5051d0664c91ca8a112298dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponStats:
+    Type: 0
+    weaponDamage: 0
+    critDamage: 0
+    range: 0
+    shotSpeed: 0
+    fireRate: 0
+    accuracy: 0
+    hasPiercingShots: 0
+    numBullets: 0
+    chargeTime: 0
+  owningObject: {fileID: 0}
 --- !u!1 &8321429798237868880
 GameObject:
   m_ObjectHideFlags: 0
