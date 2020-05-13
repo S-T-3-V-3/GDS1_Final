@@ -12,6 +12,7 @@ public class EnemyType : ScriptableObject
 
 [System.Serializable]
 public class EnemyStats {
+    public EnemyType enemyType;
     public float health;
     public float moveSpeed;
     public float turnSpeed;

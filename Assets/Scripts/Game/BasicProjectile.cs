@@ -10,7 +10,8 @@ public class BasicProjectile : MonoBehaviour
     public GameObject owningObject;
     Vector3 startPos;
 
-    private void Start() {
+    private void Start()
+    {
         startPos = this.gameObject.transform.position;
     }
 
@@ -21,9 +22,14 @@ public class BasicProjectile : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject == owningObject || owningObject == null) return;
-
-        if (other.gameObject.GetComponent<IDamageable>() != null) {
+        if (other.gameObject == owningObject || owningObject == null)
+        {
+            Debug.Log("Owning Object: " + owningObject);
+            Debug.Log("Other.gameObject: " + other.gameObject);
+            Physics.IgnoreCollision(other.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+        } 
+        else if (other.gameObject.GetComponent<IDamageable>() != null)
+        {
             DamageType damage;
             damage.owningObject = owningObject;
             damage.impactPosition = other.contacts.First().point;
