@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject TileManagerPrefab;
     public GameObject CameraPrefab;
+    public GameObject GameOverUIPrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public TileManager tileManager;
     public Camera mainCamera;
     public PlayerController playerController;
+    public GameOverUI gameOverUI;
 
     private void Awake()
     {
@@ -28,16 +30,27 @@ public class GameManager : MonoBehaviour
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
 
         mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
+
+        gameOverUI = GameObject.Instantiate(GameOverUIPrefab, this.transform).GetComponent<GameOverUI>();
+        
     }
 
     void Start()
     {
         SpawnPlayer();
+        GameOverUIPrefab.SetActive(false);
     }
 
     void SpawnPlayer()
     {
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
+    }
+
+    void GameOver()
+    {
+        //if(playerstate is a movement state)
+            gameOverUI.ShowDeathScreen();
+            //playerstate = PlayerState.DeadState
     }
     
 }

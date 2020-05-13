@@ -48,10 +48,13 @@ MonoBehaviour:
     type: 3}
   CameraPrefab: {fileID: 2990334424778168962, guid: 7454181d51be5a74083c923aae652d3c,
     type: 3}
+  GameOverUIPrefab: {fileID: 2797643630526860815, guid: 3c4d1afafab181a45bfd85a3a4c3c881,
+    type: 3}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}
   playerController: {fileID: 0}
+  gameOverUI: {fileID: 0}
 --- !u!114 &8641329105209216817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 479ad1813aba82d479fca367155b9b83, type: 2}
+  sharedProfile: {fileID: 0}
   isGlobal: 1
   blendDistance: 0
   weight: 1

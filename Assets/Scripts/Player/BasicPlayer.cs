@@ -39,8 +39,9 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
     public void OnDeath()
     {
-        Debug.Log("u ded");
-        // GameManager.onPlayerDeath.Invoke();
-        // Play cool effect
+        // Play cool effect on player
+        float deathAnimationSeconds = 1;
+        
+        gameManager.Invoke("GameOver", deathAnimationSeconds);
     }
 }
