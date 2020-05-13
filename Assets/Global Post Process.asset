@@ -16,19 +16,19 @@ MonoBehaviour:
   m_AdvancedMode: 0
   quality:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 0.3
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.55
+    m_Value: 0.4
     min: 0
     max: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.645
+    m_Value: 0.732
     min: 0
     max: 1
   tint:
