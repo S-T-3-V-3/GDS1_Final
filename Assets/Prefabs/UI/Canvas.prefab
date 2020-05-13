@@ -126,7 +126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foregroundImage: {fileID: 4820513165822322620}
-  updateSpeedSeconds: 0
+  sensitivity: 0.01
+  lerpSpeed: 1
+  foregroundImageTransform: {fileID: 4820513165822322621}
+  foregroundImageOriginalPos: {x: 0, y: 0, z: 0}
 --- !u!1 &4820513165822322622
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +200,7 @@ MonoBehaviour:
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4820513165920085849
