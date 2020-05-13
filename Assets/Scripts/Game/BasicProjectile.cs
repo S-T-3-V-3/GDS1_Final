@@ -5,7 +5,8 @@ using System.Linq;
 
 public class BasicProjectile : MonoBehaviour
 {
-    public WeaponStats weaponStats;
+    public float range;
+    public float damageAmount;
     public GameObject owningObject;
 
     Vector3 startPos;
@@ -18,7 +19,7 @@ public class BasicProjectile : MonoBehaviour
     }
 
     private void Update() {
-        if (Vector3.Magnitude(this.gameObject.transform.position - startPos) > weaponStats.range) {
+        if (Vector3.Magnitude(this.gameObject.transform.position - startPos) > range) {
             GameObject.Destroy(this.gameObject);
         }
     }
@@ -32,7 +33,7 @@ public class BasicProjectile : MonoBehaviour
             damage.owningObject = owningObject;
             damage.impactPosition = other.contacts.First().point;
             damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
-            damage.damageAmount = weaponStats.weaponDamage; // Adjust later to find modifiers
+            damage.damageAmount = this.damageAmount;
             damage.isCrit = false;
             damage.isPiercing = false;
 

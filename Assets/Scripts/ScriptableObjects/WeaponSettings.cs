@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "New Weapon Type")]
-public class WeaponType : ScriptableObject
+public class WeaponSettings : ScriptableObject
 {
-    public string weaponName;
+    public WeaponType weaponType;
+    public FireType fireType;
+    [Space]
+
     public GameObject WeaponPrefab;
-    public WeaponStats Stats;
+    public WeaponStats stats;
 }
 
 [System.Serializable]
-public class WeaponStats {
-    public FireType Type;
+public struct WeaponStats {
     public float weaponDamage;
     public float critDamage;
     public float range;
@@ -30,4 +32,8 @@ public enum FireType {
     SPREAD,
     BURST,
     BEAM
+}
+
+public enum WeaponType {
+    RIFLE
 }

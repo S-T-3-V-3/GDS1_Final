@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+/*
 public class EnemyGunner : MonoBehaviour
 {
     public GameObject gunnerBulletPrefab;
@@ -11,7 +11,7 @@ public class EnemyGunner : MonoBehaviour
     Transform targetTransform;
     ObjectStats objectStats;
     EnemyStats enemyStats;
-    WeaponStats standardRifleStats;
+    WeaponSettings standardRifleStats;
 
     bool hasTarget = false;
     bool isTargetInRange = false;
@@ -22,10 +22,10 @@ public class EnemyGunner : MonoBehaviour
     {
         targetTransform = GameManager.Instance.playerController.transform;
         standardRifleStats = GameManager.Instance.gameSettings.Weapons.Where(x => x.weaponName == "StandardRifle").First().Stats;
-        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First().enemyStats;
-        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First().objectStats;
+        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Gunner").First().enemyStats;
+        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Gunner").First().objectStats;
 
-        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Gunner").First());
+        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Gunner").First());
     }
 
     void FixedUpdate()
@@ -69,7 +69,7 @@ public class EnemyGunner : MonoBehaviour
         BasicProjectile currentBullet = GameObject.Instantiate(gunnerBulletPrefab, firePoint).GetComponent<BasicProjectile>();
         currentBullet.transform.parent = GameManager.Instance.transform;
         currentBullet.owningObject = this.gameObject;
-        currentBullet.weaponStats = this.standardRifleStats;
+        currentBullet.weaponSettings = this.standardRifleStats;
 
         currentBullet.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * standardRifleStats.shotSpeed);
 
@@ -77,3 +77,4 @@ public class EnemyGunner : MonoBehaviour
         GameObject.Destroy(currentBullet, 3f); // TODO
     }
 }
+*/

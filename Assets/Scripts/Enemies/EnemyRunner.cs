@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+/*
 // TODO: Turn all this into state machines very soon!!!
 public class EnemyRunner : MonoBehaviour
 {
@@ -16,10 +16,10 @@ public class EnemyRunner : MonoBehaviour
 
     void Start()
     {
-        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First().enemyStats;
-        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First().objectStats;
+        enemyStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Runner").First().enemyStats;
+        objectStats = GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Runner").First().objectStats;
 
-        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats.enemyName == "Runner").First());
+        this.gameObject.GetComponent<BasicEnemy>().Init(GameManager.Instance.gameSettings.Enemies.Where(x => x.enemyStats2.enemyName == "Runner").First());
     }
 
     void FixedUpdate()
@@ -33,18 +33,6 @@ public class EnemyRunner : MonoBehaviour
         else {
             SearchForTarget();
         }
-    }
-
-    void SearchForTarget()
-    {
-        if (GameManager.Instance.playerController == null) return;
-
-        targetTransform = GameManager.Instance.playerController.transform;
-        hasTarget = true;
-    }
-
-    float GetTargetDistance() {
-        return Vector3.Magnitude(this.transform.position - targetTransform.position);
     }
 
     void MoveToTarget() {
@@ -67,3 +55,4 @@ public class EnemyRunner : MonoBehaviour
         }
     }
 }
+*/
