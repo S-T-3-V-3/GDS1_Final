@@ -542,5 +542,11 @@ PrefabInstance:
       propertyPath: tileManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 758616051705619843, guid: 6caf33baa06ef4ecfbec6f0af581c2f6,
+        type: 3}
+      propertyPath: ProjectilePrefab
+      value: 
+      objectReference: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6caf33baa06ef4ecfbec6f0af581c2f6, type: 3}

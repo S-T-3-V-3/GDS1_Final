@@ -7,6 +7,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 {
     public ObjectStats playerStats;
     public UnityEvent OnHealthChanged;
+    public bool canTakeDamage = true;
     GameManager gameManager;
     
 
@@ -17,7 +18,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
     public void OnReceivedDamage(DamageType damageType)
     {
-        if (playerStats.canTakeDamage == false) return;
+        if (canTakeDamage == false) return;
 
         playerStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();

@@ -6,25 +6,42 @@ using System.Linq;
 
 public class BasicEnemy : MonoBehaviour, IDamageable
 {
-    public UnityEvent OnHealthChanged;
-    GameManager gameManager;  
-    ObjectStats objectStats;  
-    EnemyStats enemyStats;
+    public EnemyType enemyType;
+    public Transform firePoint;
+    public Light spotLight;
+    [Space]
 
-    public void Init(EnemyType enemyType) {
+    [HideInInspector] public UnityEvent OnHealthChanged;
+    [HideInInspector] public EnemySettings enemySettings;
+    [HideInInspector] public ObjectStats enemyStats;
+
+    EnemyStateManager stateManager;
+    GameManager gameManager;
+
+    void Start()
+    {
         gameManager = GameManager.Instance;
-        this.objectStats = enemyType.objectStats;
-        this.enemyStats = enemyType.enemyStats;
+
+        enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
+        enemyStats = enemySettings.stats;
+
+        stateManager = this.gameObject.AddComponent<EnemyStateManager>();
+        SetState<EnemySpawnState>();
 
         InitDamageable();
     }
 
+    public void SetState<T>() where T : EnemyState
+    {
+        stateManager.AddState<T>();
+    }
+
     public void OnReceivedDamage(DamageType damageType)
     {
-        objectStats.currentHealth -= damageType.damageAmount;
+        enemyStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
 
-        if (objectStats.currentHealth <= 0)
+        if (enemyStats.currentHealth <= 0)
             OnDeath();
         
         if (damageType.isCrit) {
@@ -34,7 +51,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
 
     public void InitDamageable()
     {
-        objectStats.currentHealth = objectStats.maxHealth;
+        enemyStats.currentHealth = enemyStats.maxHealth;
     }
 
     public void OnDeath()
@@ -43,5 +60,20 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         // Add to player's score
         GameObject.Destroy(this.gameObject);
         Debug.Log("Enemy is Dead");
+    }
+
+    // Static Helper Functions
+    public static float GetTargetDistance(Transform t1, Transform t2) {
+        return Vector3.Magnitude(t1.position - t2.position);
+    }
+
+    public static float GetTargetDistance(Vector3 v1, Vector3 v2) {
+        return Vector3.Magnitude(v1 - v2);
+    }
+
+    public static bool IsPlayerInRange(BasicEnemy enemy) {
+        if (GameManager.Instance.playerController == null) return false;
+        
+        return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
     }
 }

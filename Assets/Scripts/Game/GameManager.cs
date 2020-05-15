@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject TileManagerPrefab;
     public GameObject CameraPrefab;
     public GameObject GameOverUIPrefab;
+    public GameObject ProjectilePrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;
