@@ -26,10 +26,10 @@ MonoBehaviour:
     staminaRegenSpeed: 0
   traits:
     turnSpeed: 5
-    detectionRange: 20
+    detectionRange: 10
     perceptiveness: 0
     wanderDistance: 15
-    wanderUpdateFrequency: 5
-    wanderStuckDistance: 1
+    wanderUpdateFrequency: {x: 5, y: 10}
+    wanderStuckDistance: 0.8
     canShootAndSeek: 1
-  weaponType: 0
+  weaponType: 1

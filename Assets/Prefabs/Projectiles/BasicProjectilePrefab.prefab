@@ -74,7 +74,7 @@ TrailRenderer:
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.2
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 3189413895425668923}
   - component: {fileID: 4180079217278775238}
   - component: {fileID: 1876701782265769286}
-  - component: {fileID: 5158981289818931148}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -217,20 +216,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &5158981289818931148
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463978516807232869}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 3.5527137e-15, y: -0.00000001490116, z: -0.00000014901161}
 --- !u!1 &3730659653983302890
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,8 +226,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4285626604777814533}
   - component: {fileID: 7248657228242809534}
-  - component: {fileID: 1745593661667547086}
   - component: {fileID: 5717292818447728517}
+  - component: {fileID: 6368112388237956433}
   m_Layer: 0
   m_Name: BasicProjectilePrefab
   m_TagString: Untagged
@@ -258,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3730659653983302890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: 0.177, z: 0.92}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.23581, y: 0.23581, z: 0.23581}
   m_Children:
   - {fileID: 3189413895425668923}
@@ -283,19 +268,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &1745593661667547086
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3730659653983302890}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5488856, y: 0.5139778, z: 1.7982945}
-  m_Center: {x: 0.0083796205, y: -0.009986798, z: -0.013301471}
 --- !u!114 &5717292818447728517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,18 +280,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91053cc5051d0664c91ca8a112298dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponStats:
-    Type: 0
-    weaponDamage: 0
-    critDamage: 0
-    range: 0
-    shotSpeed: 0
-    fireRate: 0
-    accuracy: 0
-    hasPiercingShots: 0
-    numBullets: 0
-    chargeTime: 0
+  range: 0
+  damageAmount: 0
   owningObject: {fileID: 0}
+--- !u!136 &6368112388237956433
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3730659653983302890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.26
+  m_Height: 2.05
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8321429798237868880
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,8 +341,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.8153452, b: 0.0047169924, a: 1}
-  m_Intensity: 0.15915494
-  m_Range: 30
+  m_Intensity: 0.07957747
+  m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -406,7 +383,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -433,7 +410,7 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 2
+  m_Intensity: 1
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0

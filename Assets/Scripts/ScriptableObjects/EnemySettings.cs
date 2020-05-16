@@ -27,7 +27,7 @@ public struct EnemyTraits {
     public float detectionRange;
     public float perceptiveness;
     public float wanderDistance;
-    public float wanderUpdateFrequency;
+    public Vector2 wanderUpdateFrequency;
     public float wanderStuckDistance;
     public bool canShootAndSeek;
 }

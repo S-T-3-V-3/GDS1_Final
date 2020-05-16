@@ -9,6 +9,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     public EnemyType enemyType;
     public Transform firePoint;
     public Light spotLight;
+    public BasicWeapon equippedWeapon;
+
     [Space]
 
     [HideInInspector] public UnityEvent OnHealthChanged;
@@ -24,6 +26,9 @@ public class BasicEnemy : MonoBehaviour, IDamageable
 
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
         enemyStats = enemySettings.stats;
+
+        if (enemySettings.weaponType != WeaponType.MELEE)
+            EquipWeapon();
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
         SetState<EnemySpawnState>();
@@ -59,7 +64,17 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         // Play cool effect on enemy
         // Add to player's score
         GameObject.Destroy(this.gameObject);
-        Debug.Log("Enemy is Dead");
+        Debug.Log($"{gameObject.name} is Dead");
+    }
+
+    void EquipWeapon() {
+        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+        
+        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == enemySettings.weaponType).First();
+        equippedWeapon.weaponType = weaponSettings.weaponType;
+        equippedWeapon.fireType = weaponSettings.fireType;
+        equippedWeapon.weaponStats = weaponSettings.stats;
+        equippedWeapon.firePoint = firePoint;
     }
 
     // Static Helper Functions

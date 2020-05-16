@@ -2,63 +2,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class MovementState : PlayerState
 {
+    BasicPlayer player;
     PlayerController playerController;
-    InputSystem playerInput;
     PlayerSettings playerSettings;
 
     Rigidbody playerRb;
-    Vector3 newPosition;
-    Vector2 moveInput;
     Transform cameraTransform;
-    float deltaX;
+    Vector3 currentMovementInput;
+
+    Vector3 lookAtPos;
+    Vector3 prevLookAtPos;
+    bool isShooting = false;
 
     public override void BeginState()
     {
-        playerController = GetComponent<PlayerController>();
+        player = this.GetComponent<BasicPlayer>();
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
-        playerInput = playerController.playerInput;
-
-        playerInput.Player.Movement.performed += move => moveInput = move.ReadValue<Vector2>();
-        playerInput.Player.Movement.canceled += move => moveInput = Vector2.zero;
-
-        playerInput.Player.RotationY.performed += delta => deltaX = delta.ReadValue<float>();
-        playerInput.Player.RotationY.canceled += delta => deltaX = 0f;
-
         cameraTransform = GameManager.Instance.mainCamera.transform;
+        playerController = GetComponent<PlayerController>();
         playerRb = this.GetComponent<Rigidbody>();
+        currentMovementInput = Vector3.zero;
     }
 
     public void FixedUpdate()
     {
-        //////////// Debug Input ///////////////////
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+        if (currentMovementInput.magnitude > 0) {
+            Vector3 newPosition = currentMovementInput * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
+            playerRb.MovePosition(this.gameObject.transform.position + newPosition);
         }
 
-        if (Input.GetKey(KeyCode.Escape)){
-            Application.Quit();
+        if (lookAtPos != prevLookAtPos) {
+            this.transform.LookAt(lookAtPos);
+            prevLookAtPos = lookAtPos;
         }
-        ////////////////////////////////////////////
-        
-        newPosition = Vector3.zero;
-        newPosition += cameraTransform.right * moveInput.x;
-        newPosition += cameraTransform.forward * moveInput.y;
-        newPosition.y = 0;
-        newPosition = Vector3.Normalize(newPosition) * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
 
-        playerRb.MovePosition(this.gameObject.transform.position + newPosition);
+        if (isShooting) {
+            player.equippedWeapon.Shoot();
+        }
+    }
 
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position);
-        Vector3 lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
+    public void OnMovement(InputValue value) {
+        float inputX = value.Get<Vector2>().x;
+        float inputY = value.Get<Vector2>().y;
+        Vector3 cameraForward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z);
+        Vector3 cameraRight = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z);
+
+        currentMovementInput = Vector3.zero;
+        currentMovementInput += cameraForward.normalized * inputY;
+        currentMovementInput += cameraRight.normalized * inputX;
+        Vector3.ClampMagnitude(currentMovementInput, 1);
+    }
+
+    public void OnMouseAim(InputValue value) {
+        Vector3 mousePos = value.Get<Vector2>();
+        mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position); 
+
+        lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
+        lookAtPos.y = this.transform.position.y;      
+    }
+
+    public void OnGamepadAim(InputValue value) {
+        Vector2 rightStickPos = value.Get<Vector2>();
+        float inputX = rightStickPos.x;
+        float inputY = rightStickPos.y;
+        Vector3 cameraForward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z);
+        Vector3 cameraRight = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z);
         
-        lookAtPos.y = this.transform.position.y;
-        this.transform.LookAt(lookAtPos);
+        Vector3 newLookAtPos = Vector3.zero;
+        newLookAtPos += cameraForward.normalized * inputY;
+        newLookAtPos += cameraRight.normalized * inputX;
+        lookAtPos = this.transform.position + newLookAtPos;
+    }
+
+    public void OnShoot(InputValue value) {
+        isShooting = value.Get<float>() > 0.25f;
     }
 }

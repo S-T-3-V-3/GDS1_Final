@@ -35,5 +35,13 @@ public enum FireType {
 }
 
 public enum WeaponType {
-    RIFLE
+    MELEE,
+    RIFLE,
+    MACHINE_GUN,
+    SHOTGUN,
+    SNIPER,
+    RPG,
+    BURST_FIRE,
+    CHARGE,
+    LASER
 }

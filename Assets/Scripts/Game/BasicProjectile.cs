@@ -16,12 +16,16 @@ public class BasicProjectile : MonoBehaviour
     {
         startPos = this.gameObject.transform.position;
         rb = this.gameObject.GetComponent<Rigidbody>();
+        Destroy(gameObject, 3f);
     }
 
     private void Update() {
         if (Vector3.Magnitude(this.gameObject.transform.position - startPos) > range) {
             GameObject.Destroy(this.gameObject);
         }
+
+        if (rb.velocity != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(rb.velocity);
     }
 
     private void OnCollisionEnter(Collision other) {

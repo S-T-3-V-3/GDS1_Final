@@ -13,8 +13,6 @@ public class EnemySeekState : EnemyState
     Transform playerTransform;
     Rigidbody rb;
 
-    bool canShoot = true;
-
     public override void BeginState() {
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
@@ -26,47 +24,24 @@ public class EnemySeekState : EnemyState
 
     void FixedUpdate()
     {
-        if (enemySettings.traits.canShootAndSeek)
-            Shoot();
-
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
             Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.stats.moveSpeed);
             this.GetComponent<Rigidbody>().MovePosition(newPosition);
+            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
         }
         else {
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
-    }
 
-    void Shoot() {
-        if (canShoot == false) return;
-
-        BasicProjectile currentBullet = GameObject.Instantiate(GameManager.Instance.ProjectilePrefab, enemy.firePoint).GetComponent<BasicProjectile>();
-        currentBullet.transform.parent = GameManager.Instance.transform;
-        currentBullet.owningObject = this.gameObject;
-        currentBullet.range = GameManager.Instance.gameSettings.Weapons.First().stats.range;
-
-        currentBullet.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * GameManager.Instance.gameSettings.Weapons.First().stats.shotSpeed); // TODO: use actual weapon
-
-        StartCoroutine(ReloadWeapon());
-    }
-
-    IEnumerator ReloadWeapon() {
-        float elapsedTime = 0f;
-        canShoot = false;
-
-        while (elapsedTime <= enemySettings.stats.fireRate) {
-            yield return new WaitForEndOfFrame();
-
-            elapsedTime += Time.deltaTime;
-        }
-
-        canShoot = true;
+        if (enemySettings.traits.canShootAndSeek)
+            enemy.equippedWeapon.Shoot();
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.GetComponent<IDamageable>() != null) {
+        if (enemySettings.weaponType != WeaponType.MELEE) return;
+
+        if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
             DamageType damage;
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
