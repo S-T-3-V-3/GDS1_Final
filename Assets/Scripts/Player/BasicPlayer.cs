@@ -13,6 +13,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     public BasicWeapon equippedWeapon;
     public bool canTakeDamage = true;
     GameManager gameManager;
+
+    public GameObject deathEffectPrefab;
     
 
     void Start() {
@@ -51,7 +53,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.firePoint = firePoint;
     }
 
-    public void OnReceivedDamage(DamageType damageType)
+    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         if (canTakeDamage == false) return;
 
@@ -59,7 +61,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         OnHealthChanged.Invoke();
 
         if (playerStats.currentHealth <= 0)
-            OnDeath();
+            OnDeath(hitPoint, hitDirection, hitSpeed);
         
         if (damageType.isCrit) {
             // Play particle effect at location
@@ -73,11 +75,19 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         playerStats.currentStamina = playerStats.maxStamina;
     }
 
-    public void OnDeath()
+    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on player
-        float deathAnimationSeconds = 1;
-        
-        gameManager.Invoke("GameOver", deathAnimationSeconds);
+        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        float particleLifetime = deathParticleSystem.startLifetime.constant;
+        deathParticleSystem.startSpeed = hitSpeed;
+        Debug.Log("Hit Speed " + hitSpeed);
+        Destroy(deathEffectObject, particleLifetime);
+
+        //Get player's final score
+
+        gameManager.GameOver(particleLifetime);
+        GameObject.Destroy(this.gameObject);       
     }
 }

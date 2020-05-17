@@ -237,6 +237,9 @@ MonoBehaviour:
       m_Calls: []
   equippedWeapon: {fileID: 0}
   canTakeDamage: 1
+  deathEffectPrefab: {fileID: 1394122508529849891, guid: d3ff0538fafb42c41bd38ae6f1a7d850,
+    type: 3}
+  particleSpeedMultiplier: 25
 --- !u!54 &6116198577148776241
 Rigidbody:
   m_ObjectHideFlags: 0

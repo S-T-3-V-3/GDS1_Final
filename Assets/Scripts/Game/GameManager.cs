@@ -47,11 +47,11 @@ public class GameManager : MonoBehaviour
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
     }
 
-    void GameOver()
+    public void GameOver(float deathScreenDelay)
     {
-        //if(playerstate is a movement state)
-            gameOverUI.ShowDeathScreen();
-            //playerstate = PlayerState.DeadState
+        playerController = null;
+        gameOverUI.Invoke("ShowDeathScreen", deathScreenDelay);
+        //Set player to a dead state
     }
     
 }

@@ -11,6 +11,7 @@ public class BasicProjectile : MonoBehaviour
 
     Vector3 startPos;
     Rigidbody rb;
+    public Vector3 previousVelocity;
 
     private void Start()
     {
@@ -24,6 +25,8 @@ public class BasicProjectile : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         }
 
+        previousVelocity = rb.velocity;
+
         if (rb.velocity != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(rb.velocity);
     }
@@ -36,12 +39,12 @@ public class BasicProjectile : MonoBehaviour
             DamageType damage;
             damage.owningObject = owningObject;
             damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
+            damage.impactVelocity = previousVelocity;
             damage.damageAmount = this.damageAmount;
             damage.isCrit = false;
             damage.isPiercing = false;
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage);
+            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
 
             GameObject.Destroy(this.gameObject);
         }

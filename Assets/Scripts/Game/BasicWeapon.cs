@@ -18,6 +18,7 @@ public class BasicWeapon : MonoBehaviour
             currentBullet.owningObject = this.gameObject;
             currentBullet.range = weaponStats.range;
             currentBullet.damageAmount = weaponStats.weaponDamage;
+            currentBullet.previousVelocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 
             currentBullet.GetComponent<Rigidbody>().velocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 

@@ -20,6 +20,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     EnemyStateManager stateManager;
     GameManager gameManager;
 
+    public GameObject deathEffectPrefab;
+
     void Start()
     {
         gameManager = GameManager.Instance;
@@ -41,13 +43,13 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         stateManager.AddState<T>();
     }
 
-    public void OnReceivedDamage(DamageType damageType)
+    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         enemyStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
 
         if (enemyStats.currentHealth <= 0)
-            OnDeath();
+            OnDeath(hitPoint, hitDirection, hitSpeed);
         
         if (damageType.isCrit) {
             // Play particle effect at location
@@ -59,12 +61,20 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         enemyStats.currentHealth = enemyStats.maxHealth;
     }
 
-    public void OnDeath()
+    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy
+        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        float particleLifetime = deathParticleSystem.startLifetime.constant;
+        deathParticleSystem.startSpeed = hitSpeed;
+        Debug.Log("Hit Speed " + hitSpeed);
+        Destroy(deathEffectObject, particleLifetime);
+
         // Add to player's score
+
         GameObject.Destroy(this.gameObject);
-        Debug.Log($"{gameObject.name} is Dead");
+        //Debug.Log($"{gameObject.name} is Dead");
     }
 
     void EquipWeapon() {

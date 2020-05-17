@@ -40,6 +40,8 @@ public class EnemyWanderState : EnemyState
     }
 
     void Update() {
+        if(playerTransform == null) return;
+
         if (timeSinceLastUpdate > nextUpdate) {
              UpdateTargetPosition();
         }
