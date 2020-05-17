@@ -17,6 +17,6 @@ MonoBehaviour:
   worldTiles: {fileID: 11400000, guid: 3528f0e5f2c1d244c857cb4076b49d64, type: 2}
   Enemies:
   - {fileID: 11400000, guid: 06fed1892e4291841b34101f924e2407, type: 2}
-  - {fileID: 11400000, guid: 8bb8724d5c7e6c845b2690e68fb6709a, type: 2}
+  - {fileID: 11400000, guid: 77e5e47c81dc9da47a469088c9906f43, type: 2}
   Weapons:
   - {fileID: 11400000, guid: 9fa062b175a7ed144b2ec6ad14ea3c6e, type: 2}

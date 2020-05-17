@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
   m_Name: StandardRifle
   m_EditorClassIdentifier: 
-  weaponName: StandardRifle
+  weaponType: 1
+  fireType: 0
   WeaponPrefab: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
-  Stats:
-    Type: 0
+  stats:
     weaponDamage: 10
     critDamage: 0
-    range: 50
-    shotSpeed: 100
-    fireRate: 0
+    range: 15
+    shotSpeed: 10
+    fireRate: 0.8
     accuracy: 0
     hasPiercingShots: 0
-    numBullets: 10
+    numBullets: 1
     chargeTime: 0

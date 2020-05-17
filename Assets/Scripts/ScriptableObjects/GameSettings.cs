@@ -9,6 +9,6 @@ public class GameSettings : ScriptableObject
     public PlayerSettings playerSettings;
     public CameraSettings cameraSettings;
     public WorldTiles worldTiles;
-    public List<EnemyType> Enemies;
-    public List<WeaponType> Weapons;
+    public List<EnemySettings> Enemies;
+    public List<WeaponSettings> Weapons;
 }
