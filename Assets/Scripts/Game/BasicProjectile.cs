@@ -17,7 +17,6 @@ public class BasicProjectile : MonoBehaviour
         startPos = this.gameObject.transform.position;
         rb = this.gameObject.GetComponent<Rigidbody>();
         Destroy(gameObject, 3f);
-        //transform.rotation = Quaternion.LookRotation(rb.velocity);
     }
 
     private void Update() {
@@ -25,7 +24,8 @@ public class BasicProjectile : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         }
 
-        transform.rotation = Quaternion.LookRotation(rb.velocity);
+        if (rb.velocity != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(rb.velocity);
     }
 
     private void OnCollisionEnter(Collision other) {

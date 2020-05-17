@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 758616051705619840}
   - component: {fileID: 758616051705619843}
-  - component: {fileID: 8641329105209216817}
   m_Layer: 0
   m_Name: GameManagerPrefab
   m_TagString: Untagged
@@ -50,25 +49,10 @@ MonoBehaviour:
     type: 3}
   GameOverUIPrefab: {fileID: 2797643630526860815, guid: 3c4d1afafab181a45bfd85a3a4c3c881,
     type: 3}
+  ProjectilePrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
+    type: 3}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}
   playerController: {fileID: 0}
   gameOverUI: {fileID: 0}
---- !u!114 &8641329105209216817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758616051705619842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 0}
-  isGlobal: 1
-  blendDistance: 0
-  weight: 1
-  priority: 0

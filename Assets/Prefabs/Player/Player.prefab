@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2294213428059731054}
-  - component: {fileID: 2442445913941149489}
   m_Layer: 0
   m_Name: Firepoint
   m_TagString: Untagged
@@ -26,26 +25,11 @@ Transform:
   m_GameObject: {fileID: 1279264504467061092}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.51, z: 0.776}
-  m_LocalScale: {x: 0.6666666, y: 0.5, z: 0.6666667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8784827167588107845}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2442445913941149489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279264504467061092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0029d211a5225604493504fff41fc4ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
-    type: 3}
-  owningObject: {fileID: 9171722624489351093}
 --- !u!1 &2082005323253723942
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,6 +124,7 @@ GameObject:
   - component: {fileID: 8638700489564977857}
   - component: {fileID: 6116198577148776241}
   - component: {fileID: 2251835159167874599}
+  - component: {fileID: 2875559133367562428}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -235,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626291c7a8d972b458d193e1acde6714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 2294213428059731054}
   playerStats:
     maxHealth: 0
     currentHealth: 0
@@ -246,10 +232,11 @@ MonoBehaviour:
     maxStamina: 0
     currentStamina: 0
     staminaRegenSpeed: 0
-    canTakeDamage: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  equippedWeapon: {fileID: 0}
+  canTakeDamage: 1
 --- !u!54 &6116198577148776241
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -280,3 +267,42 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2875559133367562428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171722624489351093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 2697756287c344fd4a4aee6a2d22a35e,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c63f715-516f-45ec-8f6d-41d0e9489308
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b104415e-01f6-4075-b612-16a03018c80c
+    m_ActionName: Player/RotationY[/Mouse/delta/x]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: PlayerInput
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

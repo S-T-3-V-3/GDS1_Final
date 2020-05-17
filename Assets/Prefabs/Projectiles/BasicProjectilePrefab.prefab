@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 3189413895425668923}
   - component: {fileID: 4180079217278775238}
   - component: {fileID: 1876701782265769286}
-  - component: {fileID: 5158981289818931148}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -217,20 +216,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &5158981289818931148
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463978516807232869}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 3.5527137e-15, y: -0.00000001490116, z: -0.00000014901161}
 --- !u!1 &3730659653983302890
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,8 +226,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4285626604777814533}
   - component: {fileID: 7248657228242809534}
-  - component: {fileID: 1745593661667547086}
   - component: {fileID: 5717292818447728517}
+  - component: {fileID: 6368112388237956433}
   m_Layer: 0
   m_Name: BasicProjectilePrefab
   m_TagString: Untagged
@@ -258,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3730659653983302890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.57, y: 0.177, z: 0.92}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.23581, y: 0.23581, z: 0.23581}
   m_Children:
   - {fileID: 3189413895425668923}
@@ -283,19 +268,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &1745593661667547086
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3730659653983302890}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5488856, y: 0.5139778, z: 1.7982945}
-  m_Center: {x: 0.0083796205, y: -0.009986798, z: -0.013301471}
 --- !u!114 &5717292818447728517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,18 +280,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91053cc5051d0664c91ca8a112298dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponStats:
-    Type: 0
-    weaponDamage: 0
-    critDamage: 0
-    range: 0
-    shotSpeed: 0
-    fireRate: 0
-    accuracy: 0
-    hasPiercingShots: 0
-    numBullets: 0
-    chargeTime: 0
+  range: 0
+  damageAmount: 0
   owningObject: {fileID: 0}
+--- !u!136 &6368112388237956433
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3730659653983302890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.26
+  m_Height: 2.05
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8321429798237868880
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8696444239347850009
 Transform:
   m_ObjectHideFlags: 0

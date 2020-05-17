@@ -13,6 +13,7 @@ public class EnemyWanderState : EnemyState
     Rigidbody rb;
 
     float timeSinceLastUpdate = 0f;
+    float nextUpdate;
 
     bool isStuck = false;
 
@@ -39,7 +40,7 @@ public class EnemyWanderState : EnemyState
     }
 
     void Update() {
-        if (timeSinceLastUpdate > enemySettings.traits.wanderUpdateFrequency) {
+        if (timeSinceLastUpdate > nextUpdate) {
              UpdateTargetPosition();
         }
         else {
@@ -48,6 +49,7 @@ public class EnemyWanderState : EnemyState
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - currentTargetLocation);
             Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * (enemySettings.stats.moveSpeed/2));
             rb.MovePosition(newPosition);
+            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
 
             if (isStuck)
                 UpdateTargetPosition();
@@ -59,11 +61,14 @@ public class EnemyWanderState : EnemyState
     }
 
     void UpdateTargetPosition() {
+        isStuck = false;
+
         Vector3 newTarget = new Vector3(Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance),0,Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance));
 
         currentTargetLocation = Vector3.ClampMagnitude(newTarget, enemySettings.traits.wanderDistance);
         currentTargetLocation += this.transform.position;
 
+        nextUpdate = Random.Range(enemySettings.traits.wanderUpdateFrequency.x, enemySettings.traits.wanderUpdateFrequency.y);
         timeSinceLastUpdate = 0f;
     }
 
@@ -76,7 +81,7 @@ public class EnemyWanderState : EnemyState
         Vector3 currentPosition = Vector3.zero;
 
         while (true) {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
 
             if (currentPosition == Vector3.zero) {
                 currentPosition = this.transform.position;
