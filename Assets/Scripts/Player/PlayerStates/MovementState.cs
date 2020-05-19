@@ -33,6 +33,9 @@ public class MovementState : PlayerState
         if (currentMovementInput.magnitude > 0) {
             Vector3 newPosition = currentMovementInput * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
             playerRb.MovePosition(this.gameObject.transform.position + newPosition);
+
+            ////// Handle Audio //////
+            AudioManager.audioInstance.PlayFootstep();
         }
 
         if (lookAtPos != prevLookAtPos) {

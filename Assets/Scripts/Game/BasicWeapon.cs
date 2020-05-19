@@ -22,6 +22,7 @@ public class BasicWeapon : MonoBehaviour
 
             currentBullet.GetComponent<Rigidbody>().velocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 
+            AudioManager.audioInstance.StandardGunFire();
             StartCoroutine(Reload());
         }
     }
