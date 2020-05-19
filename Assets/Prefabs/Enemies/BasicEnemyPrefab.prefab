@@ -369,6 +369,7 @@ MonoBehaviour:
   enemyType: 0
   firePoint: {fileID: 4184286670145786594}
   spotLight: {fileID: 8616509140290331197}
+  equippedWeapon: {fileID: 0}
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -403,6 +404,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e8318f1714e314cb988bf00550c8bf0c, type: 2}
+  - {fileID: 2100000, guid: 056bdca087e7748cc8c4a1b21b99ff20, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
