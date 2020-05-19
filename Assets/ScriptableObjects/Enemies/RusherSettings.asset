@@ -32,4 +32,5 @@ MonoBehaviour:
     wanderUpdateFrequency: {x: 0, y: 0}
     wanderStuckDistance: 1
     canShootAndSeek: 0
+    enemyScore: 50
   weaponType: 0

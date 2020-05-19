@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     public Camera mainCamera;
     public PlayerController playerController;
     public GameOverUI gameOverUI;
+    public ScoreManager scoreManager;
+    public float playerScore = 0.0f;
 
     private void Awake()
     {
@@ -45,6 +47,12 @@ public class GameManager : MonoBehaviour
     void SpawnPlayer()
     {
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
+    }
+
+    public void ModifyScore(float scoreModifier)
+    {
+        playerScore += scoreModifier;
+        scoreManager.UpdateScore(playerScore);
     }
 
     public void GameOver(float deathScreenDelay)

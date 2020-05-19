@@ -68,10 +68,10 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
-        Debug.Log("Hit Speed " + hitSpeed);
         Destroy(deathEffectObject, particleLifetime);
 
         // Add to player's score
+        gameManager.ModifyScore(enemySettings.traits.enemyScore);
 
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");

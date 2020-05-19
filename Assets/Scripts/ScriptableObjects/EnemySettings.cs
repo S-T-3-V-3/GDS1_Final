@@ -30,4 +30,5 @@ public struct EnemyTraits {
     public Vector2 wanderUpdateFrequency;
     public float wanderStuckDistance;
     public bool canShootAndSeek;
+    public int enemyScore;
 }

@@ -31,7 +31,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
     void Update() {
         //////////// Debug Input ///////////////////
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
@@ -88,7 +88,6 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
-        Debug.Log("Hit Speed " + hitSpeed);
         Destroy(deathEffectObject, particleLifetime);
 
         //Get player's final score

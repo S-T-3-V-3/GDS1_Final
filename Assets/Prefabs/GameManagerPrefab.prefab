@@ -56,3 +56,4 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   playerController: {fileID: 0}
   gameOverUI: {fileID: 0}
+  scoreUI: {fileID: 0}

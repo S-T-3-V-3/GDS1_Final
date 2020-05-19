@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class GameOverUI : MonoBehaviour
     * removed later upon the implementation of player states
     */
     private bool isPlayerDead = false;
+    GameManager gameManager;
+
+    //Set in inspector window
+    public Text finalScoreText;
 
     public void ShowDeathScreen()
     {
@@ -18,7 +23,8 @@ public class GameOverUI : MonoBehaviour
         {
             isPlayerDead = true;
             gameObject.SetActive(true);
-            Debug.Log("Player is Dead");
+            gameManager = GameManager.Instance;
+            finalScoreText.text = "Your Score: " + gameManager.playerScore;
         }
     }
 
