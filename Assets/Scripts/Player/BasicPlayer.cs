@@ -12,6 +12,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     public UnityEvent OnHealthChanged;
     public BasicWeapon equippedWeapon;
     public bool canTakeDamage = true;
+    Material impactMaterial;
     GameManager gameManager;
 
     public GameObject deathEffectPrefab;
@@ -20,6 +21,9 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     void Start() {
         gameManager = GameManager.Instance;
         InitDamageable();
+
+        // Get Impact Material
+        impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         // Equip basic rifle
         EquipWeapon(WeaponType.RIFLE, gameManager.gameSettings.Weapons.Where(x => x.weaponType == WeaponType.RIFLE).First().stats);
@@ -59,6 +63,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
         playerStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
+        StartCoroutine("ImpactEffect");
+        StartCoroutine("ImpactEffect");
 
         if (playerStats.currentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
@@ -89,5 +95,18 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
         gameManager.GameOver(particleLifetime);
         GameObject.Destroy(this.gameObject);       
+    }
+
+    IEnumerator ImpactEffect()
+    {
+        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
+        float matAlpha = 1;
+
+        while(matAlpha > 0)
+        {
+            matAlpha -= 0.2f;
+            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }
