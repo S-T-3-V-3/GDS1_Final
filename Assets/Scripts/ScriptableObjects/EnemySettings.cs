@@ -23,11 +23,12 @@ public enum EnemyType {
 
 [System.Serializable]
 public struct EnemyTraits {
+    public Vector2 wanderUpdateFrequency;
+    public Material material;
     public float turnSpeed;
     public float detectionRange;
     public float perceptiveness;
-    public float wanderDistance;
-    public Vector2 wanderUpdateFrequency;
+    public float wanderDistance;    
     public float wanderStuckDistance;
     public bool canShootAndSeek;
 }

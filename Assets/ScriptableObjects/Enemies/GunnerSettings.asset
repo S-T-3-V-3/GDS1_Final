@@ -25,11 +25,12 @@ MonoBehaviour:
     currentStamina: 0
     staminaRegenSpeed: 0
   traits:
+    wanderUpdateFrequency: {x: 5, y: 10}
+    material: {fileID: 2100000, guid: d691e9edf2526f247b8ed97906d396dc, type: 2}
     turnSpeed: 5
     detectionRange: 10
     perceptiveness: 0
     wanderDistance: 15
-    wanderUpdateFrequency: {x: 5, y: 10}
     wanderStuckDistance: 0.8
     canShootAndSeek: 1
   weaponType: 1

@@ -29,6 +29,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
         enemyStats = enemySettings.stats;
 
+        this.gameObject.GetComponent<MeshRenderer>().material = enemySettings.traits.material;
+
         if (enemySettings.weaponType != WeaponType.MELEE)
             EquipWeapon();
 
@@ -68,8 +70,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
-        Debug.Log("Hit Speed " + hitSpeed);
-        Destroy(deathEffectObject, particleLifetime);
+        deathEffectObject.gameObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<MeshRenderer>().material;
+        Destroy(deathEffectObject, deathParticleSystem.startLifetime.constant);
 
         // Add to player's score
 
