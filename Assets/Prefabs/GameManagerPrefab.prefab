@@ -54,5 +54,8 @@ MonoBehaviour:
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}
+  audioManager: {fileID: 0}
   playerController: {fileID: 0}
   gameOverUI: {fileID: 0}
+  scoreManager: {fileID: 0}
+  playerScore: 0

@@ -10,6 +10,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     public Transform firePoint;
     public Light spotLight;
     public BasicWeapon equippedWeapon;
+    Material impactMaterial;
 
     [Space]
 
@@ -29,7 +30,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
         enemyStats = enemySettings.stats;
 
-        this.gameObject.GetComponent<MeshRenderer>().material = enemySettings.traits.material;
+        // Get Impact Material
+        impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         if (enemySettings.weaponType != WeaponType.MELEE)
             EquipWeapon();
@@ -49,6 +51,10 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     {
         enemyStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
+
+        ////// Shader Impact Effect
+        StartCoroutine("ImpactEffect");
+        StartCoroutine("ImpactEffect");
 
         if (enemyStats.currentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
@@ -70,10 +76,10 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
-        deathEffectObject.gameObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<MeshRenderer>().material;
-        Destroy(deathEffectObject, deathParticleSystem.startLifetime.constant);
+        Destroy(deathEffectObject, particleLifetime);
 
         // Add to player's score
+        gameManager.ModifyScore(enemySettings.traits.enemyScore);
 
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
@@ -102,5 +108,19 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         if (GameManager.Instance.playerController == null) return false;
         
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
+    }
+
+    ////// Methods for Shader Manipulation //////
+    IEnumerator ImpactEffect()
+    {
+        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
+        float matAlpha = 1;
+
+        while (matAlpha > 0)
+        {
+            matAlpha -= 0.3f;
+            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }

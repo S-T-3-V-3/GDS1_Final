@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour
     [Header("Scene Objects")]
     public TileManager tileManager;
     public Camera mainCamera;
+    public AudioManager audioManager;
     public PlayerController playerController;
     public GameOverUI gameOverUI;
+    public ScoreManager scoreManager;
+    public float playerScore = 0.0f;
 
     private void Awake()
     {
@@ -27,6 +30,8 @@ public class GameManager : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         else
             Instance = this;
+
+        audioManager = Instantiate(gameSettings.audioManager).GetComponent<AudioManager>();
 
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
 
@@ -45,6 +50,12 @@ public class GameManager : MonoBehaviour
     void SpawnPlayer()
     {
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
+    }
+
+    public void ModifyScore(float scoreModifier)
+    {
+        playerScore += scoreModifier;
+        scoreManager.UpdateScore(playerScore);
     }
 
     public void GameOver(float deathScreenDelay)
