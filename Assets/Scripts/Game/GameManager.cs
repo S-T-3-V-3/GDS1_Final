@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject CameraPrefab;
     public GameObject GameOverUIPrefab;
     public GameObject ProjectilePrefab;
+    public GameObject HUDPrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public GameOverUI gameOverUI;
     public ScoreManager scoreManager;
+    public HUD hud;
+    public ScoreEvent OnAddScore;
     public float playerScore = 0.0f;
 
     private void Awake()
@@ -32,30 +36,22 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         audioManager = Instantiate(gameSettings.audioManager).GetComponent<AudioManager>();
-
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
-
         mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
-
         gameOverUI = GameObject.Instantiate(GameOverUIPrefab, this.transform).GetComponent<GameOverUI>();
-        
+        hud = GameObject.Instantiate(HUDPrefab).GetComponent<HUD>();
     }
 
     void Start()
     {
         SpawnPlayer();
         GameOverUIPrefab.SetActive(false);
+        OnAddScore.Invoke(0, Vector3.zero);
     }
 
     void SpawnPlayer()
     {
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
-    }
-
-    public void ModifyScore(float scoreModifier)
-    {
-        playerScore += scoreModifier;
-        scoreManager.UpdateScore(playerScore);
     }
 
     public void GameOver(float deathScreenDelay)
@@ -64,5 +60,7 @@ public class GameManager : MonoBehaviour
         gameOverUI.Invoke("ShowDeathScreen", deathScreenDelay);
         //Set player to a dead state
     }
-    
 }
+
+[System.Serializable]
+public class ScoreEvent : UnityEvent<int, Vector3> {}

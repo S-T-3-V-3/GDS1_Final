@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BasicWeapon : MonoBehaviour
 {
+    public ObjectStats objectStats;
     public WeaponType weaponType;
     public WeaponStats weaponStats;
     public FireType fireType;
@@ -17,7 +18,8 @@ public class BasicWeapon : MonoBehaviour
             currentBullet.transform.parent = GameManager.Instance.transform;
             currentBullet.owningObject = this.gameObject;
             currentBullet.range = weaponStats.range;
-            currentBullet.damageAmount = weaponStats.weaponDamage;
+            // TODO: Static calculator
+            currentBullet.damageAmount = weaponStats.weaponDamage + objectStats.damage;
             currentBullet.previousVelocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 
             currentBullet.GetComponent<Rigidbody>().velocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
@@ -31,7 +33,8 @@ public class BasicWeapon : MonoBehaviour
         float timeSinceFired = 0f;
         canShoot = false;
 
-        while (timeSinceFired < weaponStats.fireRate) {
+        // TODO: FIX THIS!!!!! (fire rate)
+        while (timeSinceFired < objectStats.fireRate) {
             yield return new WaitForEndOfFrame();
             timeSinceFired += Time.deltaTime;
         }

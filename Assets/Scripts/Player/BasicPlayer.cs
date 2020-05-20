@@ -40,7 +40,38 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         if (Input.GetKey(KeyCode.Escape)){
             Application.Quit();
         }
+
+        if(Input.GetKeyDown(KeyCode.I)) {
+            gameManager.OnAddScore.Invoke(100, Vector3.zero);
+        }
         ////////////////////////////////////////////
+    }
+
+    // TODO: Move level up values to a static level up handler
+    public void LevelUp(string currentStat) {
+        switch(currentStat) {
+            case "maxHP":
+                playerStats.maxHealth = playerStats.maxHealth + 10f;
+                playerStats.currentHealth += 10f;
+                OnHealthChanged.Invoke();
+                break;
+            case "HPRegen":
+                playerStats.healthRegenSpeed = playerStats.healthRegenSpeed + 1.5f;
+                break;
+            case "speed":
+                playerStats.moveSpeed = playerStats.moveSpeed + 3f;
+                break;
+            case "damage":
+                playerStats.damage = playerStats.damage + 5f;
+                break;
+            case "fireRate":
+                playerStats.fireRate = playerStats.fireRate * 0.90f;
+                break;
+            default:
+                break;
+        }
+
+        equippedWeapon.objectStats = this.playerStats;
     }
 
     public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
@@ -55,6 +86,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.fireType = weaponSettings.fireType;
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.firePoint = firePoint;
+        equippedWeapon.objectStats = this.playerStats;
     }
 
     public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)

@@ -18,8 +18,8 @@ MonoBehaviour:
     currentHealth: 0
     healthRegenSpeed: 0
     moveSpeed: 4
-    damage: 10
-    fireRate: 0.5
+    damage: 5
+    fireRate: 1.5
     critChance: 0
     maxStamina: 0
     currentStamina: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
     wanderUpdateFrequency: {x: 5, y: 10}
     material: {fileID: 2100000, guid: d691e9edf2526f247b8ed97906d396dc, type: 2}
     turnSpeed: 5
-    detectionRange: 10
+    detectionRange: 12
     perceptiveness: 0
     wanderDistance: 15
-    wanderStuckDistance: 0.8
+    wanderStuckDistance: 0.5
     canShootAndSeek: 1
     enemyScore: 100
   weaponType: 1

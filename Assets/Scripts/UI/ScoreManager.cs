@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: TEXT MESH PRO REFACTOR
 public class ScoreManager : MonoBehaviour
 {
     GameManager gameManager;
@@ -12,6 +13,9 @@ public class ScoreManager : MonoBehaviour
     private float scoreUntilNextLevel;
     private int skillPoints = 0;
     private bool skillButtonsEnabled = false;
+    
+    // TODO: Kill me, move to session data
+    private int currentScore = 0;
 
     BasicPlayer playerRef;
 
@@ -32,7 +36,6 @@ public class ScoreManager : MonoBehaviour
     {
         StartCoroutine(Initialize());
         scoreUntilNextLevel = baseLevelUpScore;
-        UpdateScore(0);
         ToggleSkillButtons();
     }
 
@@ -41,21 +44,22 @@ public class ScoreManager : MonoBehaviour
             if (GameManager.Instance.playerController != null)
             {
                 playerRef = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
-                StartCoroutine(DisplayPlayerStats());
+                yield return new WaitForEndOfFrame();
+
+                UpdateStats();
+                GameManager.Instance.OnAddScore.AddListener(OnAddScore);
             }
 
             yield return null;
         }
     }
 
-    IEnumerator DisplayPlayerStats()
-    {
-        yield return null;
-        maxHPText.text = "Max Health: " + playerRef.playerStats.maxHealth;
-        HPRegenText.text = "HP Regen: " + playerRef.playerStats.healthRegenSpeed;
-        speedText.text = "Speed: " + playerRef.playerStats.moveSpeed;
-        damageText.text = "Damage: " + playerRef.playerStats.damage;
-        fireRateText.text = "Fire Rate: " + playerRef.playerStats.fireRate;
+    void UpdateStats() {
+        maxHPText.text = $"Max Health: {playerRef.playerStats.maxHealth}";
+        HPRegenText.text = $"HP Regen: {playerRef.playerStats.healthRegenSpeed}";
+        speedText.text = $"Speed: {playerRef.playerStats.moveSpeed}";
+        damageText.text = $"Damage: {playerRef.playerStats.damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
+        fireRateText.text = $"Fire Rate: {playerRef.playerStats.fireRate}";
     }
 
     void Update() {
@@ -87,14 +91,14 @@ public class ScoreManager : MonoBehaviour
         ////////////////////////////////////////////
     }
 
-    public void UpdateScore(float newScore)
-    {
-        scoreText.text = "Score: " + newScore;
+    public void OnAddScore(int value, Vector3 pos)
+    {   
+        currentScore += value;
+        scoreText.text = $"Score: {currentScore}";
+        nextLevelText.text = "Exp to next level: " + (scoreUntilNextLevel - currentScore);
 
-        if(newScore >= scoreUntilNextLevel)
+        if (scoreUntilNextLevel - currentScore <= 0)
             LevelUp();
-
-        nextLevelText.text = "Exp to next level: " + (scoreUntilNextLevel - newScore);
 
         //TODO: Set the exp bar image to the new experience amount using lerps if possible
         //experienceBar.fillAmount = experiencePercentage;
@@ -114,27 +118,9 @@ public class ScoreManager : MonoBehaviour
         ToggleSkillButtons();
         skillPoints--;
 
-        switch(playerStat){
-            case "maxHP":
-                playerRef.playerStats.maxHealth = playerRef.playerStats.maxHealth + 10.0f;
-                break;
-            case "HPRegen":
-                playerRef.playerStats.healthRegenSpeed = playerRef.playerStats.healthRegenSpeed + 1.0f;
-                break;
-            case "speed":
-                playerRef.playerStats.moveSpeed = playerRef.playerStats.moveSpeed + 7.0f;
-                break;
-            case "damage":
-                playerRef.playerStats.damage = playerRef.playerStats.damage + 10.0f;
-                break;
-            case "fireRate":
-                playerRef.playerStats.fireRate = playerRef.playerStats.fireRate + 10.0f;
-                break;
-            default:
-                break;
-        }
+        playerRef.LevelUp(playerStat);
 
-        StartCoroutine(DisplayPlayerStats());  
+        UpdateStats();
     }
 
     void ToggleSkillButtons()

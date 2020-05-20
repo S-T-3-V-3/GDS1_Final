@@ -66,6 +66,7 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
+        // TODO: Explore other methods, as health regen now runs every frame that we aren't full HP!
         playerRef.OnHealthChanged.AddListener(UpdateHealth);
         UpdateHealth();
     }

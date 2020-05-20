@@ -30,6 +30,8 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
         enemyStats = enemySettings.stats;
 
+        this.gameObject.GetComponent<Renderer>().material = enemySettings.traits.material;
+
         // Get Impact Material
         impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
@@ -76,10 +78,11 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
+        deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
         Destroy(deathEffectObject, particleLifetime);
 
         // Add to player's score
-        gameManager.ModifyScore(enemySettings.traits.enemyScore);
+        gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
@@ -93,6 +96,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         equippedWeapon.fireType = weaponSettings.fireType;
         equippedWeapon.weaponStats = weaponSettings.stats;
         equippedWeapon.firePoint = firePoint;
+        equippedWeapon.objectStats = this.enemyStats;
     }
 
     // Static Helper Functions
