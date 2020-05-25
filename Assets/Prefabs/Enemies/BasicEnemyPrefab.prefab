@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 8010630148170841428}
   - component: {fileID: 6406086956710420469}
   - component: {fileID: 909824091073370048}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BasicEnemyPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +387,6 @@ MonoBehaviour:
     staminaRegenSpeed: 0
   deathEffectPrefab: {fileID: 1394122508529849891, guid: d3ff0538fafb42c41bd38ae6f1a7d850,
     type: 3}
-  particleSpeedMultiplier: 2
 --- !u!23 &8010630148170841428
 MeshRenderer:
   m_ObjectHideFlags: 0

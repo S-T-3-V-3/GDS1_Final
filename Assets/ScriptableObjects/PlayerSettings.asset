@@ -25,3 +25,6 @@ MonoBehaviour:
     maxStamina: 0
     currentStamina: 0
     staminaRegenSpeed: 0
+  projectileMask:
+    serializedVersion: 2
+    m_Bits: 2049

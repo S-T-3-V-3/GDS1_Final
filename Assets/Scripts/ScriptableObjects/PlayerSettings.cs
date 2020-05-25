@@ -8,6 +8,9 @@ public class PlayerSettings : ScriptableObject
     [Header("Prefabs")]
     public GameObject playerPrefab;
     public ObjectStats baseStats;
+
+    [Header("Layer Masking")]
+    public LayerMask projectileMask;
 }
 
 // Used to track # skill points allocated to each stat

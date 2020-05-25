@@ -7,26 +7,29 @@ using System.Linq;
 
 public class BasicPlayer : MonoBehaviour, IDamageable
 {
-    public Transform firePoint;
+    public Transform gunPosition;
     public ObjectStats playerStats;
     public UnityEvent OnHealthChanged;
     public BasicWeapon equippedWeapon;
     public bool canTakeDamage = true;
     Material impactMaterial;
     GameManager gameManager;
+    GameSettings gameSettings;
 
     public GameObject deathEffectPrefab;
     
 
     void Start() {
         gameManager = GameManager.Instance;
+        gameSettings = gameManager.gameSettings;
+        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
         InitDamageable();
 
         // Get Impact Material
-        impactMaterial = GetComponent<MeshRenderer>().materials[1];
+        //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
-        // Equip basic rifle
-        EquipWeapon(WeaponType.RIFLE, gameManager.gameSettings.Weapons.Where(x => x.weaponType == WeaponType.RIFLE).First().stats);
+        //Equip starting weapon
+        SwitchWeapons(WeaponType.RIFLE);
     }
 
     void Update() {
@@ -74,19 +77,16 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.objectStats = this.playerStats;
     }
 
-    public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
-        if (equippedWeapon != null) {
-            // TODO: Drop existing weapoon
-        }
+    //SWITCHES WEAPONS
+    public void SwitchWeapons(WeaponType weaponType)
+    {
+        WeaponStats weaponStats;
+        WeaponSettings weaponSettings;
 
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
-        
-        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        equippedWeapon.weaponType = weaponType;
-        equippedWeapon.fireType = weaponSettings.fireType;
-        equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.firePoint = firePoint;
-        equippedWeapon.objectStats = this.playerStats;
+        weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
+        weaponStats = weaponSettings.stats;
+
+        equippedWeapon.ChangeWeapons(gunPosition, this.playerStats, weaponType, weaponStats, weaponSettings);
     }
 
     public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
@@ -95,8 +95,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
         playerStats.currentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
-        StartCoroutine("ImpactEffect");
-        StartCoroutine("ImpactEffect");
+        //StartCoroutine("ImpactEffect");
+        //StartCoroutine("ImpactEffect");
 
         if (playerStats.currentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
@@ -128,6 +128,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         GameObject.Destroy(this.gameObject);       
     }
 
+    //NEEDS UPDATING
     IEnumerator ImpactEffect()
     {
         impactMaterial.SetFloat("_Alpha_Intensity", 1f);

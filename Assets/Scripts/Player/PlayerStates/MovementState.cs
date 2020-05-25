@@ -13,6 +13,7 @@ public class MovementState : PlayerState
     Rigidbody playerRb;
     Transform cameraTransform;
     Vector3 currentMovementInput;
+    Animator playerAnimator;
 
     Vector3 lookAtPos;
     Vector3 prevLookAtPos;
@@ -25,6 +26,7 @@ public class MovementState : PlayerState
         cameraTransform = GameManager.Instance.mainCamera.transform;
         playerController = GetComponent<PlayerController>();
         playerRb = this.GetComponent<Rigidbody>();
+        playerAnimator = GetComponent<Animator>();
         currentMovementInput = Vector3.zero;
     }
 
@@ -36,6 +38,16 @@ public class MovementState : PlayerState
 
             ////// Handle Audio //////
             AudioManager.audioInstance.PlayFootstep();
+
+            if (!playerAnimator.GetBool("isWalkingForward"))
+            {
+                playerAnimator.SetBool("isWalkingForward", true);
+            }
+        }
+
+        if (currentMovementInput.magnitude == 0 && playerAnimator.GetBool("isWalkingForward"))
+        {
+            playerAnimator.SetBool("isWalkingForward", false);
         }
 
         if (lookAtPos != prevLookAtPos) {
@@ -44,7 +56,11 @@ public class MovementState : PlayerState
         }
 
         if (isShooting) {
-            player.equippedWeapon.Shoot();
+            player.equippedWeapon.RunWeapon();
+        }
+        else
+        {
+            player.equippedWeapon.StopWeapon();
         }
 
         if (player.playerStats.currentHealth < player.playerStats.maxHealth) {
