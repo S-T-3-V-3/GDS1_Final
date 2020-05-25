@@ -25,6 +25,5 @@ MonoBehaviour:
     maxStamina: 0
     currentStamina: 0
     staminaRegenSpeed: 0
-  projectileMask:
-    serializedVersion: 2
-    m_Bits: 2049
+  aimSystem: {fileID: 8479316095007590557, guid: b21657e3b0a9a498ab2b008506f6a8f1,
+    type: 3}

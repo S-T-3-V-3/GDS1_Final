@@ -37,7 +37,7 @@ public class EnemySeekState : EnemyState
         }
 
         if (enemySettings.traits.canShootAndSeek)
-            enemy.equippedWeapon.RunWeapon();
+            enemy.equippedWeapon.Shoot();
     }
 
     private void OnCollisionEnter(Collision other) {

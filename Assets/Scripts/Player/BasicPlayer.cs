@@ -122,8 +122,11 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         deathParticleSystem.startSpeed = hitSpeed;
         Destroy(deathEffectObject, particleLifetime);
 
-        //Get player's final score
+        //Restore Cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
+        //Get player's final score
         gameManager.GameOver(particleLifetime);
         GameObject.Destroy(this.gameObject);       
     }

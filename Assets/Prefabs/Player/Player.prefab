@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6195383010276099750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.184, y: 1.232, z: 0.796}
+  m_LocalPosition: {x: 0.184, y: 0.611, z: 0.726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8784827167588107845}
@@ -302,6 +302,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rifle Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 75
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6057140222963153312, guid: c206cb61495d04ccaa16002153715076, type: 3}
