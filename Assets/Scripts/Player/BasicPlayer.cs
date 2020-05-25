@@ -8,8 +8,7 @@ using System.Linq;
 public class BasicPlayer : MonoBehaviour, IDamageable
 {
     public Transform firePoint;
-    public ObjectStats playerStats;
-    public UnityEvent OnHealthChanged;
+    public StatHandler statHandler;
     public BasicWeapon equippedWeapon;
     public bool canTakeDamage = true;
     Material impactMaterial;
@@ -47,33 +46,6 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         ////////////////////////////////////////////
     }
 
-    // TODO: Move level up values to a static level up handler
-    public void LevelUp(string currentStat) {
-        switch(currentStat) {
-            case "maxHP":
-                playerStats.maxHealth = playerStats.maxHealth + 10f;
-                playerStats.currentHealth += 10f;
-                OnHealthChanged.Invoke();
-                break;
-            case "HPRegen":
-                playerStats.healthRegenSpeed = playerStats.healthRegenSpeed + 1.5f;
-                break;
-            case "speed":
-                playerStats.moveSpeed = playerStats.moveSpeed + 3f;
-                break;
-            case "damage":
-                playerStats.damage = playerStats.damage + 5f;
-                break;
-            case "fireRate":
-                playerStats.fireRate = playerStats.fireRate * 0.90f;
-                break;
-            default:
-                break;
-        }
-
-        equippedWeapon.objectStats = this.playerStats;
-    }
-
     public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
         if (equippedWeapon != null) {
             // TODO: Drop existing weapoon
@@ -86,19 +58,18 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.fireType = weaponSettings.fireType;
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.firePoint = firePoint;
-        equippedWeapon.objectStats = this.playerStats;
+        equippedWeapon.ownerStats = this.statHandler;
     }
 
     public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         if (canTakeDamage == false) return;
 
-        playerStats.currentHealth -= damageType.damageAmount;
-        OnHealthChanged.Invoke();
+        statHandler.CurrentHealth -= damageType.damageAmount;
         StartCoroutine("ImpactEffect");
         StartCoroutine("ImpactEffect");
 
-        if (playerStats.currentHealth <= 0)
+        if (statHandler.CurrentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
         
         if (damageType.isCrit) {
@@ -108,9 +79,9 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
     public void InitDamageable()
     {
-        playerStats = gameManager.gameSettings.playerSettings.baseStats;
-        playerStats.currentHealth = playerStats.maxHealth;
-        playerStats.currentStamina = playerStats.maxStamina;
+        statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
+        statHandler.CurrentHealth = statHandler.MaxHealth;
+        statHandler.CurrentStamina = statHandler.Agility.maxStamina;
     }
 
     public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)

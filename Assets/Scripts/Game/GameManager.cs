@@ -64,3 +64,5 @@ public class GameManager : MonoBehaviour
 
 [System.Serializable]
 public class ScoreEvent : UnityEvent<int, Vector3> {}
+[System.Serializable]
+public class StatIncreaseEvent : UnityEvent<StatType> {}

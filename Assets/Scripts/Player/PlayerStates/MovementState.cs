@@ -31,7 +31,7 @@ public class MovementState : PlayerState
     public void FixedUpdate()
     {
         if (currentMovementInput.magnitude > 0) {
-            Vector3 newPosition = currentMovementInput * player.playerStats.moveSpeed * Time.fixedDeltaTime;
+            Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
             playerRb.MovePosition(this.gameObject.transform.position + newPosition);
 
             ////// Handle Audio //////
@@ -47,9 +47,8 @@ public class MovementState : PlayerState
             player.equippedWeapon.Shoot();
         }
 
-        if (player.playerStats.currentHealth < player.playerStats.maxHealth) {
-            player.playerStats.currentHealth += player.playerStats.healthRegenSpeed * Time.deltaTime;
-            player.OnHealthChanged.Invoke();
+        if (player.statHandler.CurrentHealth < player.statHandler.MaxHealth) {
+            player.statHandler.CurrentHealth += player.statHandler.HealthRegen * Time.deltaTime;
         }
     }
 

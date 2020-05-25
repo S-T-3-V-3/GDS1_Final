@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
 
     private void UpdateHealth()
     {
-        float targetHealthPercent = playerRef.playerStats.currentHealth / playerRef.playerStats.maxHealth;
+        float targetHealthPercent = playerRef.statHandler.CurrentHealth / playerRef.statHandler.MaxHealth;
 
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
@@ -66,8 +66,7 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
-        // TODO: Explore other methods, as health regen now runs every frame that we aren't full HP!
-        playerRef.OnHealthChanged.AddListener(UpdateHealth);
+        playerRef.statHandler.OnHealthChanged.AddListener(UpdateHealth);
         UpdateHealth();
     }
 

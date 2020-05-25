@@ -6,6 +6,12 @@ using UnityEngine.UI;
 // TODO: TEXT MESH PRO REFACTOR
 public class ScoreManager : MonoBehaviour
 {
+    public Button MaxHP;
+    public Button HPRegen;
+    public Button Agility;
+    public Button Damage;
+    public Button AttackSpeed;
+    public Button CritChance;
     GameManager gameManager;
 
     public int playerLevel = 1;
@@ -20,7 +26,6 @@ public class ScoreManager : MonoBehaviour
     BasicPlayer playerRef;
 
     //Set in the inspector window
-    public GameObject[] statButtonArray = new GameObject[6];
     public Image experienceBar;
     public Text scoreText;
     public Text nextLevelText;
@@ -28,7 +33,9 @@ public class ScoreManager : MonoBehaviour
     public Text HPRegenText;
     public Text speedText;
     public Text damageText;
-    public Text fireRateText;
+    public Text attackSpeedText;
+    public Text critChanceText;
+
     //Taken from the general canvas, set in inspector
     public Text levelText;
 
@@ -37,6 +44,30 @@ public class ScoreManager : MonoBehaviour
         StartCoroutine(Initialize());
         scoreUntilNextLevel = baseLevelUpScore;
         ToggleSkillButtons();
+
+        MaxHP.onClick.AddListener(() => {
+            SkillIncrease(StatType.MAX_HP);
+        });
+
+        HPRegen.onClick.AddListener(() => {
+            SkillIncrease(StatType.HP_REGEN);
+        });
+
+        Agility.onClick.AddListener(() => {
+            SkillIncrease(StatType.AGILITY);
+        });
+
+        Damage.onClick.AddListener(() => {
+            SkillIncrease(StatType.DAMAGE);
+        });
+
+        AttackSpeed.onClick.AddListener(() => {
+            SkillIncrease(StatType.ATTACK_SPEED);
+        });
+
+        CritChance.onClick.AddListener(() => {
+            SkillIncrease(StatType.CRIT_CHANCE);
+        });
     }
 
     IEnumerator Initialize() {
@@ -55,11 +86,12 @@ public class ScoreManager : MonoBehaviour
     }
 
     void UpdateStats() {
-        maxHPText.text = $"Max Health: {playerRef.playerStats.maxHealth}";
-        HPRegenText.text = $"HP Regen: {playerRef.playerStats.healthRegenSpeed}";
-        speedText.text = $"Speed: {playerRef.playerStats.moveSpeed}";
-        damageText.text = $"Damage: {playerRef.playerStats.damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
-        fireRateText.text = $"Fire Rate: {playerRef.playerStats.fireRate}";
+        maxHPText.text = $"Max Health: {playerRef.statHandler.MaxHealth}";
+        HPRegenText.text = $"HP Regen: {playerRef.statHandler.HealthRegen}";
+        speedText.text = $"Speed: {playerRef.statHandler.MoveSpeed}";
+        damageText.text = $"Damage: {playerRef.statHandler.Damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
+        attackSpeedText.text = $"Attack Speed: {playerRef.statHandler.AttackSpeed}";
+        critChanceText.text = $"Crit Chance: {playerRef.statHandler.CritChance * 100}%";
     }
 
     void Update() {
@@ -73,19 +105,22 @@ public class ScoreManager : MonoBehaviour
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
-                SkillIncrease("maxHP");
+                SkillIncrease(StatType.MAX_HP);
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
-                SkillIncrease("HPRegen");
+                SkillIncrease(StatType.HP_REGEN);
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
-                SkillIncrease("speed");
+                SkillIncrease(StatType.AGILITY);
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
-                SkillIncrease("damage");
+                SkillIncrease(StatType.DAMAGE);
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
-                SkillIncrease("fireRate");
+                SkillIncrease(StatType.ATTACK_SPEED);
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                SkillIncrease(StatType.CRIT_CHANCE);
         }
         
         ////////////////////////////////////////////
@@ -112,22 +147,24 @@ public class ScoreManager : MonoBehaviour
         scoreUntilNextLevel = scoreUntilNextLevel + playerLevel * baseLevelUpScore;
     }
 
-    public void SkillIncrease(string playerStat)
+    public void SkillIncrease(StatType playerStat)
     {
         skillButtonsEnabled = false;
         ToggleSkillButtons();
         skillPoints--;
 
-        playerRef.LevelUp(playerStat);
+        playerRef.statHandler.LevelUp(playerStat);
 
         UpdateStats();
     }
 
     void ToggleSkillButtons()
     {
-        foreach(GameObject statButton in statButtonArray)
-        {
-            statButton.SetActive(skillButtonsEnabled);
-        }
+        MaxHP.gameObject.SetActive(skillButtonsEnabled);
+        HPRegen.gameObject.SetActive(skillButtonsEnabled);
+        Agility.gameObject.SetActive(skillButtonsEnabled);
+        Damage.gameObject.SetActive(skillButtonsEnabled);
+        AttackSpeed.gameObject.SetActive(skillButtonsEnabled);
+        CritChance.gameObject.SetActive(skillButtonsEnabled);
     }
 }

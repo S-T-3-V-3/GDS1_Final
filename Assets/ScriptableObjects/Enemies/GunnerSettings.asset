@@ -13,17 +13,36 @@ MonoBehaviour:
   m_Name: GunnerSettings
   m_EditorClassIdentifier: 
   enemyType: 0
-  stats:
-    maxHealth: 50
-    currentHealth: 0
-    healthRegenSpeed: 0
-    moveSpeed: 4
-    damage: 5
-    fireRate: 1.5
-    critChance: 0
-    maxStamina: 0
-    currentStamina: 0
-    staminaRegenSpeed: 0
+  statHandler:
+    MaxHealthLevel: 1
+    HealthRegenLevel: 1
+    DamageLevel: 1
+    AgilityLevel: 1
+    AttackSpeedLevel: 1
+    CritChanceLevel: 1
+    currentStats:
+      maxHealth: 50
+      currentHealth: 50
+      healthRegenSpeed: 0
+      moveSpeed: 5
+      sprintSpeed: 5
+      damage: 10
+      attackSpeed: 0.75
+      critChance: 0.1
+      maxStamina: 0
+      currentStamina: 0
+      staminaRegenSpeed: 0
+    statModifiers:
+      ABMaxHealth: 10
+      MBHealthRegen: 0.5
+      ADamage: 5
+      ABMaxStamina: 10
+      MCSprintSpeed: 0.1
+      MBAttackSpeed: 0.3
+      ACritChance: 0.05
+    OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
   traits:
     wanderUpdateFrequency: {x: 5, y: 10}
     material: {fileID: 2100000, guid: d691e9edf2526f247b8ed97906d396dc, type: 2}
