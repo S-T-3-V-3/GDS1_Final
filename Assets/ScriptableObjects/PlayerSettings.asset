@@ -44,3 +44,5 @@ MonoBehaviour:
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+  aimSystem: {fileID: 8479316095007590557, guid: b21657e3b0a9a498ab2b008506f6a8f1,
+    type: 3}
