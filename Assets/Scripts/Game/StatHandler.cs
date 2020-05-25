@@ -11,7 +11,7 @@ public class StatHandler
         this.statModifiers = statModifiers;
     }
 
-    [Header("Player Stat Levels")]
+    [Header("Stat Levels")]
     public int MaxHealthLevel = 1;
     public int HealthRegenLevel = 1;
     public int DamageLevel = 1;
@@ -19,7 +19,7 @@ public class StatHandler
     public int AttackSpeedLevel = 1;
     public int CritChanceLevel = 1;
 
-    [Header("Player Base Stats")]
+    [Header("Base Stats")]
     [SerializeField] private BaseStats currentStats;
 
     [Space]
