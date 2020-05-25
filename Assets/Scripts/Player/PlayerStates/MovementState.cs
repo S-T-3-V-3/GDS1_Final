@@ -55,13 +55,13 @@ public class MovementState : PlayerState
             prevLookAtPos = lookAtPos;
         }
 
-        if (isShooting) {
+        /////// HANDLE WEAPONS ///////
+        player.equippedWeapon.RenderAim();
+
+        if (isShooting)
             player.equippedWeapon.Shoot();
-        }
         else
-        {
-            player.equippedWeapon.StopWeapon();
-        }
+            player.equippedWeapon.DisableLaser();
 
         if (player.statHandler.CurrentHealth < player.statHandler.MaxHealth) {
             player.statHandler.CurrentHealth += player.statHandler.HealthRegen * Time.deltaTime;

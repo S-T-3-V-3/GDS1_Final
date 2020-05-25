@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
     }
 

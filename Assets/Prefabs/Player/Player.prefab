@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6195383010276099750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.184, y: 1.232, z: 0.796}
+  m_LocalPosition: {x: 0.184, y: 0.611, z: 0.726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8784827167588107845}
@@ -124,21 +124,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626291c7a8d972b458d193e1acde6714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 0}
+  statHandler:
+    MaxHealthLevel: 0
+    HealthRegenLevel: 0
+    DamageLevel: 0
+    AgilityLevel: 0
+    AttackSpeedLevel: 0
+    CritChanceLevel: 0
+    currentStats:
+      maxHealth: 0
+      currentHealth: 0
+      healthRegenSpeed: 0
+      moveSpeed: 0
+      sprintSpeed: 0
+      damage: 0
+      attackSpeed: 0
+      critChance: 0
+      maxStamina: 0
+      currentStamina: 0
+      staminaRegenSpeed: 0
+    statModifiers:
+      ABMaxHealth: 10
+      MBHealthRegen: 0.5
+      ADamage: 5
+      ABMaxStamina: 10
+      MCSprintSpeed: 0.1
+      MBAttackSpeed: 0.3
+      ACritChance: 0.05
+    OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
   gunPosition: {fileID: 7689455360915784238}
-  playerStats:
-    maxHealth: 0
-    currentHealth: 0
-    healthRegenSpeed: 0
-    moveSpeed: 0
-    damage: 0
-    fireRate: 0
-    critChance: 0
-    maxStamina: 0
-    currentStamina: 0
-    staminaRegenSpeed: 0
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
   equippedWeapon: {fileID: 0}
   canTakeDamage: 1
   deathEffectPrefab: {fileID: 1394122508529849891, guid: d3ff0538fafb42c41bd38ae6f1a7d850,
@@ -170,9 +187,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2.96
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.43, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2875559133367562428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +319,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rifle Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5101129076935641673, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574657383665397177, guid: c206cb61495d04ccaa16002153715076,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 75
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6057140222963153312, guid: c206cb61495d04ccaa16002153715076, type: 3}

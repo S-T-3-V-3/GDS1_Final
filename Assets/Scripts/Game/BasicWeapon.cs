@@ -15,6 +15,7 @@ public class BasicWeapon : MonoBehaviour
     ParticleSystem shotgunParticles;
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
+    AimSystem aimSystem;
 
     RaycastHit hit;
     Vector3 rayDirection;
@@ -23,11 +24,21 @@ public class BasicWeapon : MonoBehaviour
     bool canShoot = true;
     bool laserActive = false;
     bool hasReset = false;
+    bool hasAim = false;
 
     void Awake()
     {
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
+    }
+
+    void Start()
+    {
+        if(GetComponent<PlayerController>() != null)
+        {
+            aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
+            hasAim = true;
+        }
     }
 
     //PRIMARY RUN METHOD
@@ -50,11 +61,12 @@ public class BasicWeapon : MonoBehaviour
     }
 
     //used to stop or reset weapon (needs better use case)
-    public void StopWeapon()
+    public void DisableLaser()
     {
         if (!hasReset) return;
-
         hasReset = false;
+
+        if (laserBeam == null) return;
         laserBeam.enabled = false;
         laserActive = false;
     }
@@ -78,7 +90,12 @@ public class BasicWeapon : MonoBehaviour
 
     void DropWeapon()
     {
+    }
 
+    public void RenderAim()
+    {
+        if (!hasAim) return;
+        aimSystem.RenderAimLine(firePoint);
     }
 
     #region WEAPON FIRE METHODS
@@ -111,7 +128,7 @@ public class BasicWeapon : MonoBehaviour
             rayDirection = firePoint.forward * 10 + offset; //may need some fine tuning
 
             //Debug.DrawRay(firePoint.position, rayDirection, Color.cyan, 5);
-            if (Physics.Raycast(firePoint.position, rayDirection, out hit ,weaponStats.range, playerSettings.projectileMask))
+            if (Physics.Raycast(firePoint.position, rayDirection, out hit ,weaponStats.range))
             {
                 Debug.DrawLine(firePoint.position, hit.point, Color.cyan, 5f);
                 //JUST ADD THE DAMAGE METHODS FROM THE HIT GAMEOBJECT
@@ -145,7 +162,6 @@ public class BasicWeapon : MonoBehaviour
 
         if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, weaponStats.range))
         {
-            
             laserBeam.SetPosition(1, firePoint.position + firePoint.forward * hit.distance);
             //JUST ADD THE DAMAGE METHODS FROM THE HIT GAMEOBJECT
         }
@@ -157,6 +173,7 @@ public class BasicWeapon : MonoBehaviour
         }
 
     }
+    
     #endregion
     
     //MIGHT BE USEFUL LATER ON

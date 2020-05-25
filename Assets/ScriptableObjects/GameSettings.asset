@@ -25,3 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9fa062b175a7ed144b2ec6ad14ea3c6e, type: 2}
   - {fileID: 11400000, guid: 5f85e002bdfea4e84981fcfdaa3cdd19, type: 2}
   - {fileID: 11400000, guid: 8db92c7314fcb4c1480afb7c645c0f61, type: 2}
+  aimPointUI: {fileID: 7675460154675966554, guid: 4837f4c7f2c384fd287058b62becec89,
+    type: 3}
