@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 1
   fireType: 0
-  WeaponPrefab: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
   stats:
     weaponDamage: 5
     critDamage: 0
@@ -25,3 +24,5 @@ MonoBehaviour:
     hasPiercingShots: 0
     numBullets: 1
     chargeTime: 0
+  weaponPrefab: {fileID: 704757315446152108, guid: ca31962c67c194b558b0a6c06168256d,
+    type: 3}

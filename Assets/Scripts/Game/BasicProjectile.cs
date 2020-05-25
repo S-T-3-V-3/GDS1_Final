@@ -10,14 +10,23 @@ public class BasicProjectile : MonoBehaviour
     public GameObject owningObject;
 
     Vector3 startPos;
-    Rigidbody rb;
+    Rigidbody projectileRB;
     public Vector3 previousVelocity;
+
+    private void Awake()
+    {
+        projectileRB = gameObject.GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
-        startPos = this.gameObject.transform.position;
-        rb = this.gameObject.GetComponent<Rigidbody>();
+        startPos = gameObject.transform.position;
         Destroy(gameObject, 3f);
+    }
+
+    public void SetBulletVelocity(Vector3 force)
+    {
+        projectileRB.velocity = force;
     }
 
     private void Update() {
@@ -25,10 +34,10 @@ public class BasicProjectile : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         }
 
-        previousVelocity = rb.velocity;
+        previousVelocity = projectileRB.velocity;
 
-        if (rb.velocity != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(rb.velocity);
+        if (projectileRB.velocity != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(projectileRB.velocity);
     }
 
     private void OnCollisionEnter(Collision other) {

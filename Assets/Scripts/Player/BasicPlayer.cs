@@ -9,23 +9,27 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 {
     public Transform firePoint;
     public StatHandler statHandler;
+    public Transform gunPosition;
     public BasicWeapon equippedWeapon;
     public bool canTakeDamage = true;
     Material impactMaterial;
     GameManager gameManager;
+    GameSettings gameSettings;
 
     public GameObject deathEffectPrefab;
     
 
     void Start() {
         gameManager = GameManager.Instance;
+        gameSettings = gameManager.gameSettings;
+        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
         InitDamageable();
 
         // Get Impact Material
-        impactMaterial = GetComponent<MeshRenderer>().materials[1];
+        //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
-        // Equip basic rifle
-        EquipWeapon(WeaponType.RIFLE, gameManager.gameSettings.Weapons.Where(x => x.weaponType == WeaponType.RIFLE).First().stats);
+        //Equip starting weapon
+        SwitchWeapons(WeaponType.RIFLE);
     }
 
     void Update() {
@@ -61,13 +65,25 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.ownerStats = this.statHandler;
     }
 
+    //SWITCHES WEAPONS
+    public void SwitchWeapons(WeaponType weaponType)
+    {
+        WeaponStats weaponStats;
+        WeaponSettings weaponSettings;
+
+        weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
+        weaponStats = weaponSettings.stats;
+
+        equippedWeapon.ChangeWeapons(gunPosition, this.statHandler, weaponType, weaponStats, weaponSettings);
+    }
+
     public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         if (canTakeDamage == false) return;
 
         statHandler.CurrentHealth -= damageType.damageAmount;
-        StartCoroutine("ImpactEffect");
-        StartCoroutine("ImpactEffect");
+        //StartCoroutine("ImpactEffect");
+        //StartCoroutine("ImpactEffect");
 
         if (statHandler.CurrentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
@@ -99,6 +115,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         GameObject.Destroy(this.gameObject);       
     }
 
+    //NEEDS UPDATING
     IEnumerator ImpactEffect()
     {
         impactMaterial.SetFloat("_Alpha_Intensity", 1f);
