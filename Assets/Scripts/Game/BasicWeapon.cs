@@ -23,7 +23,7 @@ public class BasicWeapon : MonoBehaviour
     */
 
     // Temp until refactor
-    GameObject weaponModel;
+    public GameObject weaponModel;
 
     RaycastHit hit;
     Vector3 rayDirection;
@@ -138,7 +138,11 @@ public class BasicWeapon : MonoBehaviour
         currentBullet.damageAmount = weaponStats.weaponDamage + ownerStats.Damage;
         currentBullet.previousVelocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 
-        currentBullet.SetBulletVelocity(this.gameObject.transform.forward * weaponStats.shotSpeed);
+        if (weaponModel != null)
+            currentBullet.SetBulletVelocity(weaponModel.transform.forward * weaponStats.shotSpeed);
+        else {
+            currentBullet.SetBulletVelocity(this.transform.forward * weaponStats.shotSpeed); // Remove when enemies have weapons
+        }
         AudioManager.Instance.StandardGunFire();
 
         StartCoroutine(Reload());
