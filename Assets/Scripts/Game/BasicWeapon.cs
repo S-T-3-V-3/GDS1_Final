@@ -11,11 +11,19 @@ public class BasicWeapon : MonoBehaviour
     public FireType fireType;
     public Transform firePoint;
 
-    LineRenderer laserBeam;
-    ParticleSystem shotgunParticles;
+    LineRenderer laserBeam; // This should probably exist on an inherited class right?
+    ParticleSystem shotgunParticles; // Also should be inherited?
+
+    // This class is shared by AI, be careful
+    // Try again on a higher level of heirachy
+    /*
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
     AimSystem aimSystem;
+    */
+
+    // Temp until refactor
+    GameObject weaponModel;
 
     RaycastHit hit;
     Vector3 rayDirection;
@@ -26,26 +34,30 @@ public class BasicWeapon : MonoBehaviour
     bool hasReset = false;
     bool hasAim = false;
 
+// Player specific stuff, this shouldn't exist on a globally shared weapon class
+/*
     void Awake()
     {
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
-        weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
-    }
 
-    void Start()
-    {
         if(GetComponent<PlayerController>() != null)
         {
+            weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
+            weaponsIK.playerAnimator = this.GetComponent<BasicPlayer>().animationController;
             aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
             hasAim = true;
         }
     }
+*/
 
-    //PRIMARY RUN METHOD
     public void Shoot()
     {
         if (!hasReset) hasReset = true;
         
+        // At this point, inheritence should exist - this is not a base/basic weapon 
+        // Basic functions can be overrided and rewritten
+        // IE Beam weapon implements Shoot() differently to Spread weapon
+        // equippedWeapon.Shoot() will still work anywhere as long as it inherits from BasicWeapon!
         switch (fireType)
         {
             case FireType.SINGLE:
@@ -61,6 +73,8 @@ public class BasicWeapon : MonoBehaviour
     }
 
     //used to stop or reset weapon (needs better use case)
+    // This is specific to lasers not a basic weapon
+    /*
     public void DisableLaser()
     {
         if (!hasReset) return;
@@ -70,16 +84,22 @@ public class BasicWeapon : MonoBehaviour
         laserBeam.enabled = false;
         laserActive = false;
     }
+    */
 
+    // I don't think a 'Weapon' should be implementing a 'ChangeWeapon' (or drop) function
+    // It would make more sense to implement this on a class that owns any given weapon(s)
+    // Moved the weapon prefab instantiation here, but this should be handled in an equip weapon function elsewhere 
     public void ChangeWeapons(Transform gunPosition, StatHandler ownerStats, WeaponType type, WeaponStats stats, WeaponSettings settings)
     {
-        if (weaponType != type) DropWeapon();
+        if (weaponType != type) DropWeapon(); // We still want to drop weapons of the same type!
         weaponType = type;
         fireType = settings.fireType;
         weaponStats = stats;
         this.ownerStats = ownerStats;
 
-        firePoint = weaponsIK.GetTransformsFromIK(gunPosition, settings.weaponPrefab);
+        //firePoint = weaponsIK.GetTransformsFromIK(gunPosition, settings.weaponPrefab);
+        weaponModel = GameObject.Instantiate(settings.weaponPrefab, this.transform);
+        // Temp until refactor, should be instantiated by parent
 
         if (type == WeaponType.SHOTGUN && shotgunParticles == null)
             shotgunParticles = Instantiate(settings.projectileParticles, firePoint).GetComponent<ParticleSystem>();
@@ -92,27 +112,34 @@ public class BasicWeapon : MonoBehaviour
     {
     }
 
+/*
     public void RenderAim()
     {
         if (!hasAim) return;
         aimSystem.RenderAimLine(firePoint);
     }
-
+*/
     #region WEAPON FIRE METHODS
 
     void SingleFire()
     {
         if (!canShoot) return;
 
-        BasicProjectile currentBullet = Instantiate(GameManager.Instance.ProjectilePrefab, firePoint).GetComponent<BasicProjectile>();
-        currentBullet.transform.parent = GameManager.Instance.transform;
+        // Instantiating the bullet like this sets it's parent to 'fire point', then changes the parent to the game manager
+        // You want to instantiate the bullet with the parent set, then just change the position to the fire point position
+        //BasicProjectile currentBullet = Instantiate(GameManager.Instance.ProjectilePrefab, firePoint).GetComponent<BasicProjectile>();
+        //currentBullet.transform.parent = GameManager.Instance.transform;
+
+        BasicProjectile currentBullet = GameObject.Instantiate(GameManager.Instance.ProjectilePrefab, GameManager.Instance.transform).GetComponent<BasicProjectile>();
+        currentBullet.transform.position = this.transform.position + this.transform.forward * 0.4f; // Temp until refactor
+
         currentBullet.owningObject = this.gameObject;
         currentBullet.range = weaponStats.range;
         currentBullet.damageAmount = weaponStats.weaponDamage + ownerStats.Damage;
         currentBullet.previousVelocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
 
         currentBullet.SetBulletVelocity(this.gameObject.transform.forward * weaponStats.shotSpeed);
-        AudioManager.audioInstance.StandardGunFire();
+        AudioManager.Instance.StandardGunFire();
 
         StartCoroutine(Reload());
     }

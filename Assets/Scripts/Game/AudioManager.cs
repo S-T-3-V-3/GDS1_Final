@@ -6,7 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     [HideInInspector] public AudioSettings audioSettings;
 
-    public static AudioManager audioInstance = null;
+    // Static members should always be Pascal case (was audioInstance, can just be Instance in this situation, but AudioInstance would've been correct)
+    public static AudioManager Instance = null;
     AudioSource backgroundAudioSource;
     AudioSource playerAudioSource;
 
@@ -15,8 +16,8 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-        if(audioInstance == null)
-            audioInstance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(this);
 

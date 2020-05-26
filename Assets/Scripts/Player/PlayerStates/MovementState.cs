@@ -10,10 +10,10 @@ public class MovementState : PlayerState
     PlayerController playerController;
     PlayerSettings playerSettings;
 
-    Rigidbody playerRb;
+    CharacterController characterController;
     Transform cameraTransform;
     Vector3 currentMovementInput;
-    Animator playerAnimator;
+    Animator animationController;
 
     Vector3 lookAtPos;
     Vector3 prevLookAtPos;
@@ -24,31 +24,26 @@ public class MovementState : PlayerState
         player = this.GetComponent<BasicPlayer>();
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         cameraTransform = GameManager.Instance.mainCamera.transform;
-        playerController = GetComponent<PlayerController>();
-        playerRb = this.GetComponent<Rigidbody>();
-        playerAnimator = GetComponent<Animator>();
+        playerController = this.GetComponent<PlayerController>();
+        characterController = this.GetComponent<CharacterController>();
+        animationController = player.animationController;
         currentMovementInput = Vector3.zero;
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
-        if (currentMovementInput.magnitude > 0) {
-            Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
-            playerRb.MovePosition(this.gameObject.transform.position + newPosition);
+        Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
+        characterController.Move(newPosition);
+        characterController.Move(player.velocity * Time.deltaTime);
 
-            ////// Handle Audio //////
-            AudioManager.audioInstance.PlayFootstep();
+        ////// Handle Audio //////
+        AudioManager.Instance.PlayFootstep();
+        // This should be doable via animation events?
+        // Trigger an event every frame the foot gets placed down, listen for those events, play sounds
 
-            if (!playerAnimator.GetBool("isWalkingForward"))
-            {
-                playerAnimator.SetBool("isWalkingForward", true);
-            }
-        }
-
-        if (currentMovementInput.magnitude == 0 && playerAnimator.GetBool("isWalkingForward"))
-        {
-            playerAnimator.SetBool("isWalkingForward", false);
-        }
+        animationController.SetFloat("Forward", Vector3.Dot(transform.forward.normalized, currentMovementInput));
+        animationController.SetFloat("Right", Vector3.Dot(transform.right.normalized, currentMovementInput));
+        animationController.SetBool("IsInAir", !player.isGrounded);
 
         if (lookAtPos != prevLookAtPos) {
             this.transform.LookAt(lookAtPos);
@@ -56,12 +51,18 @@ public class MovementState : PlayerState
         }
 
         /////// HANDLE WEAPONS ///////
-        player.equippedWeapon.RenderAim();
+        //player.equippedWeapon.RenderAim();
 
         if (isShooting)
             player.equippedWeapon.Shoot();
+
+        // There's got to be a better way to do this
+        // Start by putting these kinds of things on the relevant objects
+        // IE; a laser beam shouldn't be controlled by the players movement state
+        /*
         else
             player.equippedWeapon.DisableLaser();
+        */
 
         if (player.statHandler.CurrentHealth < player.statHandler.MaxHealth) {
             player.statHandler.CurrentHealth += player.statHandler.HealthRegen * Time.deltaTime;

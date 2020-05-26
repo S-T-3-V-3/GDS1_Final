@@ -25,8 +25,8 @@ MonoBehaviour:
       maxHealth: 100
       currentHealth: 0
       healthRegenSpeed: 0.5
-      moveSpeed: 10
-      sprintSpeed: 15
+      moveSpeed: 5
+      sprintSpeed: 13
       damage: 10
       attackSpeed: 1
       critChance: 0.1

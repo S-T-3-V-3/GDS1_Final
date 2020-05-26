@@ -13,7 +13,7 @@ public class AimSystem : MonoBehaviour
     float vertOffset = 0.1f;
     float forwardOffset = -0.2f;
 
-    void Start()
+    void Awake()
     {
         aimLine = GetComponent<LineRenderer>();
     }

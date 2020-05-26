@@ -10,11 +10,19 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     public Transform firePoint;
     public StatHandler statHandler;
     public Transform gunPosition;
+    public Transform groundPosition;
     public BasicWeapon equippedWeapon;
+    public Animator animationController;
+    public LayerMask groundMask;
+    public Vector3 velocity;
+    public float groundDistance;
     public bool canTakeDamage = true;
+    public bool isGrounded = true;
+
     Material impactMaterial;
     GameManager gameManager;
     GameSettings gameSettings;
+    float gravity = -9.8f;
 
     public GameObject deathEffectPrefab;
     
@@ -23,6 +31,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         gameManager = GameManager.Instance;
         gameSettings = gameManager.gameSettings;
         equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+        velocity = Vector3.zero;
         InitDamageable();
 
         // Get Impact Material
@@ -30,9 +39,13 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
         //Equip starting weapon
         SwitchWeapons(WeaponType.RIFLE);
+        // Should simple be equip, not switch
+        // Drop would be called if equipped weapon != null
+        // After equipped weapon is dropped, we can instantiate a new weapon 
+        // Set newly instantiated weapon as equipped weapon
     }
 
-    void Update() {
+    private void Update() {
         //////////// Debug Input ///////////////////
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -48,6 +61,13 @@ public class BasicPlayer : MonoBehaviour, IDamageable
             gameManager.OnAddScore.Invoke(100, Vector3.zero);
         }
         ////////////////////////////////////////////
+
+        isGrounded = Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
+        
+        if (isGrounded)
+            velocity.y = 0;
+
+        velocity.y += gravity * Time.deltaTime;
     }
 
     public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
@@ -110,8 +130,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         Destroy(deathEffectObject, particleLifetime);
 
         //Restore Cursor
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
 
         //Get player's final score
         gameManager.GameOver(particleLifetime);

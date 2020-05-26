@@ -51,8 +51,11 @@ public class GameManager : MonoBehaviour
 
     void SpawnPlayer()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        // Really wasn't a fan of the laser / no cursor system
+        // Not knowing the distance of your cursor from the player makes turning feel really really bad
+        // Laser with visible cursor might be ok, but the laser asset should be much more polished before implemented imo - Steve
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Confined;
         playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
     }
 

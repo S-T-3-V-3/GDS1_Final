@@ -11,7 +11,6 @@ public class IKWeaponsAnimator : MonoBehaviour
 
     bool isEquiping = true;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
@@ -21,6 +20,7 @@ public class IKWeaponsAnimator : MonoBehaviour
     {
         isEquiping = true;
 
+        // A script for handling IK should /definitely/ not be responsible for instantiating a gun model
         WeaponItem weaponInstance = Instantiate(weaponPrefab, gunPosition).GetComponent<WeaponItem>();
         rightHandPosition = weaponInstance.rightHandPoint;
         leftHandPosition = weaponInstance.leftHandPoint;
