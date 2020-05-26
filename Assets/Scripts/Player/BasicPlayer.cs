@@ -35,8 +35,10 @@ public class BasicPlayer : MonoBehaviour, IDamageable
             Application.Quit();
         }
         ////////////////////////////////////////////
+       
     }
 
+    
     public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
         if (equippedWeapon != null) {
             // TODO: Drop existing weapoon
