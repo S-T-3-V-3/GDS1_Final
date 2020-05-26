@@ -24,9 +24,11 @@ public class EnemySeekState : EnemyState
 
     void FixedUpdate()
     {
+        if (playerTransform == null) return;
+
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.stats.moveSpeed);
+            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.statHandler.MoveSpeed);
             this.GetComponent<Rigidbody>().MovePosition(newPosition);
             this.transform.rotation = Quaternion.LookRotation(-targetDirection);
         }
@@ -46,11 +48,11 @@ public class EnemySeekState : EnemyState
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
             damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
-            damage.damageAmount = enemySettings.stats.damage;
+            damage.damageAmount = enemySettings.statHandler.Damage;
             damage.isCrit = false;
             damage.isPiercing = false;
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage);
+            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
         }
     }
 }

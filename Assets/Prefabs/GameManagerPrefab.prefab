@@ -51,8 +51,13 @@ MonoBehaviour:
     type: 3}
   ProjectilePrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
     type: 3}
+  HUDPrefab: {fileID: 4820513166456618387, guid: 4568553177761634a874cd540c7825c0,
+    type: 3}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}
+  audioManager: {fileID: 0}
   playerController: {fileID: 0}
   gameOverUI: {fileID: 0}
+  scoreManager: {fileID: 0}
+  playerScore: 0

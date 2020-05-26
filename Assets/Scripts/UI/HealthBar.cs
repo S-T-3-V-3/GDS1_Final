@@ -13,14 +13,18 @@ public class HealthBar : MonoBehaviour
     BasicPlayer playerRef;
     float timeSinceModified = 0;
 
+    public Transform foregroundImageTransform;
+    public Vector3 foregroundImageOriginalPos = new Vector3();
+
     void Start()
     {
         StartCoroutine(Initialize());
+        foregroundImageOriginalPos = foregroundImageTransform.position;
     }
 
     private void UpdateHealth()
     {
-        float targetHealthPercent = playerRef.playerStats.currentHealth / playerRef.playerStats.maxHealth;
+        float targetHealthPercent = playerRef.statHandler.CurrentHealth / playerRef.statHandler.MaxHealth;
 
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
@@ -43,10 +47,15 @@ public class HealthBar : MonoBehaviour
             currentHealthPercent = Mathf.Lerp(startHealthPercent, targetHealthPercent, timeSinceModified / lerpSpeed);
             
             foregroundImage.fillAmount = currentHealthPercent;
+
+           AdjustHealthBarPos(currentHealthPercent); 
         }
 
         //Set image to the new health amount
         foregroundImage.fillAmount = targetHealthPercent;
+
+        AdjustHealthBarPos(targetHealthPercent); 
+        
     }
 
     IEnumerator Initialize() {
@@ -57,7 +66,14 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
-        playerRef.OnHealthChanged.AddListener(UpdateHealth);
+        playerRef.statHandler.OnHealthChanged.AddListener(UpdateHealth);
         UpdateHealth();
+    }
+
+    private void AdjustHealthBarPos(float targetHealthPercent)
+    {
+        foregroundImageTransform.position = new Vector2(
+             targetHealthPercent * (foregroundImageOriginalPos.x+110) - 110,
+             foregroundImageTransform.position.y);
     }
 }

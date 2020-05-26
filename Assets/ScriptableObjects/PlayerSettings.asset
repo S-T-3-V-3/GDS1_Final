@@ -14,15 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 9171722624489351093, guid: d6a6857b7ced440e28658f9704cac30d,
     type: 3}
-  baseStats:
-    maxHealth: 100
-    currentHealth: 100
-    healthRegenSpeed: 1
-    moveSpeed: 7
-    damage: 10
-    fireRate: 1
-    critChance: 0.05
-    maxMana: 100
-    currentMana: 100
-    manaRegenSpeed: 1
-    canTakeDamage: 1
+  playerStats:
+    MaxHealthLevel: 1
+    HealthRegenLevel: 1
+    DamageLevel: 1
+    AgilityLevel: 1
+    AttackSpeedLevel: 1
+    CritChanceLevel: 1
+    currentStats:
+      maxHealth: 100
+      currentHealth: 0
+      healthRegenSpeed: 0.5
+      moveSpeed: 5
+      sprintSpeed: 13
+      damage: 10
+      attackSpeed: 1
+      critChance: 0.1
+      maxStamina: 20
+      currentStamina: 30
+      staminaRegenSpeed: 0
+    statModifiers:
+      ABMaxHealth: 10
+      MBHealthRegen: 0.5
+      ADamage: 5
+      ABMaxStamina: 10
+      MCSprintSpeed: 0.1
+      MBAttackSpeed: 0.3
+      ACritChance: 0.05
+    OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  aimSystem: {fileID: 8479316095007590557, guid: b21657e3b0a9a498ab2b008506f6a8f1,
+    type: 3}

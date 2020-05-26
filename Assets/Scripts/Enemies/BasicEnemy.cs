@@ -10,28 +10,46 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     public Transform firePoint;
     public Light spotLight;
     public BasicWeapon equippedWeapon;
+    Material impactMaterial;
 
     [Space]
 
     [HideInInspector] public UnityEvent OnHealthChanged;
     [HideInInspector] public EnemySettings enemySettings;
-    [HideInInspector] public ObjectStats enemyStats;
+    [HideInInspector] public StatHandler statHandler;
 
     EnemyStateManager stateManager;
     GameManager gameManager;
+
+    public GameObject deathEffectPrefab;
 
     void Start()
     {
         gameManager = GameManager.Instance;
 
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
-        enemyStats = enemySettings.stats;
+        statHandler = enemySettings.statHandler.GetCopy();
+
+        this.gameObject.GetComponent<Renderer>().material = enemySettings.traits.material;
+
+        // Get Impact Material
+        impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         if (enemySettings.weaponType != WeaponType.MELEE)
             EquipWeapon();
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
         SetState<EnemySpawnState>();
+
+        // Test example of giving enemies points into random stats,
+        // can obviously skew this based on enemy type later via
+        // enemy prefabs by setting weights towards certain stats
+        int numRandomStats = 3;
+        while (numRandomStats > 0) {
+            statHandler.LevelUp((StatType)Random.Range(1,7));
+            numRandomStats--;
+        }
+        //
 
         InitDamageable();
     }
@@ -41,13 +59,17 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         stateManager.AddState<T>();
     }
 
-    public void OnReceivedDamage(DamageType damageType)
+    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
-        enemyStats.currentHealth -= damageType.damageAmount;
+        statHandler.CurrentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
 
-        if (enemyStats.currentHealth <= 0)
-            OnDeath();
+        ////// Shader Impact Effect
+        StartCoroutine("ImpactEffect");
+        StartCoroutine("ImpactEffect");
+
+        if (statHandler.CurrentHealth <= 0)
+            OnDeath(hitPoint, hitDirection, hitSpeed);
         
         if (damageType.isCrit) {
             // Play particle effect at location
@@ -56,15 +78,24 @@ public class BasicEnemy : MonoBehaviour, IDamageable
 
     public void InitDamageable()
     {
-        enemyStats.currentHealth = enemyStats.maxHealth;
+        statHandler.CurrentHealth = statHandler.MaxHealth;
     }
 
-    public void OnDeath()
+    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy
+        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        float particleLifetime = deathParticleSystem.startLifetime.constant;
+        deathParticleSystem.startSpeed = hitSpeed;
+        deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
+        Destroy(deathEffectObject, particleLifetime);
+
         // Add to player's score
+        gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
+
         GameObject.Destroy(this.gameObject);
-        Debug.Log($"{gameObject.name} is Dead");
+        //Debug.Log($"{gameObject.name} is Dead");
     }
 
     void EquipWeapon() {
@@ -75,6 +106,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         equippedWeapon.fireType = weaponSettings.fireType;
         equippedWeapon.weaponStats = weaponSettings.stats;
         equippedWeapon.firePoint = firePoint;
+        equippedWeapon.ownerStats = this.statHandler;
     }
 
     // Static Helper Functions
@@ -90,5 +122,19 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         if (GameManager.Instance.playerController == null) return false;
         
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
+    }
+
+    ////// Methods for Shader Manipulation //////
+    IEnumerator ImpactEffect()
+    {
+        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
+        float matAlpha = 1;
+
+        while (matAlpha > 0)
+        {
+            matAlpha -= 0.3f;
+            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }

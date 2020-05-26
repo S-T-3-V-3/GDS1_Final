@@ -8,24 +8,46 @@ using System.Linq;
 public class BasicPlayer : MonoBehaviour, IDamageable
 {
     public Transform firePoint;
-    public ObjectStats playerStats;
-    public UnityEvent OnHealthChanged;
+    public StatHandler statHandler;
+    public Transform gunPosition;
+    public Transform groundPosition;
     public BasicWeapon equippedWeapon;
+    public Animator animationController;
+    public LayerMask groundMask;
+    public Vector3 velocity;
+    public float groundDistance;
     public bool canTakeDamage = true;
+    public bool isGrounded = true;
+
+    Material impactMaterial;
     GameManager gameManager;
+    GameSettings gameSettings;
+    float gravity = -9.8f;
+
+    public GameObject deathEffectPrefab;
     
 
     void Start() {
         gameManager = GameManager.Instance;
+        gameSettings = gameManager.gameSettings;
+        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+        velocity = Vector3.zero;
         InitDamageable();
 
-        // Equip basic rifle
-        EquipWeapon(WeaponType.RIFLE, gameManager.gameSettings.Weapons.Where(x => x.weaponType == WeaponType.RIFLE).First().stats);
+        // Get Impact Material
+        //impactMaterial = GetComponent<MeshRenderer>().materials[1];
+
+        //Equip starting weapon
+        SwitchWeapons(WeaponType.RIFLE);
+        // Should simple be equip, not switch
+        // Drop would be called if equipped weapon != null
+        // After equipped weapon is dropped, we can instantiate a new weapon 
+        // Set newly instantiated weapon as equipped weapon
     }
 
-    void Update() {
+    private void Update() {
         //////////// Debug Input ///////////////////
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
@@ -34,11 +56,20 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         if (Input.GetKey(KeyCode.Escape)){
             Application.Quit();
         }
+
+        if(Input.GetKeyDown(KeyCode.I)) {
+            gameManager.OnAddScore.Invoke(100, Vector3.zero);
+        }
         ////////////////////////////////////////////
-       
+
+        isGrounded = Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
+        
+        if (isGrounded)
+            velocity.y = 0;
+
+        velocity.y += gravity * Time.deltaTime;
     }
 
-    
     public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
         if (equippedWeapon != null) {
             // TODO: Drop existing weapoon
@@ -51,17 +82,31 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         equippedWeapon.fireType = weaponSettings.fireType;
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.firePoint = firePoint;
+        equippedWeapon.ownerStats = this.statHandler;
     }
 
-    public void OnReceivedDamage(DamageType damageType)
+    //SWITCHES WEAPONS
+    public void SwitchWeapons(WeaponType weaponType)
+    {
+        WeaponStats weaponStats;
+        WeaponSettings weaponSettings;
+
+        weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
+        weaponStats = weaponSettings.stats;
+
+        equippedWeapon.ChangeWeapons(gunPosition, this.statHandler, weaponType, weaponStats, weaponSettings);
+    }
+
+    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         if (canTakeDamage == false) return;
 
-        playerStats.currentHealth -= damageType.damageAmount;
-        OnHealthChanged.Invoke();
+        statHandler.CurrentHealth -= damageType.damageAmount;
+        //StartCoroutine("ImpactEffect");
+        //StartCoroutine("ImpactEffect");
 
-        if (playerStats.currentHealth <= 0)
-            OnDeath();
+        if (statHandler.CurrentHealth <= 0)
+            OnDeath(hitPoint, hitDirection, hitSpeed);
         
         if (damageType.isCrit) {
             // Play particle effect at location
@@ -70,16 +115,40 @@ public class BasicPlayer : MonoBehaviour, IDamageable
 
     public void InitDamageable()
     {
-        playerStats = gameManager.gameSettings.playerSettings.baseStats;
-        playerStats.currentHealth = playerStats.maxHealth;
-        playerStats.currentStamina = playerStats.maxStamina;
+        statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
+        statHandler.CurrentHealth = statHandler.MaxHealth;
+        statHandler.CurrentStamina = statHandler.Agility.maxStamina;
     }
 
-    public void OnDeath()
+    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on player
-        float deathAnimationSeconds = 1;
-        
-        gameManager.Invoke("GameOver", deathAnimationSeconds);
+        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        float particleLifetime = deathParticleSystem.startLifetime.constant;
+        deathParticleSystem.startSpeed = hitSpeed;
+        Destroy(deathEffectObject, particleLifetime);
+
+        //Restore Cursor
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+
+        //Get player's final score
+        gameManager.GameOver(particleLifetime);
+        GameObject.Destroy(this.gameObject);       
+    }
+
+    //NEEDS UPDATING
+    IEnumerator ImpactEffect()
+    {
+        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
+        float matAlpha = 1;
+
+        while(matAlpha > 0)
+        {
+            matAlpha -= 0.2f;
+            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }

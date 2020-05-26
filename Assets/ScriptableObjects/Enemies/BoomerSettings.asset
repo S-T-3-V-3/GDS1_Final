@@ -13,21 +13,43 @@ MonoBehaviour:
   m_Name: BoomerSettings
   m_EditorClassIdentifier: 
   enemyType: 4
-  stats:
-    maxHealth: 50
-    currentHealth: 0
-    healthRegenSpeed: 0
-    moveSpeed: 4
-    damage: 10
-    fireRate: 0.5
-    critChance: 0
-    maxStamina: 0
-    currentStamina: 0
-    staminaRegenSpeed: 0
+  statHandler:
+    MaxHealthLevel: 1
+    HealthRegenLevel: 1
+    DamageLevel: 1
+    AgilityLevel: 1
+    AttackSpeedLevel: 1
+    CritChanceLevel: 1
+    currentStats:
+      maxHealth: 0
+      currentHealth: 0
+      healthRegenSpeed: 0
+      moveSpeed: 0
+      sprintSpeed: 0
+      damage: 0
+      attackSpeed: 0
+      critChance: 0
+      maxStamina: 0
+      currentStamina: 0
+      staminaRegenSpeed: 0
+    ABMaxHealth: 10
+    MBHealthRegen: 0.5
+    ADamage: 5
+    ABMaxStamina: 10
+    MCSprintSpeed: 0.1
+    MBAttackSpeed: 0.3
+    ACritChance: 0.05
+    OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  traits:
+    wanderUpdateFrequency: {x: 0, y: 0}
+    material: {fileID: 0}
+    turnSpeed: 0
+    detectionRange: 0
+    perceptiveness: 0
+    wanderDistance: 0
+    wanderStuckDistance: 0
+    canShootAndSeek: 0
+    enemyScore: 0
   weaponType: 0
-  turnSpeed: 0
-  detectionRange: 10
-  perceptiveness: 0
-  wanderDistance: 10
-  wanderUpdateFrequency: 5
-  wanderStuckDistance: 1

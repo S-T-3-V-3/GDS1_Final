@@ -10,13 +10,23 @@ public class BasicProjectile : MonoBehaviour
     public GameObject owningObject;
 
     Vector3 startPos;
-    Rigidbody rb;
+    Rigidbody projectileRB;
+    public Vector3 previousVelocity;
+
+    private void Awake()
+    {
+        projectileRB = gameObject.GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
-        startPos = this.gameObject.transform.position;
-        rb = this.gameObject.GetComponent<Rigidbody>();
+        startPos = gameObject.transform.position;
         Destroy(gameObject, 3f);
+    }
+
+    public void SetBulletVelocity(Vector3 force)
+    {
+        projectileRB.velocity = force;
     }
 
     private void Update() {
@@ -24,8 +34,10 @@ public class BasicProjectile : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         }
 
-        if (rb.velocity != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(rb.velocity);
+        previousVelocity = projectileRB.velocity;
+
+        if (projectileRB.velocity != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(projectileRB.velocity);
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -36,12 +48,12 @@ public class BasicProjectile : MonoBehaviour
             DamageType damage;
             damage.owningObject = owningObject;
             damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
+            damage.impactVelocity = previousVelocity;
             damage.damageAmount = this.damageAmount;
             damage.isCrit = false;
             damage.isPiercing = false;
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage);
+            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
 
             GameObject.Destroy(this.gameObject);
         }

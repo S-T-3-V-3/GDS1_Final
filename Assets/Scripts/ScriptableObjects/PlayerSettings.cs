@@ -7,7 +7,10 @@ public class PlayerSettings : ScriptableObject
 {
     [Header("Prefabs")]
     public GameObject playerPrefab;
-    public ObjectStats baseStats;
+    public StatHandler playerStats;
+
+    [Header("Aim System")]
+    public GameObject aimSystem;
 }
 
 // Used to track # skill points allocated to each stat

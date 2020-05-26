@@ -5,8 +5,8 @@ using UnityEngine;
 public interface IDamageable
 {
     void InitDamageable();
-    void OnReceivedDamage(DamageType damageType);
-    void OnDeath();
+    void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed);
+    void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed);
 }
 
 public struct DamageType {

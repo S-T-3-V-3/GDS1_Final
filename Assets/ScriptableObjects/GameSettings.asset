@@ -14,9 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSettings: {fileID: 11400000, guid: 20fc192b4b1144b83bff43935df95f5f, type: 2}
   cameraSettings: {fileID: 11400000, guid: 90bb4e03b61f0d1408e145f1e86efea2, type: 2}
+  audioSettings: {fileID: 11400000, guid: 57e57ab27babf4945a02e0f856a46202, type: 2}
+  audioManager: {fileID: 7136000581673745507, guid: 19d9acc6f03894f0db574c5c4fd5e029,
+    type: 3}
   worldTiles: {fileID: 11400000, guid: 3528f0e5f2c1d244c857cb4076b49d64, type: 2}
   Enemies:
   - {fileID: 11400000, guid: 06fed1892e4291841b34101f924e2407, type: 2}
   - {fileID: 11400000, guid: 77e5e47c81dc9da47a469088c9906f43, type: 2}
   Weapons:
   - {fileID: 11400000, guid: 9fa062b175a7ed144b2ec6ad14ea3c6e, type: 2}
+  - {fileID: 11400000, guid: 5f85e002bdfea4e84981fcfdaa3cdd19, type: 2}
+  - {fileID: 11400000, guid: 8db92c7314fcb4c1480afb7c645c0f61, type: 2}
+  aimPointUI: {fileID: 7675460154675966554, guid: 4837f4c7f2c384fd287058b62becec89,
+    type: 3}

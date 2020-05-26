@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 1
   fireType: 0
-  WeaponPrefab: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
   stats:
-    weaponDamage: 10
+    weaponDamage: 5
     critDamage: 0
     range: 15
-    shotSpeed: 30
-    fireRate: 0.7
+    shotSpeed: 13
+    fireRate: 0.75
     accuracy: 0
     hasPiercingShots: 0
-    numBullets: 3
+    numBullets: 1
     chargeTime: 0
+  weaponPrefab: {fileID: 704757315446152108, guid: ca31962c67c194b558b0a6c06168256d,
+    type: 3}
