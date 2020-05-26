@@ -7,7 +7,7 @@ using System.Linq;
 
 public class BasicPlayer : MonoBehaviour, IDamageable
 {
-    public Transform firePoint;
+    //public Transform firePoint;
     public StatHandler statHandler;
     public Transform gunPosition;
     public Transform groundPosition;
@@ -19,18 +19,34 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     public bool canTakeDamage = true;
     public bool isGrounded = true;
 
-    Material impactMaterial;
+    IKWeaponsAnimator weaponsIK;
+    PlayerSettings playerSettings;
+    AimSystem aimSystem;
+
+    //Material impactMaterial;
     GameManager gameManager;
     GameSettings gameSettings;
     float gravity = -9.8f;
 
+    bool hasAim = false;
+
     public GameObject deathEffectPrefab;
-    
+
+    void Awake()
+    {
+        playerSettings = GameManager.Instance.gameSettings.playerSettings;
+
+        if (GetComponent<PlayerController>() != null)
+        {
+            weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
+            aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
+            hasAim = true;
+        }
+    }
 
     void Start() {
         gameManager = GameManager.Instance;
         gameSettings = gameManager.gameSettings;
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
         velocity = Vector3.zero;
         InitDamageable();
 
@@ -38,11 +54,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
-        SwitchWeapons(WeaponType.RIFLE);
-        // Should simple be equip, not switch
-        // Drop would be called if equipped weapon != null
-        // After equipped weapon is dropped, we can instantiate a new weapon 
-        // Set newly instantiated weapon as equipped weapon
+        EquipWeapon(WeaponType.RIFLE);
     }
 
     private void Update() {
@@ -70,32 +82,44 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         velocity.y += gravity * Time.deltaTime;
     }
 
-    public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
-        if (equippedWeapon != null) {
-            // TODO: Drop existing weapoon
+    //EQUIPS WEAPONS
+    public void EquipWeapon(WeaponType weaponType)
+    {
+        if (equippedWeapon != null)
+        {
+            if (equippedWeapon.weaponType != weaponType) DropWeapon();
+        }
+        
+        switch (weaponType)
+        {
+            case WeaponType.RIFLE:
+                equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+                break;
+            case WeaponType.SHOTGUN:
+                equippedWeapon = this.gameObject.AddComponent<ShotgunWeapon>();
+                break;
+            case WeaponType.LASER:
+                equippedWeapon = this.gameObject.AddComponent<LaserWeapon>();
+                break;
         }
 
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
-        
-        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        equippedWeapon.weaponType = weaponType;
-        equippedWeapon.fireType = weaponSettings.fireType;
+        WeaponSettings weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
+        WeaponStats weaponStats = weaponSettings.stats;
+        WeaponItem weaponInstance = Instantiate(weaponSettings.weaponPrefab, gunPosition).GetComponent<WeaponItem>();
+
+        weaponsIK.SetWeaponHandIK(weaponInstance, gunPosition);
+
         equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.firePoint = firePoint;
+        equippedWeapon.fireType = weaponSettings.fireType;
+        equippedWeapon.weaponType = weaponType;
+        equippedWeapon.firePoint = weaponInstance.firePoint;
         equippedWeapon.ownerStats = this.statHandler;
+        
+        equippedWeapon.AddShotEffect(weaponSettings);
+        equippedWeapon.canShoot = true;
     }
 
-    //SWITCHES WEAPONS
-    public void SwitchWeapons(WeaponType weaponType)
-    {
-        WeaponStats weaponStats;
-        WeaponSettings weaponSettings;
-
-        weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        weaponStats = weaponSettings.stats;
-
-        equippedWeapon.ChangeWeapons(gunPosition, this.statHandler, weaponType, weaponStats, weaponSettings);
-    }
+    void DropWeapon() { }
 
     public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
@@ -139,7 +163,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     }
 
     //NEEDS UPDATING
-    IEnumerator ImpactEffect()
+    /*IEnumerator ImpactEffect()
     {
         impactMaterial.SetFloat("_Alpha_Intensity", 1f);
         float matAlpha = 1;
@@ -150,5 +174,5 @@ public class BasicPlayer : MonoBehaviour, IDamageable
             impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
             yield return new WaitForSeconds(Time.deltaTime);
         }
-    }
+    }*/
 }

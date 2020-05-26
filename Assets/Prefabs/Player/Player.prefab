@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2251835159167874599}
   - component: {fileID: 2875559133367562428}
   - component: {fileID: -5861117978951077306}
+  - component: {fileID: 2091515455187893517}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -154,7 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626291c7a8d972b458d193e1acde6714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
   statHandler:
     MaxHealthLevel: 0
     HealthRegenLevel: 0
@@ -269,6 +269,25 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &2091515455187893517
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171722624489351093}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4737a3a77c1f1014f98ad44fb2b830ae, type: 3}
+  m_Controller: {fileID: 9100000, guid: fde942d7ea563a243a8c62a30820598e, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1060608393577246842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,6 +303,11 @@ PrefabInstance:
     - target: {fileID: -6057140222963153312, guid: 4737a3a77c1f1014f98ad44fb2b830ae,
         type: 3}
       propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 4737a3a77c1f1014f98ad44fb2b830ae,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4737a3a77c1f1014f98ad44fb2b830ae,
