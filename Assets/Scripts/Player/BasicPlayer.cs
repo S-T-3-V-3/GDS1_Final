@@ -5,13 +5,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class BasicPlayer : MonoBehaviour, IDamageable
+public class BasicPlayer : Pawn
 {
-    public Transform firePoint;
-    public StatHandler statHandler;
     public Transform gunPosition;
     public Transform groundPosition;
-    public BasicWeapon equippedWeapon;
     public Animator animationController;
     public LayerMask groundMask;
     public Vector3 velocity;
@@ -19,18 +16,33 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     public bool canTakeDamage = true;
     public bool isGrounded = true;
 
-    Material impactMaterial;
+    IKWeaponsAnimator weaponsIK;
+    PlayerSettings playerSettings;
+    AimSystem aimSystem;
+
     GameManager gameManager;
     GameSettings gameSettings;
     float gravity = -9.8f;
 
-    public GameObject deathEffectPrefab;
+    bool hasAim = false;
+
     
+
+    void Awake()
+    {
+        playerSettings = GameManager.Instance.gameSettings.playerSettings;
+
+        if (GetComponent<PlayerController>() != null)
+        {
+            weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
+            aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
+            hasAim = true;
+        }
+    }
 
     void Start() {
         gameManager = GameManager.Instance;
         gameSettings = gameManager.gameSettings;
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
         velocity = Vector3.zero;
         InitDamageable();
 
@@ -38,11 +50,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
-        SwitchWeapons(WeaponType.RIFLE);
-        // Should simple be equip, not switch
-        // Drop would be called if equipped weapon != null
-        // After equipped weapon is dropped, we can instantiate a new weapon 
-        // Set newly instantiated weapon as equipped weapon
+        WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.RIFLE).First().weaponBaseStats;
+        EquipWeapon<LaserWeapon>(newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }
 
     private void Update() {
@@ -70,57 +79,36 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         velocity.y += gravity * Time.deltaTime;
     }
 
-    public void EquipWeapon(WeaponType weaponType, WeaponStats weaponStats) {
-        if (equippedWeapon != null) {
-            // TODO: Drop existing weapoon
-        }
+    //EQUIPS WEAPONS
+    public void EquipWeapon<T>(WeaponStats weaponStats) where T : Weapon
+    {
+        if (equippedWeapon != null)
+            DropWeapon();
 
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
-        
-        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        equippedWeapon.weaponType = weaponType;
-        equippedWeapon.fireType = weaponSettings.fireType;
+        equippedWeapon = this.gameObject.AddComponent<T>();
         equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.firePoint = firePoint;
+        equippedWeapon.Init();
+
+        WeaponDefinition weaponSettings = gameSettings.WeaponList.Where(x => x.weaponType == equippedWeapon.weaponType).First();
+
+        weaponsIK.SetWeaponHandIK(equippedWeapon.GetComponent<WeaponItem>(), gunPosition);
+
+        equippedWeapon.firePoint = equippedWeapon.GetComponent<WeaponItem>().firePoint;
         equippedWeapon.ownerStats = this.statHandler;
+        equippedWeapon.AddShotEffect(weaponSettings);
+        equippedWeapon.canShoot = true;
     }
 
-    //SWITCHES WEAPONS
-    public void SwitchWeapons(WeaponType weaponType)
-    {
-        WeaponStats weaponStats;
-        WeaponSettings weaponSettings;
+    void DropWeapon() { }
 
-        weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        weaponStats = weaponSettings.stats;
-
-        equippedWeapon.ChangeWeapons(gunPosition, this.statHandler, weaponType, weaponStats, weaponSettings);
-    }
-
-    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
-    {
-        if (canTakeDamage == false) return;
-
-        statHandler.CurrentHealth -= damageType.damageAmount;
-        //StartCoroutine("ImpactEffect");
-        //StartCoroutine("ImpactEffect");
-
-        if (statHandler.CurrentHealth <= 0)
-            OnDeath(hitPoint, hitDirection, hitSpeed);
-        
-        if (damageType.isCrit) {
-            // Play particle effect at location
-        }
-    }
-
-    public void InitDamageable()
+    public override void InitDamageable()
     {
         statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
         statHandler.CurrentHealth = statHandler.MaxHealth;
-        statHandler.CurrentStamina = statHandler.Agility.maxStamina;
+        statHandler.Energy = statHandler.MaxEnergy;
     }
 
-    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
+    public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on player
         GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
@@ -139,7 +127,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     }
 
     //NEEDS UPDATING
-    IEnumerator ImpactEffect()
+    /*IEnumerator ImpactEffect()
     {
         impactMaterial.SetFloat("_Alpha_Intensity", 1f);
         float matAlpha = 1;
@@ -150,5 +138,5 @@ public class BasicPlayer : MonoBehaviour, IDamageable
             impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
             yield return new WaitForSeconds(Time.deltaTime);
         }
-    }
+    }*/
 }

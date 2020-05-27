@@ -4,24 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public class BasicEnemy : MonoBehaviour, IDamageable
+public class BasicEnemy : Pawn
 {
     public EnemyType enemyType;
-    public Transform firePoint;
     public Light spotLight;
-    public BasicWeapon equippedWeapon;
-    Material impactMaterial;
-
-    [Space]
-
-    [HideInInspector] public UnityEvent OnHealthChanged;
     [HideInInspector] public EnemySettings enemySettings;
-    [HideInInspector] public StatHandler statHandler;
 
+
+    Material impactMaterial;
     EnemyStateManager stateManager;
     GameManager gameManager;
 
-    public GameObject deathEffectPrefab;
 
     void Start()
     {
@@ -35,7 +28,7 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         // Get Impact Material
         impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
-        if (enemySettings.weaponType != WeaponType.MELEE)
+        if (enemySettings.weapon.weaponType != WeaponType.MELEE)
             EquipWeapon();
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
@@ -59,29 +52,12 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         stateManager.AddState<T>();
     }
 
-    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
-    {
-        statHandler.CurrentHealth -= damageType.damageAmount;
-        OnHealthChanged.Invoke();
-
-        ////// Shader Impact Effect
-        StartCoroutine("ImpactEffect");
-        StartCoroutine("ImpactEffect");
-
-        if (statHandler.CurrentHealth <= 0)
-            OnDeath(hitPoint, hitDirection, hitSpeed);
-        
-        if (damageType.isCrit) {
-            // Play particle effect at location
-        }
-    }
-
-    public void InitDamageable()
+    public override void InitDamageable()
     {
         statHandler.CurrentHealth = statHandler.MaxHealth;
     }
 
-    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
+    public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy
         GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
@@ -99,12 +75,11 @@ public class BasicEnemy : MonoBehaviour, IDamageable
     }
 
     void EquipWeapon() {
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+        equippedWeapon = this.gameObject.AddComponent<Weapon>();
         
-        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == enemySettings.weaponType).First();
+        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weapon.weaponType).First();
         equippedWeapon.weaponType = weaponSettings.weaponType;
-        equippedWeapon.fireType = weaponSettings.fireType;
-        equippedWeapon.weaponStats = weaponSettings.stats;
+        equippedWeapon.weaponStats = weaponSettings.weaponBaseStats;
         equippedWeapon.firePoint = firePoint;
         equippedWeapon.ownerStats = this.statHandler;
     }

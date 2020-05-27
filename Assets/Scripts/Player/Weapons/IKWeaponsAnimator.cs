@@ -16,19 +16,16 @@ public class IKWeaponsAnimator : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
     }
 
-    public Transform GetTransformsFromIK(Transform gunPosition, GameObject weaponPrefab)
+    public void SetWeaponHandIK(WeaponItem weaponInstance, Transform gunPosition)
     {
         isEquiping = true;
 
-        // A script for handling IK should /definitely/ not be responsible for instantiating a gun model
-        WeaponItem weaponInstance = Instantiate(weaponPrefab, gunPosition).GetComponent<WeaponItem>();
         rightHandPosition = weaponInstance.rightHandPoint;
         leftHandPosition = weaponInstance.leftHandPoint;
         weaponInstance.transform.parent = transform;
         weaponInstance.transform.position = gunPosition.position;
 
         isEquiping = false;
-        return weaponInstance.firePoint;
     }
 
     //change rotation of hand

@@ -10,10 +10,7 @@ public class GameSettings : ScriptableObject
     public CameraSettings cameraSettings;
     public AudioSettings audioSettings;
     public AudioManager audioManager;
-    public WorldTiles worldTiles;
+    public WorldTiles tiles;
     public List<EnemySettings> Enemies;
-    public List<WeaponSettings> Weapons;
-
-    [Header("UI Settings")]
-    public GameObject aimPointUI;
+    public List<WeaponDefinition> WeaponList;
 }
