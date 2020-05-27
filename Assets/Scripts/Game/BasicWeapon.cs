@@ -40,13 +40,6 @@ public class BasicWeapon : MonoBehaviour
 
     public virtual void AddShotEffect(WeaponSettings settings) { }
 
-/*    public void RenderAim()
-    {
-        if (!hasAim) return;
-        aimSystem.RenderAimLine(firePoint);
-    }
-*/
-
     public IEnumerator Reload()
     {
         canShoot = false;

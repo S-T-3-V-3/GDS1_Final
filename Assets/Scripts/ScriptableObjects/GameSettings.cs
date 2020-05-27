@@ -16,4 +16,7 @@ public class GameSettings : ScriptableObject
 
     [Header("UI Settings")]
     public GameObject aimPointUI;
+
+    [Header("Game Effects")]
+    public GameObject debrySparkEffect;
 }

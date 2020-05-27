@@ -35,6 +35,7 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     void Awake()
     {
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
+        animationController = GetComponent<Animator>();
 
         if (GetComponent<PlayerController>() != null)
         {

@@ -64,7 +64,9 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         statHandler.CurrentHealth -= damageType.damageAmount;
         OnHealthChanged.Invoke();
 
-        ////// Shader Impact Effect
+        ////// Impact Effect ///
+        GameObject impactEffect = Instantiate(GameManager.Instance.gameSettings.debrySparkEffect, hitPoint, Quaternion.identity);
+        Destroy(impactEffect, 2f);
         StartCoroutine("ImpactEffect");
         StartCoroutine("ImpactEffect");
 
