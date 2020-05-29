@@ -31,12 +31,11 @@ public class Weapon : MonoBehaviour
         currentBullet.owningObject = this.gameObject;
         currentBullet.range = weaponStats.range;
         currentBullet.damageAmount = weaponStats.weaponDamage + ownerStats.Damage;
-        currentBullet.previousVelocity = this.gameObject.transform.forward * weaponStats.shotSpeed;
-
+    
         if (weaponModel != null)
-            currentBullet.SetBulletVelocity(weaponModel.transform.forward * weaponStats.shotSpeed);
+            currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed;
         else {
-            currentBullet.SetBulletVelocity(this.transform.forward * weaponStats.shotSpeed); // Remove when enemies have weapons
+            currentBullet.initVelocity = this.transform.forward * weaponStats.shotSpeed; // Remove when enemies have weapons
         }
         AudioManager.Instance.StandardGunFire();
 

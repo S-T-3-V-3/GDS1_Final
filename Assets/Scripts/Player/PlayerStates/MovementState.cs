@@ -31,7 +31,7 @@ public class MovementState : PlayerState
         currentMovementInput = Vector3.zero;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
         characterController.Move(newPosition);
