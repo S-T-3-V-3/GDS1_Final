@@ -28,7 +28,7 @@ public class EnemySeekState : EnemyState
 
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.statHandler.MoveSpeed);
+            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemy.statHandler.MoveSpeed);
             this.GetComponent<Rigidbody>().MovePosition(newPosition);
             this.transform.rotation = Quaternion.LookRotation(-targetDirection);
         }
@@ -41,14 +41,14 @@ public class EnemySeekState : EnemyState
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (enemySettings.weapon.weaponType != WeaponType.MELEE) return;
+        if (enemySettings.weaponType != WeaponType.MELEE) return;
 
         if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
             DamageType damage;
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
             damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
-            damage.damageAmount = enemySettings.statHandler.Damage;
+            damage.damageAmount = enemy.statHandler.Damage;
             damage.isCrit = false;
             damage.isPiercing = false;
 

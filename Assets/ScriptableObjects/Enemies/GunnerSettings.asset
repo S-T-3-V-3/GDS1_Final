@@ -14,32 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   statHandler:
-    MaxHealthLevel: 1
-    HealthRegenLevel: 1
-    DamageLevel: 1
-    AgilityLevel: 1
-    AttackSpeedLevel: 1
-    CritChanceLevel: 1
-    currentStats:
+    baseStats:
+      health: 50
       maxHealth: 50
-      currentHealth: 50
-      healthRegenSpeed: 0
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
       moveSpeed: 5
-      sprintSpeed: 5
-      damage: 10
-      attackSpeed: 0.75
-      critChance: 0.1
-      maxStamina: 0
-      currentStamina: 0
-      staminaRegenSpeed: 0
-    statModifiers:
-      ABMaxHealth: 10
-      MBHealthRegen: 0.5
-      ADamage: 5
-      ABMaxStamina: 10
-      MCSprintSpeed: 0.1
-      MBAttackSpeed: 0.3
-      ACritChance: 0.05
+      sprintSpeed: 0
+      attackSpeed: 1.2
+      damage: 5
+      critChance: 0
+    modifiers:
+      MaxHealth: 10
+      HealthRegen: 0.5
+      Damage: 5
+      MaxEnergy: 10
+      SprintSpeed: 0.1
+      AttackSpeed: 0.3
+      CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -50,7 +44,7 @@ MonoBehaviour:
     detectionRange: 12
     perceptiveness: 0
     wanderDistance: 15
-    wanderStuckDistance: 0.5
+    wanderStuckDistance: 0.1
     canShootAndSeek: 1
     enemyScore: 100
   weaponType: 1

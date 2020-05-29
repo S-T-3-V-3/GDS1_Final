@@ -49,7 +49,7 @@ public class EnemyWanderState : EnemyState
             timeSinceLastUpdate += Time.deltaTime;
 
             Vector3 targetDirection = Vector3.Normalize(this.transform.position - currentTargetLocation);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * (enemySettings.statHandler.MoveSpeed/2));
+            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * (enemy.statHandler.MoveSpeed/2));
             rb.MovePosition(newPosition);
             this.transform.rotation = Quaternion.LookRotation(-targetDirection);
 

@@ -57,12 +57,6 @@ public class MovementState : PlayerState
 
         if (isShooting)
             player.equippedWeapon.Shoot();
-        else
-        {
-            if (player.equippedWeapon.weaponType == WeaponType.LASER)
-                player.equippedWeapon.DisableLaser();
-        }
-
 
         // There's got to be a better way to do this
         // Start by putting these kinds of things on the relevant objects

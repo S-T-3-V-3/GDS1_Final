@@ -52,7 +52,7 @@ public class BasicPlayer : Pawn
 
         //Equip starting weapon
         WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.RIFLE).First().weaponBaseStats;
-        EquipWeapon<LaserWeapon>(newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
+        EquipWeapon<Weapon>(WeaponType.RIFLE, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }
 
     private void Update() {
@@ -81,22 +81,22 @@ public class BasicPlayer : Pawn
     }
 
     //EQUIPS WEAPONS
-    public void EquipWeapon<T>(WeaponStats weaponStats) where T : Weapon
+    public void EquipWeapon<T>(WeaponType weaponType, WeaponStats weaponStats) where T : Weapon
     {
         if (equippedWeapon != null)
             DropWeapon();
 
+        WeaponDefinition weaponDefinition = gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First();
+
         equippedWeapon = this.gameObject.AddComponent<T>();
         equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.Init();
+        equippedWeapon.weaponType = weaponType;
+        equippedWeapon.Init(weaponDefinition, gunPosition);
 
-        WeaponDefinition weaponSettings = gameSettings.WeaponList.Where(x => x.weaponType == equippedWeapon.weaponType).First();
+        weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 
-        weaponsIK.SetWeaponHandIK(equippedWeapon.GetComponent<WeaponItem>(), gunPosition);
-
-        equippedWeapon.firePoint = equippedWeapon.GetComponent<WeaponItem>().firePoint;
         equippedWeapon.ownerStats = this.statHandler;
-        equippedWeapon.AddShotEffect(weaponSettings);
+        equippedWeapon.AddShotEffect(weaponDefinition);
         equippedWeapon.canShoot = true;
     }
 

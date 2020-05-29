@@ -10,22 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
-  m_Name: ShotgunRifle
+  m_Name: LaserDefinition
   m_EditorClassIdentifier: 
-  weaponType: 3
-  fireType: 1
-  stats:
-    weaponDamage: 0.2
+  WeaponPrefab: {fileID: 8877071718024631134, guid: bb037e8d4a0f749d09039f53076e7efe,
+    type: 3}
+  weaponType: 8
+  weaponBaseStats:
+    weaponDamage: 20
     critDamage: 0
-    range: 15
-    spread: 5
-    shotSpeed: 13
-    fireRate: 0.75
+    range: 30
+    shotSpeed: 0
+    fireRate: 0.3
     accuracy: 0
     hasPiercingShots: 0
-    numBullets: 30
-    chargeTime: 0
-  weaponPrefab: {fileID: 6116846140135172608, guid: d041797a1560546269839c2abf3af983,
-    type: 3}
-  projectileParticles: {fileID: 3233069400109412320, guid: b101c37ddede940c2b5a9346bce136ba,
-    type: 3}
+    numBullets: 0
+    chargeTime: 1

@@ -28,7 +28,7 @@ public class BasicEnemy : Pawn
         // Get Impact Material
         impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
-        if (enemySettings.weapon.weaponType != WeaponType.MELEE)
+        if (enemySettings.weaponType != WeaponType.MELEE)
             EquipWeapon();
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
@@ -54,7 +54,7 @@ public class BasicEnemy : Pawn
 
     public override void InitDamageable()
     {
-        statHandler.CurrentHealth = statHandler.MaxHealth;
+
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
@@ -77,7 +77,8 @@ public class BasicEnemy : Pawn
     void EquipWeapon() {
         equippedWeapon = this.gameObject.AddComponent<Weapon>();
         
-        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weapon.weaponType).First();
+        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+        equippedWeapon.canShoot = true;
         equippedWeapon.weaponType = weaponSettings.weaponType;
         equippedWeapon.weaponStats = weaponSettings.weaponBaseStats;
         equippedWeapon.firePoint = firePoint;

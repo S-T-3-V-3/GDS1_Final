@@ -9,6 +9,7 @@ public class StatHandler
     public StatHandler(PawnStats baseStats, StatModifiers statModifiers) {
         this.baseStats = baseStats;
         this.modifiers = statModifiers;
+        currentStats = baseStats;
     }
 
     private PawnStats currentStats;
@@ -230,6 +231,7 @@ public class StatModifiers {
 }
 
 //////////// Raw Stats Class ////////////
+[System.Serializable]
 public struct PawnStats {
     public float health;
     public float maxHealth;

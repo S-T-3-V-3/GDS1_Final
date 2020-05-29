@@ -16,8 +16,9 @@ public class Weapon : MonoBehaviour
     [HideInInspector] public Vector3 offset;
     [HideInInspector] public bool canShoot = false;
 
-    public void Init() {
-        //weaponType = GameManager.Instance.gameSettings.Weapons.Where(x => x.)
+    public void Init(WeaponDefinition weaponDefinition, Transform gunPosition) {
+        weaponModel = GameObject.Instantiate(weaponDefinition.WeaponPrefab);
+        firePoint = weaponModel.GetComponent<WeaponTransforms>().firePoint;
     }
 
     public virtual void Shoot()
@@ -42,17 +43,7 @@ public class Weapon : MonoBehaviour
         StartCoroutine(Reload());
     }
 
-    //THIS IS FOR LASER CLASS ONLY
-    public virtual void DisableLaser() { }
-
     public virtual void AddShotEffect(WeaponDefinition settings) { }
-
-/*    public void RenderAim()
-    {
-        if (!hasAim) return;
-        aimSystem.RenderAimLine(firePoint);
-    }
-*/
 
     public IEnumerator Reload()
     {

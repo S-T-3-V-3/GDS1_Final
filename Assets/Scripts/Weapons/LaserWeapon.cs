@@ -5,12 +5,14 @@ using UnityEngine;
 public class LaserWeapon : Weapon
 {
     LineRenderer laserBeam;
-
-    bool laserActive = false;
-    bool hasReset = false;
+    bool isLaserActive = false;
+    float elapsedTime = 0f;
+    float resetDelay = 0.1f;
 
     public override void Shoot()
     {
+        elapsedTime = 0f;
+
         if (!canShoot)
         {
             laserBeam.enabled = false;
@@ -18,9 +20,11 @@ public class LaserWeapon : Weapon
         }
 
         //refreshes line renderer when activating
-        if (laserActive == false)
+        if (isLaserActive == false)
         {
-            laserActive = true;
+            isLaserActive = true;
+            StartCoroutine(LaserActiveCheck());
+            
             laserBeam.SetPosition(0, Vector3.zero);
             laserBeam.SetPosition(1, Vector3.zero);
         }
@@ -38,7 +42,6 @@ public class LaserWeapon : Weapon
             Vector3 futurePosition = firePoint.position + firePoint.forward * 20;
             laserBeam.SetPosition(1, futurePosition);
         }
-
     }
 
     public override void AddShotEffect(WeaponDefinition settings)
@@ -47,13 +50,16 @@ public class LaserWeapon : Weapon
             laserBeam = GameObject.Instantiate(GameManager.Instance.BeamRayPrefab, firePoint).GetComponent<LineRenderer>();
     }
 
-    public override void DisableLaser()
-    {
-        if (!hasReset) return;
-        hasReset = false;
+    IEnumerator LaserActiveCheck() {
+        while (isLaserActive) {
+            yield return null;
 
-        if (laserBeam == null) return;
-        laserBeam.enabled = false;
-        laserActive = false;
+            elapsedTime += Time.deltaTime;
+
+            if (elapsedTime > resetDelay) {
+                isLaserActive = false;
+                laserBeam.enabled = false;
+            }
+        }
     }
 }

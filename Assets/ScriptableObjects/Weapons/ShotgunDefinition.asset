@@ -10,22 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
-  m_Name: StandardRifle
+  m_Name: ShotgunDefinition
   m_EditorClassIdentifier: 
-  weaponType: 1
-  fireType: 0
-  stats:
-    weaponDamage: 5
+  WeaponPrefab: {fileID: 0}
+  weaponType: 0
+  weaponBaseStats:
+    weaponDamage: 20
     critDamage: 0
-    range: 15
-    spread: 0
-    shotSpeed: 13
-    fireRate: 0.1
+    range: 4
+    shotSpeed: 30
+    fireRate: 1.5
     accuracy: 0
     hasPiercingShots: 0
-    numBullets: 1
+    numBullets: 6
     chargeTime: 0
-  weaponPrefab: {fileID: 704757315446152108, guid: ca31962c67c194b558b0a6c06168256d,
-    type: 3}
-  projectileParticles: {fileID: 0}
-  beamRay: {fileID: 0}
