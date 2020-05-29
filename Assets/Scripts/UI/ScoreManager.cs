@@ -43,6 +43,8 @@ public class ScoreManager : MonoBehaviour
         currentScore += value;
         scoreText.text = $"Score: {currentScore}";
 
+        GameManager.Instance.playerScore = currentScore;
+
         experienceBar.AddExperience(value);
     }
 }

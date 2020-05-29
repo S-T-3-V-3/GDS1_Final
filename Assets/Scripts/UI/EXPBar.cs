@@ -13,7 +13,10 @@ public class EXPBar : MonoBehaviour
     private float currentExp;
 
     //UI
-    public TextMeshProUGUI levelText;
+    [SerializeField]
+    private TextMeshProUGUI levelText;
+    [SerializeField]
+    private TextMeshProUGUI experienceNumberText;
 
     //Coroutine for exp bar lerping
     Coroutine currentCoroutine;
@@ -31,6 +34,7 @@ public class EXPBar : MonoBehaviour
     {
         experienceToNextLevel = baseLevelUpExperience;
         levelText.text = playerLevel.ToString();
+        experienceNumberText.text = $"{currentExp}/{experienceToNextLevel}";
     }
 
     public void AddExperience(int value)
