@@ -59,7 +59,7 @@ public class BasicProjectile : MonoBehaviour
 
             other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
 
-            GameObject.Destroy(this.gameObject);
+            Die();
         }
         else {
             Die();
