@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotgunWeapon : BasicWeapon
+public class ShotgunWeapon : Weapon
 {
     ParticleSystem shotgunParticles;
 
@@ -29,9 +29,9 @@ public class ShotgunWeapon : BasicWeapon
         StartCoroutine(Reload());
     }
 
-    public override void AddShotEffect(WeaponSettings settings)
+    public override void AddShotEffect(WeaponDefinition settings)
     {
         if (weaponType == WeaponType.SHOTGUN && shotgunParticles == null)
-            shotgunParticles = Instantiate(settings.projectileParticles, firePoint).GetComponent<ParticleSystem>();
+            shotgunParticles = Instantiate(GameManager.Instance.ShotgunParticlePrefab, firePoint).GetComponent<ParticleSystem>();
     }
 }

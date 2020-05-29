@@ -2,20 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "New Weapon Type")]
-public class WeaponSettings : ScriptableObject
+[CreateAssetMenu(menuName = "New Weapon Definition")]
+public class WeaponDefinition : ScriptableObject
 {
+    public GameObject WeaponPrefab;
     public WeaponType weaponType;
-    public FireType fireType;
-    [Space]
-
-    //public GameObject WeaponPrefab;
-    public WeaponStats stats;
-
-    [Header("Weapon Prefab Asset")]
-    public GameObject weaponPrefab;
-    public GameObject projectileParticles; //mainly for shotgun
-    public GameObject beamRay; //mainly for lasers
+    public WeaponStats weaponBaseStats;
 }
 
 [System.Serializable]
@@ -32,14 +24,6 @@ public struct WeaponStats {
     public int chargeTime;
 }
 
-// Should be used for switching in a new component to handle firing when equipped
-public enum FireType {
-    SINGLE,
-    SPREAD,
-    BURST,
-    BEAM
-}
-
 public enum WeaponType {
     MELEE,
     RIFLE,
@@ -51,3 +35,4 @@ public enum WeaponType {
     CHARGE,
     LASER
 }
+
