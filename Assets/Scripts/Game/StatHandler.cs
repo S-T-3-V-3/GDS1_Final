@@ -6,75 +6,128 @@ using UnityEngine.Events;
 [System.Serializable]
 public class StatHandler
 {
-    public StatHandler(BaseStats baseStats, StatModifiers statModifiers) {
-        this.currentStats = baseStats;
-        this.statModifiers = statModifiers;
+    public StatHandler(PawnStats baseStats, StatModifiers statModifiers) {
+        this.baseStats = baseStats;
+        this.modifiers = statModifiers;
     }
 
-    [Header("Stat Levels")]
-    public int MaxHealthLevel = 1;
-    public int HealthRegenLevel = 1;
-    public int DamageLevel = 1;
-    public int AgilityLevel = 1;
-    public int AttackSpeedLevel = 1;
-    public int CritChanceLevel = 1;
+    private PawnStats currentStats;
+    [SerializeField] private PawnStats baseStats;
+    [SerializeField] private StatModifiers modifiers;
 
-    [Header("Base Stats")]
-    [SerializeField] private BaseStats currentStats;
-
-    [Space]
-    [SerializeField] private StatModifiers statModifiers;
-
-    [Header("Events")]
     public UnityEvent OnHealthChanged = new UnityEvent();
 
+
+    //////////// Level UP ////////////
     public void LevelUp(StatType statType) {
         switch (statType) {
-            case StatType.AGILITY:
-            AgilityLevel++;
-            break;
-
-            case StatType.ATTACK_SPEED:
-            AttackSpeedLevel++;
-            break;
-
-            case StatType.CRIT_CHANCE:
-            CritChanceLevel++;
-            break;
-
-            case StatType.DAMAGE:
-            DamageLevel++;
-            break;
+            case StatType.MAX_HP:
+                MaxHealthLevel++;
+                break;
 
             case StatType.HP_REGEN:
-            HealthRegenLevel++;
-            break;
+                HealthRegenLevel++;
+                break;
 
-            case StatType.MAX_HP:
-            float maxhp = MaxHealth;
-            MaxHealthLevel++;
-            float hpDiff = Mathf.Abs(maxhp - MaxHealth);
-            CurrentHealth += hpDiff;
-            break;
+            case StatType.DAMAGE:
+                DamageLevel++;
+                break;
+
+            case StatType.AGILITY:
+                AgilityLevel++;
+                break;
+
+            case StatType.ATTACK_SPEED:
+                AttackSpeedLevel++;
+                break;
+
+            case StatType.CRIT_CHANCE:
+                CritChanceLevel++;
+                break; 
         }
     }
-    public float MaxHealth {
-        get {
-            return currentStats.maxHealth + ((MaxHealthLevel - 1) * statModifiers.ABMaxHealth);
+
+    //////////// Public Getters - Current Stat Levels ////////////
+    public int MaxHealthLevel {
+        get { return maxHealthLevel; }
+        private set {
+            currentStats.maxHealth = currentStats.maxHealth + modifiers.MaxHealth;
+            maxHealthLevel++;
         }
     }
+    private int maxHealthLevel = 1;
 
+    public int HealthRegenLevel {
+        get { return healthRegenLevel; }
+        private set {
+            healthRegenLevel++;
+            currentStats.healthRegen = baseStats.healthRegen + (healthRegenLevel * modifiers.HealthRegen);
+        }
+    }
+    private int healthRegenLevel = 1;
+
+    public int DamageLevel {
+        get { return damageLevel; }
+        private set {
+            currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel - 1);
+        }
+    }
+    private int damageLevel = 1;
+
+    public int AgilityLevel {
+        get { return agilityLevel; }
+        private set {
+            currentStats.maxEnergy = baseStats.maxEnergy + (agilityLevel * modifiers.MaxEnergy);
+            currentStats.sprintSpeed = baseStats.sprintSpeed + agilityLevel * modifiers.SprintSpeed;
+
+            currentStats.sprintSpeed = baseStats.sprintSpeed;
+
+            for (int i = 0; i < agilityLevel; i++)
+                currentStats.sprintSpeed += modifiers.SprintSpeed * (agilityLevel - 1);
+        }
+    }
+    private int agilityLevel = 1;
+
+    public int AttackSpeedLevel {
+        get { return attackSpeedLevel; }
+        private set {
+            currentStats.attackSpeed =  baseStats.attackSpeed + (attackSpeedLevel - 1) * (modifiers.AttackSpeed * baseStats.attackSpeed);
+        }
+    }
+    private int attackSpeedLevel = 1;
+
+    public int CritChanceLevel {
+        get { return critChanceLevel; }
+        private set {
+            currentStats.critChance = baseStats.critChance + modifiers.CritChance * (critChanceLevel - 1);
+        }
+    }
+    private int critChanceLevel = 1;
+
+    //////////// Public Getters - Current Stat Values ////////////
     public float CurrentHealth {
         get {
-            return currentStats.currentHealth;
+            return currentStats.health;
         }
         set {
-            currentStats.currentHealth = value;
+            currentStats.health = value; // Used for adjusting current health
 
-            if (currentStats.currentHealth > MaxHealth)
-                currentStats.currentHealth = MaxHealth;
+            if (currentStats.health > currentStats.maxHealth)
+                currentStats.health = currentStats.maxHealth;
 
             OnHealthChanged.Invoke();
+        }
+    }
+
+    public float MaxHealth {
+        get {
+            return currentStats.maxHealth;
+        }
+    }
+
+    public float HealthRegen {
+        get {
+            return currentStats.healthRegen;
         }
     }
 
@@ -82,71 +135,63 @@ public class StatHandler
         get {
             return currentStats.moveSpeed;
         }
+        set {
+            currentStats.moveSpeed = value; // Used for toggling sprinting only
+        }
     }
 
-    public float CurrentStamina {
+    public float Energy {
         get {
-            return currentStats.currentStamina;
+            return currentStats.energy;
         }
         set {
-            currentStats.currentStamina = value;
+            baseStats.energy = value; // Used when consuming / regenerating energy
         }
     }
 
-    public float StaminaRegenSpeed {
+    public float EnergyRegenSpeed {
         get {
-            return currentStats.staminaRegenSpeed;
-        }
-    }
-
-    public float HealthRegen {
-        get {
-            return currentStats.staminaRegenSpeed + (HealthRegenLevel * statModifiers.MBHealthRegen);
+            return currentStats.energyRegen;
         }
     }
 
     public float Damage {
         get {
-            return currentStats.damage + statModifiers.ADamage * DamageLevel;
+            return currentStats.damage;
         }
     }
 
-    public AgilityType Agility {
+    public float MaxEnergy {
         get {
-            AgilityType newAgility;
-            newAgility.maxStamina = currentStats.maxStamina + (AgilityLevel * statModifiers.ABMaxStamina);
-            newAgility.sprintSpeed = currentStats.sprintSpeed;
+            return currentStats.maxEnergy;
+        }
+    }
 
-            for (int i = 0; i < AgilityLevel; i++)
-                newAgility.sprintSpeed += newAgility.sprintSpeed * statModifiers.MCSprintSpeed * (AgilityLevel - 1);
-
-            return newAgility;
+    public float SprintSpeed {
+        get {
+            return currentStats.sprintSpeed;
         }
     }
 
     public float AttackSpeed {
         get {
-            return currentStats.attackSpeed + (AttackSpeedLevel - 1) * (statModifiers.MBAttackSpeed * currentStats.attackSpeed);
+            return currentStats.attackSpeed;
         }
     }
 
     public float CritChance {
         get {
-            return currentStats.critChance + statModifiers.ACritChance * (CritChanceLevel - 1);
+            return currentStats.critChance;
         }
     }
 
     public StatHandler GetCopy() {
-        StatHandler clone = new StatHandler(currentStats, statModifiers);
+        StatHandler clone = new StatHandler(baseStats, modifiers);
         return clone;
     }
 }
 
-public struct AgilityType {
-    public float maxStamina;
-    public float sprintSpeed;
-}
-
+//////////// Stat Enums ////////////
 [System.Serializable]
 public enum StatType {
     MAX_HP = 1,
@@ -157,19 +202,44 @@ public enum StatType {
     CRIT_CHANCE = 6
 }
 
+//////////// Level Calculations ////////////
 [System.Serializable]
 public class StatModifiers {
-    // A = Additive stat
-    // M = Multiplicitive
-    // B = Base
-    // C = Current
-    [Header("A = Additive, M = Multiplicitive, B = Base, C = Current")]
     [Header("Per Level Calculations")]
-    public float ABMaxHealth = 10;// = 10f
-    public float  MBHealthRegen = 0.5f;// = 0.5f
-    public float ADamage = 5f;// = 5f
-    public float ABMaxStamina = 10f;// = 10f
-    public float MCSprintSpeed = 0.1f;// = 0.1f
-    public float MBAttackSpeed = 0.3f;// = 0.3f
-    public float ACritChance = 0.05f;// = 0.05f
+
+    [Header("Flat per level : Default 10")]
+    public float MaxHealth = 10;
+
+    [Header("Base stat multiplier : Default 0.5")]
+    public float  HealthRegen = 0.5f;// = 0.5f
+
+    [Header("Flat per level : Default 5")]
+    public float Damage = 5f;// = 5f
+
+    [Header("Flat per level : Default 10")]
+    public float MaxEnergy = 10f;// = 10f
+
+    [Header("Flat per level : Default 0.1")]
+    public float SprintSpeed = 0.1f;// = 0.1f
+
+    [Header("Base stat multiplier : Default 0.3")]
+    public float AttackSpeed = 0.3f;// = 0.3f
+
+    [Header("Flat per level : Default 0.05")]
+    public float CritChance = 0.05f;// = 0.05f
+}
+
+//////////// Raw Stats Class ////////////
+public struct PawnStats {
+    public float health;
+    public float maxHealth;
+    public float healthRegen;
+    public float energy;
+    public float maxEnergy;
+    public float energyRegen;
+    public float moveSpeed;
+    public float sprintSpeed;
+    public float attackSpeed;
+    public float damage;
+    public float critChance;
 }

@@ -41,7 +41,7 @@ public class EnemySeekState : EnemyState
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (enemySettings.weaponType != WeaponType.MELEE) return;
+        if (enemySettings.weapon.weaponType != WeaponType.MELEE) return;
 
         if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
             DamageType damage;

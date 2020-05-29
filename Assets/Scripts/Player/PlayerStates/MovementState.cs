@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,7 +38,7 @@ public class MovementState : PlayerState
         characterController.Move(player.velocity * Time.deltaTime);
 
         ////// Handle Audio //////
-        AudioManager.Instance.PlayFootstep();
+        //AudioManager.Instance.PlayFootstep();
         // This should be doable via animation events?
         // Trigger an event every frame the foot gets placed down, listen for those events, play sounds
 
@@ -46,7 +47,8 @@ public class MovementState : PlayerState
         animationController.SetBool("IsInAir", !player.isGrounded);
 
         if (lookAtPos != prevLookAtPos) {
-            this.transform.LookAt(lookAtPos);
+            player.transform.LookAt(new Vector3(lookAtPos.x, this.transform.position.y, lookAtPos.z));
+            player.equippedWeapon.weaponModel.transform.LookAt(lookAtPos);
             prevLookAtPos = lookAtPos;
         }
 
@@ -89,10 +91,20 @@ public class MovementState : PlayerState
 
     public void OnMouseAim(InputValue value) {
         Vector3 mousePos = value.Get<Vector2>();
-        mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position); 
+        Camera camera = GameManager.Instance.mainCamera;
+        Ray ray = camera.ScreenPointToRay(mousePos);
 
-        lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
-        lookAtPos.y = this.transform.position.y;      
+        RaycastHit[] hits = Physics.RaycastAll(ray,100f).Where(x => x.collider.name.Contains("Wall") == false).ToArray();
+        if (hits.Length > 0) {
+            if (hits.First().collider.GetComponent<IDamageable>() != null) {
+                if (hits.First().collider.transform != this.transform)
+                    lookAtPos = hits.First().collider.transform.position;
+            }
+            else {
+                lookAtPos = hits.First().point;
+                lookAtPos.y += 0.5f;
+            }
+        }
     }
 
     public void OnGamepadAim(InputValue value) {

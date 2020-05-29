@@ -65,8 +65,8 @@ public class Tile : MonoBehaviour
         if (!isInitialized) return;
 
         if (other.gameObject.GetComponent<PlayerController>() != null) {
-            RemoveNeighbours(this, GameManager.Instance.gameSettings.worldTiles.pastTileDepth);
-            AddNeighbours(this, GameManager.Instance.gameSettings.worldTiles.futureTileDepth);
+            RemoveNeighbours(this, GameManager.Instance.gameSettings.tiles.pastTileDepth);
+            AddNeighbours(this, GameManager.Instance.gameSettings.tiles.futureTileDepth);
         }
     }
 }

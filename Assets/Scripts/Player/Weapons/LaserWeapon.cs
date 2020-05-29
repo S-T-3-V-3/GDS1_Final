@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserWeapon : BasicWeapon
+public class LaserWeapon : Weapon
 {
     LineRenderer laserBeam;
 
@@ -41,10 +41,10 @@ public class LaserWeapon : BasicWeapon
 
     }
 
-    public override void AddShotEffect(WeaponSettings settings)
+    public override void AddShotEffect(WeaponDefinition settings)
     {
         if (weaponType == WeaponType.LASER && laserBeam == null)
-            laserBeam = Instantiate(settings.beamRay, firePoint).GetComponent<LineRenderer>();
+            laserBeam = GameObject.Instantiate(GameManager.Instance.BeamRayPrefab, firePoint).GetComponent<LineRenderer>();
     }
 
     public override void DisableLaser()

@@ -5,13 +5,10 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class BasicPlayer : MonoBehaviour, IDamageable
+public class BasicPlayer : Pawn
 {
-    //public Transform firePoint;
-    public StatHandler statHandler;
     public Transform gunPosition;
     public Transform groundPosition;
-    public BasicWeapon equippedWeapon;
     public Animator animationController;
     public LayerMask groundMask;
     public Vector3 velocity;
@@ -23,14 +20,13 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     PlayerSettings playerSettings;
     AimSystem aimSystem;
 
-    //Material impactMaterial;
     GameManager gameManager;
     GameSettings gameSettings;
     float gravity = -9.8f;
 
     bool hasAim = false;
 
-    public GameObject deathEffectPrefab;
+    
 
     void Awake()
     {
@@ -55,7 +51,8 @@ public class BasicPlayer : MonoBehaviour, IDamageable
         //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
-        EquipWeapon(WeaponType.RIFLE);
+        WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.RIFLE).First().weaponBaseStats;
+        EquipWeapon<LaserWeapon>(newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }
 
     private void Update() {
@@ -84,68 +81,35 @@ public class BasicPlayer : MonoBehaviour, IDamageable
     }
 
     //EQUIPS WEAPONS
-    public void EquipWeapon(WeaponType weaponType)
+    public void EquipWeapon<T>(WeaponStats weaponStats) where T : Weapon
     {
         if (equippedWeapon != null)
-        {
-            if (equippedWeapon.weaponType != weaponType) DropWeapon();
-        }
-        
-        switch (weaponType)
-        {
-            case WeaponType.RIFLE:
-                equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
-                break;
-            case WeaponType.SHOTGUN:
-                equippedWeapon = this.gameObject.AddComponent<ShotgunWeapon>();
-                break;
-            case WeaponType.LASER:
-                equippedWeapon = this.gameObject.AddComponent<LaserWeapon>();
-                break;
-        }
+            DropWeapon();
 
-        WeaponSettings weaponSettings = gameSettings.Weapons.Where(x => x.weaponType == weaponType).First();
-        WeaponStats weaponStats = weaponSettings.stats;
-        WeaponItem weaponInstance = Instantiate(weaponSettings.weaponPrefab, gunPosition).GetComponent<WeaponItem>();
-
-        weaponsIK.SetWeaponHandIK(weaponInstance, gunPosition);
-
+        equippedWeapon = this.gameObject.AddComponent<T>();
         equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.fireType = weaponSettings.fireType;
-        equippedWeapon.weaponType = weaponType;
-        equippedWeapon.firePoint = weaponInstance.firePoint;
+        equippedWeapon.Init();
+
+        WeaponDefinition weaponSettings = gameSettings.WeaponList.Where(x => x.weaponType == equippedWeapon.weaponType).First();
+
+        weaponsIK.SetWeaponHandIK(equippedWeapon.GetComponent<WeaponItem>(), gunPosition);
+
+        equippedWeapon.firePoint = equippedWeapon.GetComponent<WeaponItem>().firePoint;
         equippedWeapon.ownerStats = this.statHandler;
-        
         equippedWeapon.AddShotEffect(weaponSettings);
         equippedWeapon.canShoot = true;
     }
 
     void DropWeapon() { }
 
-    public void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
-    {
-        if (canTakeDamage == false) return;
-
-        statHandler.CurrentHealth -= damageType.damageAmount;
-        //StartCoroutine("ImpactEffect");
-        //StartCoroutine("ImpactEffect");
-
-        if (statHandler.CurrentHealth <= 0)
-            OnDeath(hitPoint, hitDirection, hitSpeed);
-        
-        if (damageType.isCrit) {
-            // Play particle effect at location
-        }
-    }
-
-    public void InitDamageable()
+    public override void InitDamageable()
     {
         statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
         statHandler.CurrentHealth = statHandler.MaxHealth;
-        statHandler.CurrentStamina = statHandler.Agility.maxStamina;
+        statHandler.Energy = statHandler.MaxEnergy;
     }
 
-    public void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
+    public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on player
         GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
