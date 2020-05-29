@@ -10,22 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
-  m_Name: LaserRifle
+  m_Name: RifleDefinition
   m_EditorClassIdentifier: 
-  weaponType: 8
-  fireType: 3
-  stats:
-    weaponDamage: 0
-    critDamage: 0
-    range: 15
-    spread: 0
-    shotSpeed: 0
-    fireRate: 0
+  WeaponPrefab: {fileID: 704757315446152108, guid: ca31962c67c194b558b0a6c06168256d,
+    type: 3}
+  weaponType: 1
+  weaponBaseStats:
+    weaponDamage: 10
+    critDamage: 5
+    range: 10
+    shotSpeed: 20
+    fireRate: 1
     accuracy: 0
     hasPiercingShots: 0
     numBullets: 0
-    chargeTime: 2
-  weaponPrefab: {fileID: 8877071718024631134, guid: bb037e8d4a0f749d09039f53076e7efe,
-    type: 3}
-  projectileParticles: {fileID: 0}
-  beamRay: {fileID: 8622692740938188195, guid: e0b6b691947384fa8a2f918459a82a9b, type: 3}
+    chargeTime: 0

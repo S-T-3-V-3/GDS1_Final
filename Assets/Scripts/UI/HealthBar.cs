@@ -72,6 +72,7 @@ public class HealthBar : MonoBehaviour
 
     private void AdjustHealthBarPos(float targetHealthPercent)
     {
+        return;
         foregroundImageTransform.position = new Vector2(
              targetHealthPercent * (foregroundImageOriginalPos.x+110) - 110,
              foregroundImageTransform.position.y);

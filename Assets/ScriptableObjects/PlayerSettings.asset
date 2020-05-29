@@ -15,32 +15,26 @@ MonoBehaviour:
   playerPrefab: {fileID: 9171722624489351093, guid: d6a6857b7ced440e28658f9704cac30d,
     type: 3}
   playerStats:
-    MaxHealthLevel: 1
-    HealthRegenLevel: 1
-    DamageLevel: 1
-    AgilityLevel: 1
-    AttackSpeedLevel: 1
-    CritChanceLevel: 1
-    currentStats:
+    baseStats:
+      health: 100
       maxHealth: 100
-      currentHealth: 0
-      healthRegenSpeed: 0.5
+      healthRegen: 0.5
+      energy: 50
+      maxEnergy: 50
+      energyRegen: 2
       moveSpeed: 5
-      sprintSpeed: 13
-      damage: 10
+      sprintSpeed: 10
       attackSpeed: 1
-      critChance: 0.1
-      maxStamina: 20
-      currentStamina: 30
-      staminaRegenSpeed: 0
-    statModifiers:
-      ABMaxHealth: 10
-      MBHealthRegen: 0.5
-      ADamage: 5
-      ABMaxStamina: 10
-      MCSprintSpeed: 0.1
-      MBAttackSpeed: 0.3
-      ACritChance: 0.05
+      damage: 10
+      critChance: 5
+    modifiers:
+      MaxHealth: 10
+      HealthRegen: 0.5
+      Damage: 5
+      MaxEnergy: 10
+      SprintSpeed: 0.1
+      AttackSpeed: 0.3
+      CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []

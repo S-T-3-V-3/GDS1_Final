@@ -8,7 +8,7 @@ public class EnemySettings : ScriptableObject
     public EnemyType enemyType;
     public StatHandler statHandler;
     public EnemyTraits traits;
-    public Weapon weapon;
+    public WeaponType weaponType;
 }
 
 public enum EnemyType {

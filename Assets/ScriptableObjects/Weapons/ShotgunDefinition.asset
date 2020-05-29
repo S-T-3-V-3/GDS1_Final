@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
-  m_Name: RusherWeapon
+  m_Name: ShotgunDefinition
   m_EditorClassIdentifier: 
+  WeaponPrefab: {fileID: 0}
   weaponType: 0
-  fireType: 0
-  WeaponPrefab: {fileID: 100002, guid: c7741850eebe1df4ea75a80275b16311, type: 3}
-  stats:
-    weaponDamage: 5
+  weaponBaseStats:
+    weaponDamage: 20
     critDamage: 0
-    range: 0
-    shotSpeed: 0
-    fireRate: 1
+    range: 4
+    shotSpeed: 30
+    fireRate: 1.5
     accuracy: 0
     hasPiercingShots: 0
-    numBullets: 1
+    numBullets: 6
     chargeTime: 0

@@ -14,32 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   statHandler:
-    MaxHealthLevel: 1
-    HealthRegenLevel: 1
-    DamageLevel: 1
-    AgilityLevel: 1
-    AttackSpeedLevel: 1
-    CritChanceLevel: 1
-    currentStats:
+    baseStats:
+      health: 20
       maxHealth: 20
-      currentHealth: 20
-      healthRegenSpeed: 0
-      moveSpeed: 13
-      sprintSpeed: 15
-      damage: 20
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
+      moveSpeed: 7
+      sprintSpeed: 10
       attackSpeed: 1
+      damage: 20
       critChance: 0
-      maxStamina: 0
-      currentStamina: 0
-      staminaRegenSpeed: 0
-    statModifiers:
-      ABMaxHealth: 10
-      MBHealthRegen: 0.5
-      ADamage: 5
-      ABMaxStamina: 10
-      MCSprintSpeed: 0.1
-      MBAttackSpeed: 0.3
-      ACritChance: 0.05
+    modifiers:
+      MaxHealth: 10
+      HealthRegen: 0.5
+      Damage: 5
+      MaxEnergy: 10
+      SprintSpeed: 0.1
+      AttackSpeed: 0.3
+      CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []

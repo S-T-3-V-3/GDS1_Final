@@ -15,13 +15,12 @@ public struct WeaponStats {
     public float weaponDamage;
     public float critDamage;
     public float range;
-    public float spread;
     public float shotSpeed;
     public float fireRate;
     public float accuracy;
     public bool hasPiercingShots;
     public int numBullets;
-    public int chargeTime;
+    public float chargeTime;
 }
 
 public enum WeaponType {
