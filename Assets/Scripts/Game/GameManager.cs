@@ -39,7 +39,9 @@ public class GameManager : MonoBehaviour
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
         mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
         gameOverUI = GameObject.Instantiate(GameOverUIPrefab, this.transform).GetComponent<GameOverUI>();
-        hud = GameObject.Instantiate(HUDPrefab).GetComponent<HUD>();
+        GameObject hudObject = GameObject.Instantiate(HUDPrefab);
+        hud = hudObject.GetComponent<HUD>();
+        scoreManager = hudObject.GetComponentInChildren<ScoreManager>();
     }
 
     void Start()

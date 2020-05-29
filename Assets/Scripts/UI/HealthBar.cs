@@ -13,13 +13,9 @@ public class HealthBar : MonoBehaviour
     BasicPlayer playerRef;
     float timeSinceModified = 0;
 
-    public Transform foregroundImageTransform;
-    public Vector3 foregroundImageOriginalPos = new Vector3();
-
     void Start()
     {
         StartCoroutine(Initialize());
-        foregroundImageOriginalPos = foregroundImageTransform.position;
     }
 
     private void UpdateHealth()
