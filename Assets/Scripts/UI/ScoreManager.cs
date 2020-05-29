@@ -143,7 +143,7 @@ public class ScoreManager : MonoBehaviour
     {
         playerLevel++;
         skillPoints++;
-        levelText.text = playerLevel.ToString();
+        //levelText.text = playerLevel.ToString();
         scoreUntilNextLevel = scoreUntilNextLevel + playerLevel * baseLevelUpScore;
     }
 
