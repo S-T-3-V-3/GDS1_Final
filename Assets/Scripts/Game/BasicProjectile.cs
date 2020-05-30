@@ -7,36 +7,25 @@ public class BasicProjectile : MonoBehaviour
 {
     public float range;
     public float damageAmount;
+    public Vector3 initVelocity;
     public Renderer ProjectileRenderer;
     public GameObject owningObject;
     public GameObject DestroyEffecyPrefab;
 
     Vector3 startPos;
     Rigidbody projectileRB;
-    public Vector3 previousVelocity;
-
-    private void Awake()
-    {
-        projectileRB = gameObject.GetComponent<Rigidbody>();
-    }
 
     private void Start()
     {
+        projectileRB = gameObject.GetComponent<Rigidbody>();
+        projectileRB.velocity = this.initVelocity;
         startPos = gameObject.transform.position;
-        Destroy(gameObject, 3f);
     }
 
-    public void SetBulletVelocity(Vector3 force)
-    {
-        projectileRB.velocity = force;
-    }
-
-    private void Update() {
+    private void FixedUpdate() {
         if (Vector3.Magnitude(this.gameObject.transform.position - startPos) > range) {
             Die();
         }
-
-        previousVelocity = projectileRB.velocity;
 
         if (projectileRB.velocity != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(projectileRB.velocity);
@@ -52,7 +41,7 @@ public class BasicProjectile : MonoBehaviour
             DamageType damage;
             damage.owningObject = owningObject;
             damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = previousVelocity;
+            damage.impactVelocity = this.initVelocity;
             damage.damageAmount = this.damageAmount;
             damage.isCrit = false;
             damage.isPiercing = false;
@@ -70,7 +59,7 @@ public class BasicProjectile : MonoBehaviour
         GameObject deathEffectObject = Instantiate(DestroyEffecyPrefab, this.transform.position, Quaternion.FromToRotation(Vector3.forward, this.gameObject.transform.forward));
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
-        deathParticleSystem.startSpeed = previousVelocity.magnitude;
+        deathParticleSystem.startSpeed = this.initVelocity.magnitude;
         deathEffectObject.GetComponent<Renderer>().material = ProjectileRenderer.material;
         deathParticleSystem.startSize = 0.1f;
         deathParticleSystem.startLifetimeMultiplier = 0.5f;
