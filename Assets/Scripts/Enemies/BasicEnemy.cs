@@ -10,7 +10,6 @@ public class BasicEnemy : Pawn
     public Light spotLight;
     [HideInInspector] public EnemySettings enemySettings;
 
-
     Material impactMaterial;
     EnemyStateManager stateManager;
     GameManager gameManager;

@@ -29,3 +29,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2f9d9de60bd934a23ae2be0947db5db9, type: 3}
   - {fileID: 8300000, guid: 226dd438c99c045bcb0ea48aeb91288a, type: 3}
   footstepRate: 0.3
+  soundEffect:
+  - type: 0
+    soundClips:
+    - {fileID: 8300000, guid: 43f12fd8bc09b451e8aa8976e06f65f6, type: 3}
+    - {fileID: 8300000, guid: aeff497a2b1594dd7a2c2428c62c8197, type: 3}
+    - {fileID: 8300000, guid: 78e1397d53fa5495a9dc70efadff7474, type: 3}
+  - type: 1
+    soundClips:
+    - {fileID: 8300000, guid: 65e8b1c1588774b20bf298b0764f2ca9, type: 3}
+    - {fileID: 8300000, guid: 3951561fbf479454cbc87e22e35afba4, type: 3}
+    - {fileID: 8300000, guid: aa54f393d34214ac9a50e2bf9db804f8, type: 3}

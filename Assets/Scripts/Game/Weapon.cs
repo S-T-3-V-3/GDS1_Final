@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if (!canShoot) return;
+        /*if (!canShoot) return;
 
         BasicProjectile currentBullet = GameObject.Instantiate(GameManager.Instance.ProjectilePrefab, GameManager.Instance.transform).GetComponent<BasicProjectile>();
         currentBullet.transform.position = firePoint.position + firePoint.forward * 0.4f; // Temp until refactor
@@ -37,9 +37,10 @@ public class Weapon : MonoBehaviour
         else {
             currentBullet.initVelocity = this.transform.forward * weaponStats.shotSpeed; // Remove when enemies have weapons
         }
-        AudioManager.Instance.StandardGunFire();
 
+        AudioManager.Instance.onSoundEvent.Invoke(SoundType.Rifle);
         StartCoroutine(Reload());
+        */
     }
 
     public virtual void AddShotEffect(WeaponDefinition settings) { }
