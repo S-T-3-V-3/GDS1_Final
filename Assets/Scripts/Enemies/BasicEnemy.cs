@@ -57,6 +57,12 @@ public class BasicEnemy : Pawn
 
     }
 
+    public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
+    {
+        GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.debrySparkEffect, hitPoint, Quaternion.identity);
+        GameObject.Destroy(debryEffect, 2f);
+    }
+
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy

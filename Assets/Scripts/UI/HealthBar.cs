@@ -47,14 +47,10 @@ public class HealthBar : MonoBehaviour
             currentHealthPercent = Mathf.Lerp(startHealthPercent, targetHealthPercent, timeSinceModified / lerpSpeed);
             
             foregroundImage.fillAmount = currentHealthPercent;
-
-           AdjustHealthBarPos(currentHealthPercent); 
         }
 
         //Set image to the new health amount
         foregroundImage.fillAmount = targetHealthPercent;
-
-        AdjustHealthBarPos(targetHealthPercent); 
         
     }
 
@@ -70,11 +66,4 @@ public class HealthBar : MonoBehaviour
         UpdateHealth();
     }
 
-    private void AdjustHealthBarPos(float targetHealthPercent)
-    {
-        return;
-        foregroundImageTransform.position = new Vector2(
-             targetHealthPercent * (foregroundImageOriginalPos.x+110) - 110,
-             foregroundImageTransform.position.y);
-    }
 }

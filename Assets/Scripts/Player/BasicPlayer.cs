@@ -23,9 +23,6 @@ public class BasicPlayer : Pawn
     GameManager gameManager;
     GameSettings gameSettings;
     float gravity = -9.8f;
-
-    bool hasAim = false;
-
     
 
     void Awake()
@@ -37,7 +34,6 @@ public class BasicPlayer : Pawn
         {
             weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
             aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
-            hasAim = true;
         }
     }
 

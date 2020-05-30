@@ -14,4 +14,6 @@ public class GameSettings : ScriptableObject
     public List<EnemySettings> Enemies;
     public List<WeaponDefinition> WeaponList;
 
+    [Header("Game Effects")]
+    public GameObject debrySparkEffect;
 }
