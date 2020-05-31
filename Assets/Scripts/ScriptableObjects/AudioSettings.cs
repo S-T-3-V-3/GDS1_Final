@@ -47,4 +47,5 @@ public enum SoundType
     Sniper,
     Footstep,
     Charge,
+    Impact,
 }

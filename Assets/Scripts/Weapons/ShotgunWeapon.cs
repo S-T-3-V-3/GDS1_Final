@@ -26,9 +26,7 @@ public class ShotgunWeapon : Weapon
 
             if (Physics.Raycast(firePoint.position, rayDirection, out hit, weaponStats.range))
             {
-                Debug.DrawLine(firePoint.position, hit.point, Color.cyan, 5f);
                 ShotgunImpact();
-                
             }
         }
 
