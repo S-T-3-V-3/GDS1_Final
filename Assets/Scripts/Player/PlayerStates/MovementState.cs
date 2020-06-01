@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,9 +11,10 @@ public class MovementState : PlayerState
     PlayerController playerController;
     PlayerSettings playerSettings;
 
-    Rigidbody playerRb;
+    CharacterController characterController;
     Transform cameraTransform;
     Vector3 currentMovementInput;
+    Animator animationController;
 
     Vector3 lookAtPos;
     Vector3 prevLookAtPos;
@@ -23,25 +25,49 @@ public class MovementState : PlayerState
         player = this.GetComponent<BasicPlayer>();
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         cameraTransform = GameManager.Instance.mainCamera.transform;
-        playerController = GetComponent<PlayerController>();
-        playerRb = this.GetComponent<Rigidbody>();
+        playerController = this.GetComponent<PlayerController>();
+        characterController = this.GetComponent<CharacterController>();
+        animationController = player.animationController;
         currentMovementInput = Vector3.zero;
     }
 
     public void FixedUpdate()
     {
-        if (currentMovementInput.magnitude > 0) {
-            Vector3 newPosition = currentMovementInput * playerSettings.baseStats.moveSpeed * Time.fixedDeltaTime;
-            playerRb.MovePosition(this.gameObject.transform.position + newPosition);
-        }
+        Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
+        characterController.Move(newPosition);
+        characterController.Move(player.velocity * Time.deltaTime);
+
+        ////// Handle Audio //////
+        //AudioManager.Instance.PlayFootstep();
+        // This should be doable via animation events?
+        // Trigger an event every frame the foot gets placed down, listen for those events, play sounds
+
+        animationController.SetFloat("Forward", Vector3.Dot(transform.forward.normalized, currentMovementInput));
+        animationController.SetFloat("Right", Vector3.Dot(transform.right.normalized, currentMovementInput));
+        animationController.SetBool("IsInAir", !player.isGrounded);
 
         if (lookAtPos != prevLookAtPos) {
-            this.transform.LookAt(lookAtPos);
+            player.transform.LookAt(new Vector3(lookAtPos.x, this.transform.position.y, lookAtPos.z));
+            player.equippedWeapon.weaponModel.transform.LookAt(lookAtPos);
             prevLookAtPos = lookAtPos;
         }
 
-        if (isShooting) {
+        /////// HANDLE WEAPONS ///////
+        //player.equippedWeapon.RenderAim();
+
+        if (isShooting)
             player.equippedWeapon.Shoot();
+
+        // There's got to be a better way to do this
+        // Start by putting these kinds of things on the relevant objects
+        // IE; a laser beam shouldn't be controlled by the players movement state
+        /*
+        else
+            player.equippedWeapon.DisableLaser();
+        */
+
+        if (player.statHandler.CurrentHealth < player.statHandler.MaxHealth) {
+            player.statHandler.CurrentHealth += player.statHandler.HealthRegen * Time.deltaTime;
         }
     }
 
@@ -59,10 +85,20 @@ public class MovementState : PlayerState
 
     public void OnMouseAim(InputValue value) {
         Vector3 mousePos = value.Get<Vector2>();
-        mousePos.z = Vector3.Magnitude(GameManager.Instance.mainCamera.transform.position - this.gameObject.transform.position); 
+        Camera camera = GameManager.Instance.mainCamera;
+        Ray ray = camera.ScreenPointToRay(mousePos);
 
-        lookAtPos = GameManager.Instance.mainCamera.ScreenToWorldPoint(mousePos);
-        lookAtPos.y = this.transform.position.y;      
+        RaycastHit[] hits = Physics.RaycastAll(ray,100f).Where(x => x.collider.name.Contains("Wall") == false).ToArray();
+        if (hits.Length > 0) {
+            if (hits.First().collider.GetComponent<IDamageable>() != null) {
+                if (hits.First().collider.transform != this.transform)
+                    lookAtPos = hits.First().collider.transform.position;
+            }
+            else {
+                lookAtPos = hits.First().point;
+                lookAtPos.y += 0.5f;
+            }
+        }
     }
 
     public void OnGamepadAim(InputValue value) {

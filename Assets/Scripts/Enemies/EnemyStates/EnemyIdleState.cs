@@ -20,6 +20,8 @@ public class EnemyIdleState : EnemyState
     }
 
     void Update() {
+        if (targetTransform == null) return;
+
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
             EnemyTransitionHandler.OnDetectPlayer(this.enemy);
         }

@@ -4,34 +4,45 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public class BasicEnemy : MonoBehaviour, IDamageable
+public class BasicEnemy : Pawn
 {
     public EnemyType enemyType;
-    public Transform firePoint;
     public Light spotLight;
-    public BasicWeapon equippedWeapon;
-
-    [Space]
-
-    [HideInInspector] public UnityEvent OnHealthChanged;
     [HideInInspector] public EnemySettings enemySettings;
-    [HideInInspector] public ObjectStats enemyStats;
 
+
+    Material impactMaterial;
     EnemyStateManager stateManager;
     GameManager gameManager;
+
 
     void Start()
     {
         gameManager = GameManager.Instance;
 
         enemySettings = gameManager.gameSettings.Enemies.Where(x => x.enemyType == this.enemyType).First();
-        enemyStats = enemySettings.stats;
+        statHandler = enemySettings.statHandler.GetCopy();
+
+        this.gameObject.GetComponent<Renderer>().material = enemySettings.traits.material;
+
+        // Get Impact Material
+        impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         if (enemySettings.weaponType != WeaponType.MELEE)
             EquipWeapon();
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
         SetState<EnemySpawnState>();
+
+        // Test example of giving enemies points into random stats,
+        // can obviously skew this based on enemy type later via
+        // enemy prefabs by setting weights towards certain stats
+        int numRandomStats = 3;
+        while (numRandomStats > 0) {
+            statHandler.LevelUp((StatType)Random.Range(1,7));
+            numRandomStats--;
+        }
+        //
 
         InitDamageable();
     }
@@ -41,40 +52,37 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         stateManager.AddState<T>();
     }
 
-    public void OnReceivedDamage(DamageType damageType)
+    public override void InitDamageable()
     {
-        enemyStats.currentHealth -= damageType.damageAmount;
-        OnHealthChanged.Invoke();
-
-        if (enemyStats.currentHealth <= 0)
-            OnDeath();
         
-        if (damageType.isCrit) {
-            // Play particle effect at location
-        }
     }
 
-    public void InitDamageable()
-    {
-        enemyStats.currentHealth = enemyStats.maxHealth;
-    }
-
-    public void OnDeath()
+    public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy
+        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        float particleLifetime = deathParticleSystem.startLifetime.constant;
+        deathParticleSystem.startSpeed = hitSpeed;
+        deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
+        Destroy(deathEffectObject, particleLifetime);
+
         // Add to player's score
+        gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
+
         GameObject.Destroy(this.gameObject);
-        Debug.Log($"{gameObject.name} is Dead");
+        //Debug.Log($"{gameObject.name} is Dead");
     }
 
     void EquipWeapon() {
-        equippedWeapon = this.gameObject.AddComponent<BasicWeapon>();
+        equippedWeapon = this.gameObject.AddComponent<Weapon>();
         
-        WeaponSettings weaponSettings = gameManager.gameSettings.Weapons.Where(x => x.weaponType == enemySettings.weaponType).First();
+        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+        equippedWeapon.canShoot = true;
         equippedWeapon.weaponType = weaponSettings.weaponType;
-        equippedWeapon.fireType = weaponSettings.fireType;
-        equippedWeapon.weaponStats = weaponSettings.stats;
+        equippedWeapon.weaponStats = weaponSettings.weaponBaseStats;
         equippedWeapon.firePoint = firePoint;
+        equippedWeapon.ownerStats = this.statHandler;
     }
 
     // Static Helper Functions
@@ -90,5 +98,19 @@ public class BasicEnemy : MonoBehaviour, IDamageable
         if (GameManager.Instance.playerController == null) return false;
         
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
+    }
+
+    ////// Methods for Shader Manipulation //////
+    IEnumerator ImpactEffect()
+    {
+        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
+        float matAlpha = 1;
+
+        while (matAlpha > 0)
+        {
+            matAlpha -= 0.3f;
+            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }

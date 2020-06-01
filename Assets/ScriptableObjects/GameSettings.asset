@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSettings: {fileID: 11400000, guid: 20fc192b4b1144b83bff43935df95f5f, type: 2}
   cameraSettings: {fileID: 11400000, guid: 90bb4e03b61f0d1408e145f1e86efea2, type: 2}
-  worldTiles: {fileID: 11400000, guid: 3528f0e5f2c1d244c857cb4076b49d64, type: 2}
+  audioSettings: {fileID: 11400000, guid: 57e57ab27babf4945a02e0f856a46202, type: 2}
+  audioManager: {fileID: 7136000581673745507, guid: 19d9acc6f03894f0db574c5c4fd5e029,
+    type: 3}
+  tiles: {fileID: 11400000, guid: 3528f0e5f2c1d244c857cb4076b49d64, type: 2}
   Enemies:
   - {fileID: 11400000, guid: 06fed1892e4291841b34101f924e2407, type: 2}
   - {fileID: 11400000, guid: 77e5e47c81dc9da47a469088c9906f43, type: 2}
-  Weapons:
-  - {fileID: 11400000, guid: 9fa062b175a7ed144b2ec6ad14ea3c6e, type: 2}
+  WeaponList:
+  - {fileID: 11400000, guid: 6cd1ff24d1defdb40b589e1ca55cea04, type: 2}
+  - {fileID: 11400000, guid: 81649ef283364614f859af993a851003, type: 2}
+  - {fileID: 11400000, guid: 7f4ebe640e14b514f8c221abc856ed0f, type: 2}
+  - {fileID: 11400000, guid: aeeca11b3d7d21f48804903246de30ef, type: 2}

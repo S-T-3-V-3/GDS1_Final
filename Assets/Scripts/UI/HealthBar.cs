@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
 
     private void UpdateHealth()
     {
-        float targetHealthPercent = playerRef.playerStats.currentHealth / playerRef.playerStats.maxHealth;
+        float targetHealthPercent = playerRef.statHandler.CurrentHealth / playerRef.statHandler.MaxHealth;
 
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
@@ -47,6 +47,7 @@ public class HealthBar : MonoBehaviour
 
         //Set image to the new health amount
         foregroundImage.fillAmount = targetHealthPercent;
+        
     }
 
     IEnumerator Initialize() {
@@ -57,7 +58,8 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
-        playerRef.OnHealthChanged.AddListener(UpdateHealth);
+        playerRef.statHandler.OnHealthChanged.AddListener(UpdateHealth);
         UpdateHealth();
     }
+
 }
