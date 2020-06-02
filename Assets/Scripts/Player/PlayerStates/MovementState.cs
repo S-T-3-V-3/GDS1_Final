@@ -88,7 +88,7 @@ public class MovementState : PlayerState
         Camera camera = GameManager.Instance.mainCamera;
         Ray ray = camera.ScreenPointToRay(mousePos);
 
-        RaycastHit[] hits = Physics.RaycastAll(ray,100f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Camera>() == null).ToArray();
+        RaycastHit[] hits = Physics.RaycastAll(ray,100f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null).ToArray();
         if (hits.Length > 0) {
             if (hits.First().collider.GetComponent<IDamageable>() != null) {
                 if (hits.First().collider.transform != this.transform)
