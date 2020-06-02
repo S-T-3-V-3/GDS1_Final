@@ -85,7 +85,7 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void UpdateStats() {
         maxHPText.text = $"{playerRef.statHandler.MaxHealth}";
         HPRegenText.text = $"{playerRef.statHandler.HealthRegen}";
-        speedText.text = $"{playerRef.statHandler.SprintSpeed}";
+        speedText.text = $"{System.Math.Round(playerRef.statHandler.SprintSpeed, 2)}";
         damageText.text = $"{playerRef.statHandler.Damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
         attackSpeedText.text = $"{playerRef.statHandler.AttackSpeed}";
         critChanceText.text = $"{playerRef.statHandler.CritChance}%";

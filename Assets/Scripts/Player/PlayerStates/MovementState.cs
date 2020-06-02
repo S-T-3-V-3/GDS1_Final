@@ -34,6 +34,12 @@ public class MovementState : PlayerState
     public void FixedUpdate()
     {
         Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
+        //////////// Debug Input ///////////////////
+        // Will need to change to the new input sytem later
+        if(Input.GetKey(KeyCode.LeftShift)) {
+            newPosition = currentMovementInput * player.statHandler.SprintSpeed * Time.fixedDeltaTime;
+        }
+        ////////////////////////////////////////////
         characterController.Move(newPosition);
         characterController.Move(player.velocity * Time.deltaTime);
 
