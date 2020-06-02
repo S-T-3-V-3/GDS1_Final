@@ -19,6 +19,9 @@ public class Weapon : MonoBehaviour
 
     public virtual void Init(WeaponDefinition weaponDefinition, Transform gunPosition) {
         weaponModel = GameObject.Instantiate(weaponDefinition.WeaponPrefab);
+        weaponModel.transform.parent = gunPosition;
+        weaponModel.transform.position = gunPosition.position;
+        
         firePoint = weaponModel.GetComponent<WeaponTransforms>().firePoint;
     }
 

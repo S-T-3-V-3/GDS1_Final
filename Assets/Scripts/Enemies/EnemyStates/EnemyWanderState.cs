@@ -10,7 +10,7 @@ public class EnemyWanderState : EnemyState
     EnemyType enemyType;
     EnemySettings enemySettings;
     Transform playerTransform;
-    Rigidbody rb;
+    CharacterController characterController;
 
     float timeSinceLastUpdate = 0f;
     float nextUpdate;
@@ -28,7 +28,7 @@ public class EnemyWanderState : EnemyState
             enemy.SetState<EnemyInactiveState>();
         }
 
-        rb = this.GetComponent<Rigidbody>();
+        characterController = this.GetComponent<CharacterController>();
 
         UpdateTargetPosition();
 
@@ -42,19 +42,31 @@ public class EnemyWanderState : EnemyState
     void Update() {
         if(playerTransform == null) return;
 
+        enemy.GravityUpdate();
+        characterController.Move(enemy.velocity * Time.deltaTime);
+
         if (timeSinceLastUpdate > nextUpdate) {
              UpdateTargetPosition();
         }
         else {
             timeSinceLastUpdate += Time.deltaTime;
 
-            Vector3 targetDirection = Vector3.Normalize(this.transform.position - currentTargetLocation);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * (enemy.statHandler.MoveSpeed/2));
-            rb.MovePosition(newPosition);
-            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
+            if (Vector3.Magnitude(this.transform.position - currentTargetLocation) > 0.5f) {
 
-            if (isStuck)
-                UpdateTargetPosition();
+                Vector3 targetDirection = Vector3.Normalize(currentTargetLocation - this.transform.position);
+                Vector3 newPosition = targetDirection * Time.fixedDeltaTime * (enemy.statHandler.MoveSpeed/2);
+                characterController.Move(newPosition);
+
+                Vector3 lookRotation = new Vector3(targetDirection.x, 0, targetDirection.z);
+                this.transform.rotation = Quaternion.LookRotation(lookRotation);
+
+                if (enemy.equippedWeapon.weaponModel != null)
+                    enemy.equippedWeapon.weaponModel.transform.LookAt(enemy.equippedWeapon.weaponModel.transform.position + targetDirection * 3f);              
+                
+                if (isStuck)
+                    UpdateTargetPosition();
+
+            }
         }
 
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {

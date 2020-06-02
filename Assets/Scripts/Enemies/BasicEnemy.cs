@@ -6,8 +6,20 @@ using System.Linq;
 
 public class BasicEnemy : Pawn
 {
+    public bool debug = false;
     public EnemyType enemyType;
+    public Transform weaponPosition;
     public Light spotLight;
+    
+    [Space]
+    [Header("Custom Physics")]
+    public Transform groundPosition;
+    public LayerMask groundMask;
+    public Vector3 velocity;
+    public float groundDistance;
+    public bool isGrounded = true;
+    [Space]
+
     [HideInInspector] public EnemySettings enemySettings;
 
     Material impactMaterial;
@@ -27,8 +39,9 @@ public class BasicEnemy : Pawn
         // Get Impact Material
         impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
-        if (enemySettings.weaponType != WeaponType.MELEE)
-            EquipWeapon();
+        WeaponStats weaponStats = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First().weaponBaseStats;
+
+        EnemyWeaponHandler.AddWeapon(this, weaponStats);
 
         stateManager = this.gameObject.AddComponent<EnemyStateManager>();
         SetState<EnemySpawnState>();
@@ -44,6 +57,19 @@ public class BasicEnemy : Pawn
         //
 
         InitDamageable();
+    }
+
+    public void GravityUpdate() {
+        isGrounded = Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
+        
+        if (isGrounded)
+            velocity.y = 0;
+        else {
+            if (debug)
+                Debug.Log("Airborne");
+        }
+
+        velocity.y += gameManager.gameSettings.gravity * Time.deltaTime;
     }
 
     public void SetState<T>() where T : EnemyState
@@ -86,15 +112,21 @@ public class BasicEnemy : Pawn
         //Debug.Log($"{gameObject.name} is Dead");
     }
 
-    void EquipWeapon() {
-        equippedWeapon = this.gameObject.AddComponent<Weapon>();
-        
-        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
-        equippedWeapon.canShoot = true;
-        equippedWeapon.weaponType = weaponSettings.weaponType;
-        equippedWeapon.weaponStats = weaponSettings.weaponBaseStats;
-        equippedWeapon.firePoint = firePoint;
+    public void EquipWeapon<T>(WeaponType weaponType, WeaponStats weaponStats) where T : Weapon
+    {
+        WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First();
+
+        equippedWeapon = this.gameObject.AddComponent<T>();
+        equippedWeapon.weaponStats = weaponStats;
+        equippedWeapon.weaponType = weaponType;
+        equippedWeapon.Init(weaponDefinition, weaponPosition);
+        //Debug.Log(weaponType);
+        //Debug.Log(equippedWeapon.name);
+
         equippedWeapon.ownerStats = this.statHandler;
+        equippedWeapon.AddShotEffect(weaponDefinition);
+        equippedWeapon.canShoot = true;
+        this.firePoint = equippedWeapon.firePoint;
     }
 
     // Static Helper Functions
@@ -112,6 +144,11 @@ public class BasicEnemy : Pawn
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.enemySettings.traits.detectionRange;
     }
 
+    public static bool IsPlayerInWeaponRange(BasicEnemy enemy) {        
+        if (GameManager.Instance.playerController == null) return false;
+        return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.equippedWeapon.weaponStats.range;
+    }
+
     ////// Methods for Shader Manipulation //////
     IEnumerator ImpactEffect()
     {
@@ -123,6 +160,33 @@ public class BasicEnemy : Pawn
             matAlpha -= 0.3f;
             impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
             yield return new WaitForSeconds(Time.deltaTime);
+        }
+    }
+}
+
+public static class EnemyWeaponHandler {
+    public static void AddWeapon(BasicEnemy enemy, WeaponStats weaponStats) {
+        if (enemy.enemySettings.weaponType != WeaponType.MELEE) {
+            switch (enemy.enemySettings.weaponType) {
+                case WeaponType.RIFLE:
+                    enemy.EquipWeapon<RifleWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    break;
+
+                case WeaponType.SHOTGUN:
+                    enemy.EquipWeapon<ShotgunWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    break;
+
+                case WeaponType.MACHINE_GUN:
+                    //enemy.EquipWeapon<MachineGunWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    break;
+
+                case WeaponType.LASER:
+                    enemy.EquipWeapon<LaserWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RifleWeapon : Weapon
 {
-
     public override void Init(WeaponDefinition weaponDefinition, Transform gunPosition)
     {
         base.Init(weaponDefinition, gunPosition);

@@ -14,7 +14,7 @@ public class EnemySpawnState : EnemyState
 
     IEnumerator GetNextState() {
         while (GameManager.Instance == null) {
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         EnemyTransitionHandler.OnStart(enemy);

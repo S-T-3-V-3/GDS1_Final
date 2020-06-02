@@ -8,11 +8,7 @@ public class EnemyPivotState : EnemyState
     EnemyType enemyType;
     EnemySettings enemySettings;
     Transform playerTransform;
-    Rigidbody rb;
-
-    float heavyGunnerTimeShooting = 0f;
-    float heavyGunnerSinceShooting;
-    bool heavyGunnerShooting = false;
+    CharacterController characterController;
 
     public override void BeginState()
     {
@@ -20,50 +16,31 @@ public class EnemyPivotState : EnemyState
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;
         playerTransform = GameManager.Instance.playerController.transform;
-
-        rb = this.GetComponent<Rigidbody>();
+        characterController = this.GetComponent<CharacterController>();    
     }
 
     private void FixedUpdate()
     {
-        if (BasicEnemy.IsPlayerInRange(this.enemy))
+        enemy.GravityUpdate();
+        characterController.Move(enemy.velocity * Time.deltaTime);
+
+        if (BasicEnemy.IsPlayerInWeaponRange(this.enemy))
         {
-            Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
-            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
+            Vector3 targetDirection = Vector3.Normalize(playerTransform.position - this.transform.position);
+            Vector3 lookRotation = new Vector3(targetDirection.x, 0, targetDirection.z);
+            this.transform.rotation = Quaternion.LookRotation(lookRotation);
+            
+            if (enemy.equippedWeapon.weaponModel != null)
+                enemy.equippedWeapon.weaponModel.transform.LookAt(enemy.equippedWeapon.weaponModel.transform.position + targetDirection * 3f);
+
+            enemy.equippedWeapon.Shoot();
         }
-        else
+        else if (BasicEnemy.IsPlayerInRange(this.enemy))
         {
+            EnemyTransitionHandler.OnDetectPlayer(this.enemy);
+        }
+        else {
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
-
-        enemy.equippedWeapon.Shoot();
-
-        //if (enemyType != EnemyType.HEAVY_GUNNER)
-        //{
-        //    enemy.equippedWeapon.Shoot();
-        //} else
-        //{
-        //    if (heavyGunnerShooting == false && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
-        //    {
-        //        heavyGunnerTimeShooting = Time.deltaTime;
-        //    }
-        //    if (heavyGunnerShooting == false && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
-        //    {
-        //        heavyGunnerTimeShooting = Time.deltaTime;
-        //        heavyGunnerSinceShooting = Time.deltaTime + 3f;
-        //        heavyGunnerShooting = true;
-        //    }
-        //    else if (heavyGunnerShooting == true && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
-        //    {
-        //        heavyGunnerTimeShooting = Time.deltaTime;
-        //        enemy.equippedWeapon.Shoot();
-        //    }
-        //    else if (heavyGunnerShooting == true && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
-        //    {
-        //        heavyGunnerTimeShooting = Time.deltaTime;
-        //        heavyGunnerSinceShooting = Time.deltaTime + 1.5f;
-        //        heavyGunnerShooting = false;
-        //    }
-        //}
     }
 }
