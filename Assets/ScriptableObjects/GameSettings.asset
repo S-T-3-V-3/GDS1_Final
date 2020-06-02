@@ -26,3 +26,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81649ef283364614f859af993a851003, type: 2}
   - {fileID: 11400000, guid: 7f4ebe640e14b514f8c221abc856ed0f, type: 2}
   - {fileID: 11400000, guid: aeeca11b3d7d21f48804903246de30ef, type: 2}
+  debrySparkEffect: {fileID: 1981929775162810702, guid: 1a7f17279ee474a7db50c3737395b6b7,
+    type: 3}
+  experienceOrbEffect: {fileID: 9104010806551012025, guid: 7fdd02bef01c94028a63eb5919042695,
+    type: 3}
+  muzzleFlashEffect: {fileID: 7455784739393697787, guid: 027ce90a75a504f3491ed2371d333032,
+    type: 3}
+  shockwaveEffect: {fileID: 6617947454074668339, guid: 62f8f091877ab4e778074b1a64e337d8,
+    type: 3}

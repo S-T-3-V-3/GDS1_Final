@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class EXPBar : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class EXPBar : MonoBehaviour
     public int playerLevel = 1;
     private float baseLevelUpExperience = 200;
     private float experienceToNextLevel;
-    private float currentExp;
+    private int currentExperience;
 
     //UI
     [SerializeField]
@@ -18,13 +19,11 @@ public class EXPBar : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI experienceNumberText;
 
-    //Coroutine for exp bar lerping
-    Coroutine currentCoroutine;
-    float timeSinceModified = 0;
+    //Exp Tweener
+    int previousExperienceTarget;
+    Tween experienceTween;
     [SerializeField]
     private Image foregroundImage;
-    public float sensitivity = 0.01f;
-    public float lerpSpeed = 1f; // Seconds
 
     //Other Script References
     public UpgradeManager upgradeManager;
@@ -34,65 +33,56 @@ public class EXPBar : MonoBehaviour
     {
         experienceToNextLevel = baseLevelUpExperience;
         levelText.text = playerLevel.ToString();
-        experienceNumberText.text = $"{currentExp}/{experienceToNextLevel}";
+        experienceNumberText.text = $"{currentExperience}/{experienceToNextLevel}";
+
+        //This is just for tween initialization since I couldn't figure it out
+        experienceTween = DOTween.To(()=> currentExperience, x=> currentExperience = x, 0, 1);
     }
 
     public void AddExperience(int value)
-    {   
-        currentExp += value;
+    {     
+        int targetExperience = currentExperience + value;
 
-        float targetExperiencePercent = currentExp / experienceToNextLevel;
-
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
-        
-        currentCoroutine = StartCoroutine(UpdateImage(targetExperiencePercent));
-        
-    }
-
-    IEnumerator UpdateImage(float targetExperiencePercent)
-    {
-        float currentExperiencePercent = foregroundImage.fillAmount;
-        float startExperiencePercent = currentExperiencePercent;
-        timeSinceModified = 0f;
-
-        //Lerp to the new health percent
-        while (Mathf.Abs(currentExperiencePercent - targetExperiencePercent) > sensitivity)
+        if(experienceTween.IsActive())
         {
-            yield return new WaitForEndOfFrame();
-
-            timeSinceModified += Time.deltaTime;
-            currentExperiencePercent = Mathf.Lerp(startExperiencePercent, targetExperiencePercent, timeSinceModified / lerpSpeed);
-
-            //Break if a level up is detected
-            if (currentExperiencePercent >= 1)
-            {
-                LevelUp();
-                yield break;
-            }
-            
-            foregroundImage.fillAmount = currentExperiencePercent;
+            experienceTween.Kill();
+            targetExperience = previousExperienceTarget + value;
         }
 
-        //Set image to the new health amount
-        foregroundImage.fillAmount = targetExperiencePercent;
-        //Level up if cap is hit
-        if (targetExperiencePercent >= 1)
-            LevelUp();
+        experienceTween = DOTween.To(()=> currentExperience, x=> currentExperience = x, targetExperience, 1);
+        previousExperienceTarget = targetExperience;
+    }
+
+    private void Update()
+    {
+        //Runs every frame the tweener is alive
+        if(experienceTween.IsActive())
+        {
+            experienceNumberText.text = $"{currentExperience}/{experienceToNextLevel}";
+            foregroundImage.fillAmount = (float)currentExperience / (float)experienceToNextLevel;
+
+            if (currentExperience/experienceToNextLevel >= 1)
+            {
+                LevelUp();
+            }
+        }
     }
 
     void LevelUp()
     {
+        experienceTween.Kill();
+
         playerLevel++;
         upgradeManager.skillPoints++;
         levelText.text = playerLevel.ToString();
 
         //Carry over overflowing previous exp points
-        int newExperienceAmount = (int)(currentExp - experienceToNextLevel);
+        int experienceFromPreviousLevel = (int)(previousExperienceTarget - experienceToNextLevel);
 
         experienceToNextLevel = experienceToNextLevel + baseLevelUpExperience / 2;
-        currentExp = 0;
+        currentExperience = 0;
         foregroundImage.fillAmount = 0;
-        AddExperience(newExperienceAmount);
+
+        AddExperience(experienceFromPreviousLevel);
     }
 }

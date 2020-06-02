@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,10 +18,17 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI scoreText;
 
+    //Score Tweener
+    Tween scoreTween;
+    int previousScoreTarget;
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(Initialize());
+
+         //This is just for tween initialization since I couldn't figure it out
+        scoreTween = DOTween.To(()=> currentScore, x=> currentScore = x, 0, 1);
     }
 
     IEnumerator Initialize() {
@@ -40,11 +48,28 @@ public class ScoreManager : MonoBehaviour
 
     public void OnAddScore(int value, Vector3 pos)
     {
-        currentScore += value;
-        scoreText.text = $"Score: {currentScore}";
+        int targetScore = currentScore + value;
 
-        GameManager.Instance.playerScore = currentScore;
+        if(scoreTween.IsActive())
+        {
+            scoreTween.Kill();
+            targetScore = previousScoreTarget + value;
+        }
+
+        GameManager.Instance.playerScore = targetScore;
 
         experienceBar.AddExperience(value);
+
+        scoreTween = DOTween.To(()=> currentScore, x=> currentScore = x, targetScore, 1);
+        previousScoreTarget = targetScore;
+    }
+
+    private void Update()
+    {
+        //Runs every frame the tweener is alive
+        if(scoreTween.IsActive())
+        {
+            scoreText.text = $"Score: {currentScore}";
+        }
     }
 }

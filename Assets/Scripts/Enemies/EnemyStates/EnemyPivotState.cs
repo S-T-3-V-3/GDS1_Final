@@ -36,32 +36,34 @@ public class EnemyPivotState : EnemyState
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
 
-        if (enemyType != EnemyType.HEAVY_GUNNER)
-        {
-            enemy.equippedWeapon.Shoot();
-        } else
-        {
-            if (heavyGunnerShooting == false && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
-            {
-                heavyGunnerTimeShooting = Time.deltaTime;
-            }
-            if (heavyGunnerShooting == false && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
-            {
-                heavyGunnerTimeShooting = Time.deltaTime;
-                heavyGunnerSinceShooting = Time.deltaTime + 3f;
-                heavyGunnerShooting = true;
-            }
-            else if (heavyGunnerShooting == true && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
-            {
-                heavyGunnerTimeShooting = Time.deltaTime;
-                enemy.equippedWeapon.Shoot();
-            }
-            else if (heavyGunnerShooting == true && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
-            {
-                heavyGunnerTimeShooting = Time.deltaTime;
-                heavyGunnerSinceShooting = Time.deltaTime + 1.5f;
-                heavyGunnerShooting = false;
-            }
-        }
+        enemy.equippedWeapon.Shoot();
+
+        //if (enemyType != EnemyType.HEAVY_GUNNER)
+        //{
+        //    enemy.equippedWeapon.Shoot();
+        //} else
+        //{
+        //    if (heavyGunnerShooting == false && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
+        //    {
+        //        heavyGunnerTimeShooting = Time.deltaTime;
+        //    }
+        //    if (heavyGunnerShooting == false && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
+        //    {
+        //        heavyGunnerTimeShooting = Time.deltaTime;
+        //        heavyGunnerSinceShooting = Time.deltaTime + 3f;
+        //        heavyGunnerShooting = true;
+        //    }
+        //    else if (heavyGunnerShooting == true && heavyGunnerTimeShooting < heavyGunnerSinceShooting)
+        //    {
+        //        heavyGunnerTimeShooting = Time.deltaTime;
+        //        enemy.equippedWeapon.Shoot();
+        //    }
+        //    else if (heavyGunnerShooting == true && heavyGunnerTimeShooting >= heavyGunnerSinceShooting)
+        //    {
+        //        heavyGunnerTimeShooting = Time.deltaTime;
+        //        heavyGunnerSinceShooting = Time.deltaTime + 1.5f;
+        //        heavyGunnerShooting = false;
+        //    }
+        //}
     }
 }

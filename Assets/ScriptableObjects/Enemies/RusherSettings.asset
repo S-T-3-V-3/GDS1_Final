@@ -14,14 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   statHandler:
-    baseStats:
-      health: 20
-      maxHealth: 20
+    currentStats:
+      health: 0
+      maxHealth: 0
       healthRegen: 0
       energy: 0
       maxEnergy: 0
       energyRegen: 0
-      moveSpeed: 7
+      moveSpeed: 0
+      sprintSpeed: 0
+      attackSpeed: 0
+      damage: 0
+      critChance: 0
+    baseStats:
+      health: 10
+      maxHealth: 10
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
+      moveSpeed: 10
       sprintSpeed: 10
       attackSpeed: 1
       damage: 20
@@ -37,6 +49,12 @@ MonoBehaviour:
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    maxHealthLevel: 0
+    healthRegenLevel: 0
+    damageLevel: 0
+    agilityLevel: 0
+    attackSpeedLevel: 0
+    critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 0, y: 0}
     material: {fileID: 2100000, guid: 6343bd8cffa8d7a4b8190181409150e7, type: 2}
