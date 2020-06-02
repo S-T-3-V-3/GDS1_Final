@@ -47,8 +47,9 @@ public class BasicPlayer : Pawn
         //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
-        WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.RIFLE).First().weaponBaseStats;
-        EquipWeapon<Weapon>(WeaponType.RIFLE, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
+        WeaponType startingWeaponType = WeaponType.SHOTGUN;
+        WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == startingWeaponType).First().weaponBaseStats;
+        EquipWeapon<ShotgunWeapon>(startingWeaponType, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }
 
     private void Update() {
@@ -88,6 +89,8 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
+        Debug.Log(weaponType);
+        Debug.Log(equippedWeapon.name);
 
         weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 
@@ -96,7 +99,10 @@ public class BasicPlayer : Pawn
         equippedWeapon.canShoot = true;
     }
 
-    void DropWeapon() { }
+    void DropWeapon() {
+
+
+    }
 
     public override void InitDamageable()
     {

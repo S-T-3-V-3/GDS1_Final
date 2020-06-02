@@ -47,6 +47,7 @@ public class BasicProjectile : MonoBehaviour
             damage.isPiercing = false;
 
             other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
+            AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
 
             Die();
         }
