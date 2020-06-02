@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc2053ffaa05484d80413f5faa75299, type: 3}
   m_Name: WorldTileSettings
   m_EditorClassIdentifier: 
-  futureTileDepth: 3
-  pastTileDepth: 3
+  futureTileDepth: 2
+  pastTileDepth: 2
   startingTiles:
   - tilePrefab: {fileID: 4377507850951423220, guid: d7c41df76399e5b4a86e62e0e62f2993,
+      type: 3}
+    tileWeight: 1
+  - tilePrefab: {fileID: 4377507850951423220, guid: e1ad7bd132b15c143a295888472a3837,
+      type: 3}
+    tileWeight: 1
+  - tilePrefab: {fileID: 6860436977720681361, guid: 1e7c609eec3028948b8cca4c26f812d7,
       type: 3}
     tileWeight: 1
   bossTiles: []
@@ -24,5 +30,8 @@ MonoBehaviour:
       type: 3}
     tileWeight: 1
   - tilePrefab: {fileID: 6860436977720681361, guid: 151f5ce796d05df45b07e78632961510,
+      type: 3}
+    tileWeight: 1
+  - tilePrefab: {fileID: 272259745260780033, guid: d9ea1d169ed73d949b12f2aa3e0e8f57,
       type: 3}
     tileWeight: 1
