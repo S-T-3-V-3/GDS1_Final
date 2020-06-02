@@ -74,6 +74,7 @@ public class EXPBar : MonoBehaviour
 
         playerLevel++;
         upgradeManager.skillPoints++;
+        upgradeManager.ShowUpgradeWindow();
         levelText.text = playerLevel.ToString();
 
         //Carry over overflowing previous exp points

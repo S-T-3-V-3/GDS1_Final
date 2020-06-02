@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
+using DG.Tweening;
 
 // TODO: TEXT MESH PRO REFACTOR
-public class UpgradeManager : MonoBehaviour
+public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button MaxHP;
     public Button HPRegen;
@@ -20,15 +23,23 @@ public class UpgradeManager : MonoBehaviour
     BasicPlayer playerRef;
 
     //Set in the inspector window
-    public Text maxHPText;
-    public Text HPRegenText;
-    public Text speedText;
-    public Text damageText;
-    public Text attackSpeedText;
-    public Text critChanceText;
+    public TextMeshProUGUI maxHPText;
+    public TextMeshProUGUI HPRegenText;
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI damageText;
+    public TextMeshProUGUI attackSpeedText;
+    public TextMeshProUGUI critChanceText;
+
+    //Used for the tweener
+    private RectTransform upgradeInterface;
+    private Vector2 originalInterfacePosition;
+    Tween upgradeInterfaceTween;
 
     void Start()
     {
+        upgradeInterface = GetComponent<RectTransform>();
+        originalInterfacePosition = upgradeInterface.position;
+
         StartCoroutine(Initialize());
         ToggleSkillButtons();
 
@@ -72,12 +83,12 @@ public class UpgradeManager : MonoBehaviour
     }
 
     void UpdateStats() {
-        maxHPText.text = $"Max Health: {playerRef.statHandler.MaxHealth}";
-        HPRegenText.text = $"HP Regen: {playerRef.statHandler.HealthRegen}";
-        speedText.text = $"Speed: {playerRef.statHandler.MoveSpeed}";
-        damageText.text = $"Damage: {playerRef.statHandler.Damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
-        attackSpeedText.text = $"Attack Speed: {playerRef.statHandler.AttackSpeed}";
-        critChanceText.text = $"Crit Chance: {playerRef.statHandler.CritChance * 100}%";
+        maxHPText.text = $"{playerRef.statHandler.MaxHealth}";
+        HPRegenText.text = $"{playerRef.statHandler.HealthRegen}";
+        speedText.text = $"{playerRef.statHandler.MoveSpeed}";
+        damageText.text = $"{playerRef.statHandler.Damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
+        attackSpeedText.text = $"{playerRef.statHandler.AttackSpeed}";
+        critChanceText.text = $"{playerRef.statHandler.CritChance * 100}%";
     }
 
     void Update() {
@@ -108,7 +119,10 @@ public class UpgradeManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha6))
                 SkillIncrease(StatType.CRIT_CHANCE);
         }
-        
+        ////////////////////////////////////////////
+
+        //////////// Tweener ///////////////////
+
         ////////////////////////////////////////////
     }
 
@@ -121,15 +135,47 @@ public class UpgradeManager : MonoBehaviour
         playerRef.statHandler.LevelUp(playerStat);
 
         UpdateStats();
+
+        if(skillPoints <= 0)
+        {
+            HideUpgradeWindow();
+        }
     }
 
     void ToggleSkillButtons()
     {
-        MaxHP.gameObject.SetActive(skillButtonsEnabled);
-        HPRegen.gameObject.SetActive(skillButtonsEnabled);
-        Agility.gameObject.SetActive(skillButtonsEnabled);
-        Damage.gameObject.SetActive(skillButtonsEnabled);
-        AttackSpeed.gameObject.SetActive(skillButtonsEnabled);
-        CritChance.gameObject.SetActive(skillButtonsEnabled);
+        MaxHP.interactable = skillButtonsEnabled;
+        HPRegen.interactable = skillButtonsEnabled;
+        Agility.interactable = skillButtonsEnabled;
+        Damage.interactable= skillButtonsEnabled;
+        AttackSpeed.interactable = skillButtonsEnabled;
+        CritChance.interactable = skillButtonsEnabled;
+    }
+
+
+    /////////////////////////////////
+    // DISPLAY AND HIDE UPGRADE UI //
+    /////////////////////////////////
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ShowUpgradeWindow();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideUpgradeWindow();
+    }
+
+    public void ShowUpgradeWindow()
+    {
+        if(upgradeInterface.position.y < originalInterfacePosition.y + 100)
+        {
+            upgradeInterface.DOMoveY(originalInterfacePosition.y + 50, 0.5f, false);
+        }
+    }
+
+    public void HideUpgradeWindow()
+    {
+        upgradeInterface.DOMoveY(originalInterfacePosition.y, 0.5f, false);
     }
 }
