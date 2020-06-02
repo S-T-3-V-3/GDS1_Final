@@ -19,4 +19,7 @@ public class GameSettings : ScriptableObject
     public GameObject experienceOrbEffect;
     public GameObject muzzleFlashEffect;
     public GameObject shockwaveEffect;
+
+    [Header("Game Indicators")]
+    public GameObject dropIndicator;
 }

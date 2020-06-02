@@ -82,6 +82,7 @@ public class BasicEnemy : Pawn
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
+        DropWeapon();
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
     }
@@ -90,11 +91,39 @@ public class BasicEnemy : Pawn
         equippedWeapon = this.gameObject.AddComponent<Weapon>();
         
         WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+        equippedWeapon.weaponModel = weaponSettings.WeaponPrefab;
         equippedWeapon.canShoot = true;
         equippedWeapon.weaponType = weaponSettings.weaponType;
         equippedWeapon.weaponStats = weaponSettings.weaponBaseStats;
         equippedWeapon.firePoint = firePoint;
         equippedWeapon.ownerStats = this.statHandler;
+    }
+
+    void DropWeapon()
+    {
+        if (equippedWeapon == null) return;
+        if (equippedWeapon.weaponModel == null || equippedWeapon.weaponType == WeaponType.MELEE) return;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.up * -1, out hit, 10))
+        {
+            ///CHANGE THIS TO A BETTER VERSION WHEN THE WEAPONS ARE WORKING FOR ENEMY
+
+            //WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
+            DroppedState item = droppedItem.AddComponent<DroppedState>();
+
+            ////THIS IS TEMPORARY
+            ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
+            ///
+            int randomSelect = Random.Range(0, 10);
+
+            if (randomSelect > 6)
+                item.weaponType = WeaponType.RIFLE;
+            else
+                item.weaponType = WeaponType.SHOTGUN;
+        }
     }
 
     // Static Helper Functions

@@ -34,3 +34,5 @@ MonoBehaviour:
     type: 3}
   shockwaveEffect: {fileID: 6617947454074668339, guid: 62f8f091877ab4e778074b1a64e337d8,
     type: 3}
+  dropIndicator: {fileID: 9088756121751315764, guid: ba7a9aed0d903444ba41c071ba801c07,
+    type: 3}

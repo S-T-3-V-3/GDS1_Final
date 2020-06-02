@@ -8,6 +8,7 @@ using System.Linq;
 public class BasicPlayer : Pawn
 {
     public Transform gunPosition;
+    public Transform dropPosition;
     public Transform groundPosition;
     public Animator animationController;
     public LayerMask groundMask;
@@ -90,7 +91,7 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
         Debug.Log(weaponType);
-        Debug.Log(equippedWeapon.name);
+        //Debug.Log(equippedWeapon.weaponModel);
 
         weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 
@@ -101,7 +102,16 @@ public class BasicPlayer : Pawn
 
     void DropWeapon() {
 
+        if(equippedWeapon.weaponType == WeaponType.MELEE) return;
 
+        RaycastHit hit;
+
+        if(Physics.Raycast(dropPosition.position, Vector3.up * -1, out hit, 10))
+        {
+            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
+            DroppedState state = droppedItem.AddComponent<DroppedState>();
+            state.weaponType = equippedWeapon.weaponType;
+        }
     }
 
     public override void InitDamageable()
