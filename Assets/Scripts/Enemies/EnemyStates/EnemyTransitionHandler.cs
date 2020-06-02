@@ -15,6 +15,10 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemyIdleState>();
                 break;
 
+            case EnemyType.HEAVY_GUNNER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
             default:
                 break;
         }
@@ -27,6 +31,10 @@ public static class EnemyTransitionHandler
                 break;
 
             case EnemyType.RUSHER:
+                enemy.SetState<EnemySeekState>();
+                break;
+
+            case EnemyType.HEAVY_GUNNER:
                 enemy.SetState<EnemySeekState>();
                 break;
 
@@ -43,6 +51,10 @@ public static class EnemyTransitionHandler
 
             case EnemyType.RUSHER:
                 enemy.SetState<EnemyIdleState>();
+                break;
+
+            case EnemyType.HEAVY_GUNNER:
+                enemy.SetState<EnemyWanderState>();
                 break;
 
             default:

@@ -16,4 +16,7 @@ public class GameSettings : ScriptableObject
 
     [Header("Game Effects")]
     public GameObject debrySparkEffect;
+    public GameObject experienceOrbEffect;
+    public GameObject muzzleFlashEffect;
+    public GameObject shockwaveEffect;
 }

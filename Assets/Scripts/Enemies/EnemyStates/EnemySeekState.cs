@@ -13,6 +13,10 @@ public class EnemySeekState : EnemyState
     Transform playerTransform;
     Rigidbody rb;
 
+    float heavyGunnerTimeShooting = 0f;
+    float heavyGunnerSinceShooting;
+    bool heavyGunnerShooting = false;
+
     public override void BeginState() {
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
@@ -36,8 +40,13 @@ public class EnemySeekState : EnemyState
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
 
-        if (enemySettings.traits.canShootAndSeek)
+        if (enemySettings.traits.canShootAndSeek && enemyType != EnemyType.HEAVY_GUNNER)
+        {
             enemy.equippedWeapon.Shoot();
+        } else if(!enemySettings.traits.canShootAndSeek && enemySettings.weaponType != WeaponType.MELEE)
+        {
+            enemy.SetState<EnemyPivotState>();
+        }
     }
 
     private void OnCollisionEnter(Collision other) {

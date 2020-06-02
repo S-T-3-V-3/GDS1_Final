@@ -5,6 +5,13 @@ using UnityEngine;
 public class RifleWeapon : Weapon
 {
 
+    public override void Init(WeaponDefinition weaponDefinition, Transform gunPosition)
+    {
+        base.Init(weaponDefinition, gunPosition);
+        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.muzzleFlashEffect, firePoint).GetComponent<ParticleSystem>();
+        //muzzleFlash.gameObject.transform.parent = firePoint.transform;
+    }
+
     public override void Shoot()
     {
         if (!canShoot) return;
@@ -23,6 +30,7 @@ public class RifleWeapon : Weapon
             currentBullet.initVelocity = this.transform.forward * weaponStats.shotSpeed; // Remove when enemies have weapons
         }
 
+        muzzleFlash.Play();
         AudioManager.Instance.onSoundEvent.Invoke(SoundType.Rifle);
         StartCoroutine(Reload());
     }

@@ -14,6 +14,13 @@ public class ShotgunWeapon : Weapon
 {
     ParticleSystem shotgunParticles;
 
+    public override void Init(WeaponDefinition weaponDefinition, Transform gunPosition)
+    {
+        base.Init(weaponDefinition, gunPosition);
+        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.muzzleFlashEffect, firePoint).GetComponent<ParticleSystem>();
+        firePoint.transform.parent = muzzleFlash.gameObject.transform;
+    }
+
     public override void Shoot()
     {
         if (!canShoot) return;
@@ -33,6 +40,7 @@ public class ShotgunWeapon : Weapon
         AudioManager.Instance.onSoundEvent.Invoke(SoundType.Shotgun);
         shotgunParticles.emission.SetBurst(0, new ParticleSystem.Burst(0, weaponStats.numBullets));
         shotgunParticles.Play();
+        muzzleFlash.Play();
 
         StartCoroutine(Reload());
     }

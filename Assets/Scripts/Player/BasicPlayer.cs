@@ -99,7 +99,10 @@ public class BasicPlayer : Pawn
         equippedWeapon.canShoot = true;
     }
 
-    void DropWeapon() { }
+    void DropWeapon() {
+
+
+    }
 
     public override void InitDamageable()
     {

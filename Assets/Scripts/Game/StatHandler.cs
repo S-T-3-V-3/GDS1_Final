@@ -12,7 +12,7 @@ public class StatHandler
         currentStats = baseStats;
     }
 
-    private PawnStats currentStats;
+    [SerializeField] private PawnStats currentStats;
     [SerializeField] private PawnStats baseStats;
     [SerializeField] private StatModifiers modifiers;
 
@@ -56,7 +56,7 @@ public class StatHandler
             maxHealthLevel++;
         }
     }
-    private int maxHealthLevel = 1;
+    [SerializeField] private int maxHealthLevel = 1;
 
     public int HealthRegenLevel {
         get { return healthRegenLevel; }
@@ -65,7 +65,7 @@ public class StatHandler
             currentStats.healthRegen = baseStats.healthRegen + (healthRegenLevel * modifiers.HealthRegen);
         }
     }
-    private int healthRegenLevel = 1;
+    [SerializeField] private int healthRegenLevel = 1;
 
     public int DamageLevel {
         get { return damageLevel; }
@@ -73,7 +73,7 @@ public class StatHandler
             currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel - 1);
         }
     }
-    private int damageLevel = 1;
+    [SerializeField] private int damageLevel = 1;
 
     public int AgilityLevel {
         get { return agilityLevel; }
@@ -87,7 +87,7 @@ public class StatHandler
                 currentStats.sprintSpeed += modifiers.SprintSpeed * (agilityLevel - 1);
         }
     }
-    private int agilityLevel = 1;
+    [SerializeField] private int agilityLevel = 1;
 
     public int AttackSpeedLevel {
         get { return attackSpeedLevel; }
@@ -95,7 +95,7 @@ public class StatHandler
             currentStats.attackSpeed =  baseStats.attackSpeed + (attackSpeedLevel - 1) * (modifiers.AttackSpeed * baseStats.attackSpeed);
         }
     }
-    private int attackSpeedLevel = 1;
+    [SerializeField] private int attackSpeedLevel = 1;
 
     public int CritChanceLevel {
         get { return critChanceLevel; }
@@ -103,7 +103,7 @@ public class StatHandler
             currentStats.critChance = baseStats.critChance + modifiers.CritChance * (critChanceLevel - 1);
         }
     }
-    private int critChanceLevel = 1;
+    [SerializeField] private int critChanceLevel = 1;
 
     //////////// Public Getters - Current Stat Values ////////////
     public float CurrentHealth {

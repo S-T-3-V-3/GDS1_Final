@@ -58,6 +58,8 @@ public class BasicEnemy : Pawn
 
     public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
+        base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
+
         GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.debrySparkEffect, hitPoint, Quaternion.identity);
         GameObject.Destroy(debryEffect, 2f);
     }
@@ -72,6 +74,11 @@ public class BasicEnemy : Pawn
         deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
         Destroy(deathEffectObject, particleLifetime);
 
+        GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.experienceOrbEffect, transform.position, Quaternion.identity);
+        GameObject.Destroy(experienceEffect, 6f);
+
+        GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.shockwaveEffect, transform.position, Quaternion.identity);
+        GameObject.Destroy(shockWave, 3);
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
