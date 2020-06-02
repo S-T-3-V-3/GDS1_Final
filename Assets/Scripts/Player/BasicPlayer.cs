@@ -22,7 +22,6 @@ public class BasicPlayer : Pawn
 
     GameManager gameManager;
     GameSettings gameSettings;
-    float gravity = -9.8f;
     
 
     void Awake()
@@ -49,7 +48,7 @@ public class BasicPlayer : Pawn
         //Equip starting weapon
         WeaponType startingWeaponType = WeaponType.SHOTGUN;
         WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == startingWeaponType).First().weaponBaseStats;
-        EquipWeapon<ShotgunWeapon>(startingWeaponType, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
+        EquipWeapon<RifleWeapon>(startingWeaponType, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }
 
     private void Update() {
@@ -74,7 +73,7 @@ public class BasicPlayer : Pawn
         if (isGrounded)
             velocity.y = 0;
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += gameSettings.gravity * Time.deltaTime;
     }
 
     //EQUIPS WEAPONS
@@ -89,8 +88,8 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
-        Debug.Log(weaponType);
-        Debug.Log(equippedWeapon.name);
+        //Debug.Log(weaponType);
+        //Debug.Log(equippedWeapon.name);
 
         weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 

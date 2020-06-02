@@ -11,7 +11,7 @@ public class EnemySeekState : EnemyState
     EnemyType enemyType;
     EnemySettings enemySettings;
     Transform playerTransform;
-    Rigidbody rb;
+    CharacterController characterController;
 
     float heavyGunnerTimeShooting = 0f;
     float heavyGunnerSinceShooting;
@@ -22,30 +22,37 @@ public class EnemySeekState : EnemyState
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;
         playerTransform = GameManager.Instance.playerController.transform;
-
-        rb = this.GetComponent<Rigidbody>();        
+        
+        characterController = this.GetComponent<CharacterController>();       
     }
 
     void FixedUpdate()
     {
         if (playerTransform == null) return;
 
+        enemy.GravityUpdate();
+        characterController.Move(enemy.velocity * Time.deltaTime);
+
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
-            Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemy.statHandler.MoveSpeed);
-            this.GetComponent<Rigidbody>().MovePosition(newPosition);
-            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
+            Vector3 targetDirection = Vector3.Normalize(playerTransform.position - this.transform.position);
+            Vector3 newPosition = targetDirection * Time.fixedDeltaTime * (enemy.statHandler.MoveSpeed/2);
+            
+            characterController.Move(newPosition);
+            
+            Vector3 lookRotation = new Vector3(targetDirection.x, 0, targetDirection.z);
+            this.transform.rotation = Quaternion.LookRotation(lookRotation);
+            
+            if (enemy.equippedWeapon != null && enemy.equippedWeapon.weaponModel != null)
+                enemy.equippedWeapon.weaponModel.transform.LookAt(enemy.equippedWeapon.weaponModel.transform.position + targetDirection * 3f);
         }
         else {
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
 
-        if (enemySettings.traits.canShootAndSeek && enemyType != EnemyType.HEAVY_GUNNER)
-        {
+        if (enemySettings.weaponType != WeaponType.MELEE && BasicEnemy.IsPlayerInWeaponRange(this.enemy)) {
+            EnemyTransitionHandler.OnPlayerInWeaponRange(this.enemy);
+
             enemy.equippedWeapon.Shoot();
-        } else if(!enemySettings.traits.canShootAndSeek && enemySettings.weaponType != WeaponType.MELEE)
-        {
-            enemy.SetState<EnemyPivotState>();
         }
     }
 

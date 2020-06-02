@@ -13,6 +13,7 @@ public class GameSettings : ScriptableObject
     public WorldTiles tiles;
     public List<EnemySettings> Enemies;
     public List<WeaponDefinition> WeaponList;
+    public float gravity = -9.8f;
 
     [Header("Game Effects")]
     public GameObject debrySparkEffect;

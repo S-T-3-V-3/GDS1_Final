@@ -49,4 +49,4 @@ MonoBehaviour:
     tileWeight: 1
   - tilePrefab: {fileID: 6860436977720681361, guid: fde8a926fc3194845ad4b5502430953d,
       type: 3}
-    tileWeight: 10
+    tileWeight: 1

@@ -63,6 +63,5 @@ MonoBehaviour:
     perceptiveness: 0
     wanderDistance: 15
     wanderStuckDistance: 0.1
-    canShootAndSeek: 0
     enemyScore: 100
   weaponType: 1
