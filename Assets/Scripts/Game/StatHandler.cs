@@ -70,6 +70,7 @@ public class StatHandler
     public int DamageLevel {
         get { return damageLevel; }
         private set {
+            damageLevel++;
             currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel - 1);
         }
     }
@@ -78,6 +79,7 @@ public class StatHandler
     public int AgilityLevel {
         get { return agilityLevel; }
         private set {
+            agilityLevel++;
             currentStats.maxEnergy = baseStats.maxEnergy + (agilityLevel * modifiers.MaxEnergy);
             currentStats.sprintSpeed = baseStats.sprintSpeed + agilityLevel * modifiers.SprintSpeed;
 
@@ -92,6 +94,7 @@ public class StatHandler
     public int AttackSpeedLevel {
         get { return attackSpeedLevel; }
         private set {
+            attackSpeedLevel++;
             currentStats.attackSpeed =  baseStats.attackSpeed + (attackSpeedLevel - 1) * (modifiers.AttackSpeed * baseStats.attackSpeed);
         }
     }
@@ -100,6 +103,7 @@ public class StatHandler
     public int CritChanceLevel {
         get { return critChanceLevel; }
         private set {
+            critChanceLevel++;
             currentStats.critChance = baseStats.critChance + modifiers.CritChance * (critChanceLevel - 1);
         }
     }
@@ -226,8 +230,8 @@ public class StatModifiers {
     [Header("Base stat multiplier : Default 0.3")]
     public float AttackSpeed = 0.3f;// = 0.3f
 
-    [Header("Flat per level : Default 0.05")]
-    public float CritChance = 0.05f;// = 0.05f
+    [Header("Flat per level : Default 5")]
+    public float CritChance = 5f;// = 5f
 }
 
 //////////// Raw Stats Class ////////////

@@ -85,10 +85,10 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void UpdateStats() {
         maxHPText.text = $"{playerRef.statHandler.MaxHealth}";
         HPRegenText.text = $"{playerRef.statHandler.HealthRegen}";
-        speedText.text = $"{playerRef.statHandler.MoveSpeed}";
+        speedText.text = $"{playerRef.statHandler.SprintSpeed}";
         damageText.text = $"{playerRef.statHandler.Damage} + <color=green>{playerRef.equippedWeapon.weaponStats.weaponDamage}</color>";
         attackSpeedText.text = $"{playerRef.statHandler.AttackSpeed}";
-        critChanceText.text = $"{playerRef.statHandler.CritChance * 100}%";
+        critChanceText.text = $"{playerRef.statHandler.CritChance}%";
     }
 
     void Update() {
