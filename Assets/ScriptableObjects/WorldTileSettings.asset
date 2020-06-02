@@ -18,6 +18,12 @@ MonoBehaviour:
   - tilePrefab: {fileID: 4377507850951423220, guid: d7c41df76399e5b4a86e62e0e62f2993,
       type: 3}
     tileWeight: 1
+  - tilePrefab: {fileID: 4377507850951423220, guid: e1ad7bd132b15c143a295888472a3837,
+      type: 3}
+    tileWeight: 1
+  - tilePrefab: {fileID: 6860436977720681361, guid: 1e7c609eec3028948b8cca4c26f812d7,
+      type: 3}
+    tileWeight: 1
   bossTiles: []
   standardTiles:
   - tilePrefab: {fileID: 272259745260780033, guid: f563d6f71a05e23439d885fecc5511e5,
