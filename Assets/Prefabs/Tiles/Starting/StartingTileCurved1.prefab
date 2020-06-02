@@ -883,13 +883,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connections:
-  - transform: {fileID: 0}
-    otherTile: {fileID: 0}
-    isBlocked: 0
   - transform: {fileID: 6860436977572228197}
     otherTile: {fileID: 0}
     isBlocked: 0
-  startLocation: {fileID: 0}
+  startLocation: {fileID: 1271937159108862714}
   isInitialized: 0
 --- !u!65 &5907407395644346395
 BoxCollider:
