@@ -72,7 +72,7 @@ public class BasicEnemy : Pawn
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
         deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
-        Destroy(deathEffectObject, particleLifetime);
+        GameObject.Destroy(deathEffectObject, particleLifetime);
 
         GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.experienceOrbEffect, transform.position, Quaternion.identity);
         GameObject.Destroy(experienceEffect, 6f);
