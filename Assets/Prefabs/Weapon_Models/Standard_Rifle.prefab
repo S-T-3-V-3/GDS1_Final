@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8465401342062978567}
   - component: {fileID: 2971855392960291190}
+  - component: {fileID: 9036782244924204366}
   m_Layer: 0
   m_Name: Standard_Rifle
   m_TagString: Untagged
@@ -50,6 +51,19 @@ MonoBehaviour:
   rightHandPoint: {fileID: 6763736276189938177}
   leftHandPoint: {fileID: 5898245685508178070}
   firePoint: {fileID: 6334737216319061309}
+--- !u!65 &9036782244924204366
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704757315446152108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.5618985, z: 1}
+  m_Center: {x: 0, y: 1.0020033, z: 0}
 --- !u!1 &846054610624770428
 GameObject:
   m_ObjectHideFlags: 0

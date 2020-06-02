@@ -108,25 +108,45 @@ public class BasicEnemy : Pawn
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
+        DropWeapon();
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
     }
 
-    public void EquipWeapon<T>(WeaponType weaponType, WeaponStats weaponStats) where T : Weapon
-    {
-        WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First();
-
-        equippedWeapon = this.gameObject.AddComponent<T>();
-        equippedWeapon.weaponStats = weaponStats;
-        equippedWeapon.weaponType = weaponType;
-        equippedWeapon.Init(weaponDefinition, weaponPosition);
-        //Debug.Log(weaponType);
-        //Debug.Log(equippedWeapon.name);
-
-        equippedWeapon.ownerStats = this.statHandler;
-        equippedWeapon.AddShotEffect(weaponDefinition);
+    void EquipWeapon() {
+        equippedWeapon = this.gameObject.AddComponent<Weapon>();
+        
+        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+        equippedWeapon.weaponModel = weaponSettings.WeaponPrefab;
         equippedWeapon.canShoot = true;
         this.firePoint = equippedWeapon.firePoint;
+    }
+
+    void DropWeapon()
+    {
+        if (equippedWeapon == null) return;
+        if (equippedWeapon.weaponModel == null || equippedWeapon.weaponType == WeaponType.MELEE) return;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.up * -1, out hit, 10))
+        {
+            ///CHANGE THIS TO A BETTER VERSION WHEN THE WEAPONS ARE WORKING FOR ENEMY
+
+            //WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
+            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
+            DroppedState item = droppedItem.AddComponent<DroppedState>();
+
+            ////THIS IS TEMPORARY
+            ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
+            ///
+            int randomSelect = Random.Range(0, 10);
+
+            if (randomSelect > 6)
+                item.weaponType = WeaponType.RIFLE;
+            else
+                item.weaponType = WeaponType.SHOTGUN;
+        }
     }
 
     // Static Helper Functions
