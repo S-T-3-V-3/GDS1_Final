@@ -47,7 +47,7 @@ public class LaserWeapon : Weapon
     public override void AddShotEffect(WeaponDefinition settings)
     {
         if (weaponType == WeaponType.LASER && laserBeam == null)
-            laserBeam = GameObject.Instantiate(GameManager.Instance.BeamRayPrefab, firePoint).GetComponent<LineRenderer>();
+            laserBeam = GameObject.Instantiate(GameManager.Instance.gameSettings.BeamRayEffectPrefab, firePoint).GetComponent<LineRenderer>();
     }
 
     IEnumerator LaserActiveCheck() {

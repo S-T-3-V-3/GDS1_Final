@@ -16,6 +16,7 @@ public class BasicPlayer : Pawn
     public float groundDistance;
     public bool canTakeDamage = true;
     public bool isGrounded = true;
+    public bool isSprinting = false;
 
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
@@ -122,16 +123,11 @@ public class BasicPlayer : Pawn
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
-        // Play cool effect on player
-        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
-        ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
+        GameObject shockwaveEffect = Instantiate(gameManager.gameSettings.ShockwavePrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        ParticleSystem.MainModule deathParticleSystem = shockwaveEffect.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
-        Destroy(deathEffectObject, particleLifetime);
-
-        //Restore Cursor
-        //Cursor.visible = true;
-        //Cursor.lockState = CursorLockMode.None;
+        Destroy(shockwaveEffect, particleLifetime);
 
         //Get player's final score
         gameManager.GameOver(particleLifetime);

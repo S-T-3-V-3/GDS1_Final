@@ -33,13 +33,20 @@ public class MovementState : PlayerState
 
     public void FixedUpdate()
     {
-        Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
-        //////////// Debug Input ///////////////////
-        // Will need to change to the new input sytem later
-        if(Input.GetKey(KeyCode.LeftShift)) {
-            newPosition = currentMovementInput * player.statHandler.SprintSpeed * Time.fixedDeltaTime;
+        if (player.isSprinting) {
+            player.statHandler.Energy -= 10f * Time.deltaTime;
+
+            if (player.statHandler.Energy <= 0) {
+                player.isSprinting = false;
+                player.statHandler.MoveSpeed = player.statHandler.WalkSpeed;
+                animationController.SetBool("isSprinting", player.isSprinting);
+            }
         }
-        ////////////////////////////////////////////
+        else {
+            player.statHandler.Energy += player.statHandler.EnergyRegenSpeed * Time.deltaTime;
+        }
+
+        Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
         characterController.Move(newPosition);
         characterController.Move(player.velocity * Time.deltaTime);
 
@@ -122,5 +129,11 @@ public class MovementState : PlayerState
 
     public void OnShoot(InputValue value) {
         isShooting = value.Get<float>() > 0.25f;
+    }
+
+    public void OnSprint(InputValue value) {
+        player.isSprinting = value.Get<float>() == 0 ? false : true;
+        animationController.SetBool("isSprinting", player.isSprinting);
+        player.statHandler.MoveSpeed = player.isSprinting ? player.statHandler.SprintSpeed : player.statHandler.WalkSpeed;
     }
 }

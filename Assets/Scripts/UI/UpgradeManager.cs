@@ -158,19 +158,21 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     /////////////////////////////////
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (skillButtonsEnabled) return;
         ShowUpgradeWindow();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (skillButtonsEnabled) return;
         HideUpgradeWindow();
     }
 
     public void ShowUpgradeWindow()
     {
-        if(upgradeInterface.position.y < originalInterfacePosition.y + 100)
+        if(upgradeInterface.position.y < 0)
         {
-            upgradeInterface.DOMoveY(originalInterfacePosition.y + 50, 0.5f, false);
+            upgradeInterface.DOMoveY(0, 0.5f, false);
         }
     }
 

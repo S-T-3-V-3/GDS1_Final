@@ -16,10 +16,13 @@ public class GameSettings : ScriptableObject
     public float gravity = -9.8f;
 
     [Header("Game Effects")]
-    public GameObject debrySparkEffect;
-    public GameObject experienceOrbEffect;
-    public GameObject muzzleFlashEffect;
-    public GameObject shockwaveEffect;
+    public GameObject DebrisSparkPrefab;
+    public GameObject ExperienceOrbPrefab;
+    public GameObject MuzzleFlashPrefab;
+    public GameObject ShockwavePrefab;
+    public GameObject DirectionalExplosionPrefab;
+    public GameObject ShotgunParticlePrefab;
+    public GameObject BeamRayEffectPrefab;
 
     [Header("Game Indicators")]
     public GameObject dropIndicator;

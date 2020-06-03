@@ -7,7 +7,7 @@ public class RifleWeapon : Weapon
     public override void Init(WeaponDefinition weaponDefinition, Transform gunPosition)
     {
         base.Init(weaponDefinition, gunPosition);
-        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.muzzleFlashEffect, firePoint).GetComponent<ParticleSystem>();
+        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.MuzzleFlashPrefab, firePoint).GetComponent<ParticleSystem>();
         //muzzleFlash.gameObject.transform.parent = firePoint.transform;
     }
 

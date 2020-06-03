@@ -29,6 +29,8 @@ public class HealthBar : MonoBehaviour
         }
 
         playerRef.statHandler.OnHealthChanged.AddListener(UpdateHealth);
+        //// TODO: Delete below line
+        GameManager.Instance.hud.playerRef = playerRef;
         UpdateHealth();
     }
 

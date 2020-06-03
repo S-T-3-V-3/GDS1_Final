@@ -17,6 +17,7 @@ public class StatHandler
     [SerializeField] private StatModifiers modifiers;
 
     public UnityEvent OnHealthChanged = new UnityEvent();
+    public UnityEvent OnEnergyChanged = new UnityEvent();
 
 
     //////////// Level UP ////////////
@@ -150,7 +151,12 @@ public class StatHandler
             return currentStats.energy;
         }
         set {
-            baseStats.energy = value; // Used when consuming / regenerating energy
+            currentStats.energy = value; // Used when consuming / regenerating energy
+
+            if (currentStats.energy > currentStats.maxEnergy)
+                currentStats.energy = currentStats.maxEnergy;
+
+            OnEnergyChanged.Invoke();
         }
     }
 
@@ -175,6 +181,12 @@ public class StatHandler
     public float SprintSpeed {
         get {
             return currentStats.sprintSpeed;
+        }
+    }
+
+    public float WalkSpeed {
+        get {
+            return baseStats.moveSpeed;
         }
     }
 

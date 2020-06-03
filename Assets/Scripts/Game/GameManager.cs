@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverUIPrefab;
     public GameObject ProjectilePrefab;
     public GameObject HUDPrefab;
-    public GameObject BeamRayPrefab;
-    public GameObject ShotgunParticlePrefab;
 
     [Header("Settings")]
     public GameSettings gameSettings;

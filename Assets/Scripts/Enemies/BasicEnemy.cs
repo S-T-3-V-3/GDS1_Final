@@ -86,24 +86,24 @@ public class BasicEnemy : Pawn
     {
         base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
 
-        GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.debrySparkEffect, hitPoint, Quaternion.identity);
+        GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.DebrisSparkPrefab, hitPoint, Quaternion.identity);
         GameObject.Destroy(debryEffect, 2f);
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         // Play cool effect on enemy
-        GameObject deathEffectObject = Instantiate(deathEffectPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+        GameObject deathEffectObject = Instantiate(gameManager.gameSettings.DirectionalExplosionPrefab, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
         ParticleSystem.MainModule deathParticleSystem = deathEffectObject.GetComponent<ParticleSystem>().main;
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
         deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
         GameObject.Destroy(deathEffectObject, particleLifetime);
 
-        GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.experienceOrbEffect, transform.position, Quaternion.identity);
+        GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.ExperienceOrbPrefab, transform.position, Quaternion.identity);
         GameObject.Destroy(experienceEffect, 6f);
 
-        GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.shockwaveEffect, transform.position, Quaternion.identity);
+        GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
         GameObject.Destroy(shockWave, 3);
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);

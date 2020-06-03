@@ -17,7 +17,7 @@ public class ShotgunWeapon : Weapon
     public override void Init(WeaponDefinition weaponDefinition, Transform gunPosition)
     {
         base.Init(weaponDefinition, gunPosition);
-        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.muzzleFlashEffect, firePoint).GetComponent<ParticleSystem>();
+        muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.MuzzleFlashPrefab, firePoint).GetComponent<ParticleSystem>();
         firePoint.transform.parent = muzzleFlash.gameObject.transform;
     }
 
@@ -73,6 +73,6 @@ public class ShotgunWeapon : Weapon
     public override void AddShotEffect(WeaponDefinition settings)
     {
         if (weaponType == WeaponType.SHOTGUN && shotgunParticles == null)
-            shotgunParticles = Instantiate(GameManager.Instance.ShotgunParticlePrefab, firePoint).GetComponent<ParticleSystem>();
+            shotgunParticles = Instantiate(GameManager.Instance.gameSettings.ShotgunParticlePrefab, firePoint).GetComponent<ParticleSystem>();
     }
 }

@@ -7,7 +7,6 @@ public abstract class Pawn : MonoBehaviour, IDamageable
     public StatHandler statHandler;
     public Weapon equippedWeapon;
     public Transform firePoint;
-    public GameObject deathEffectPrefab;
 
     bool canTakeDamage = true;
 

@@ -64,9 +64,11 @@ public class BasicProjectile : MonoBehaviour
         deathEffectObject.GetComponent<Renderer>().material = ProjectileRenderer.material;
         deathParticleSystem.startSize = 0.1f;
         deathParticleSystem.startLifetimeMultiplier = 0.5f;
+
         ParticleSystem.ShapeModule shape = deathEffectObject.GetComponent<ParticleSystem>().shape;
         shape.radius = 0.2f;
-        Destroy(deathEffectObject, particleLifetime);
+
+        GameObject.Destroy(deathEffectObject, particleLifetime);
         GameObject.Destroy(this.gameObject);
     }
 }
