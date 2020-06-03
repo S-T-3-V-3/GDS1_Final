@@ -113,11 +113,19 @@ public class BasicEnemy : Pawn
         //Debug.Log($"{gameObject.name} is Dead");
     }
 
-    void EquipWeapon() {
-        equippedWeapon = this.gameObject.AddComponent<Weapon>();
-        
-        WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
-        equippedWeapon.weaponModel = weaponSettings.WeaponPrefab;
+    public void EquipWeapon<T>(WeaponType weaponType, WeaponStats weaponStats) where T : Weapon
+    {
+        WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First();
+
+        equippedWeapon = this.gameObject.AddComponent<T>();
+        equippedWeapon.weaponStats = weaponStats;
+        equippedWeapon.weaponType = weaponType;
+        equippedWeapon.Init(weaponDefinition, weaponPosition);
+        //Debug.Log(weaponType);
+        //Debug.Log(equippedWeapon.name);
+
+        equippedWeapon.ownerStats = this.statHandler;
+        equippedWeapon.AddShotEffect(weaponDefinition);
         equippedWeapon.canShoot = true;
         this.firePoint = equippedWeapon.firePoint;
     }
