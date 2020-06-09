@@ -5,20 +5,30 @@ using UnityEngine;
 public class Ability : MonoBehaviour
 {
         public Vector3 moveDirection;
-
         public const float maxDashTime = 1.0f;
         public float dashDistance = 10;
         public float dashStoppingSpeed = 0.1f;
         float currentDashTime = maxDashTime;
         float dashSpeed = 6;
+
+        public AbilityType abilityType;
+        public AbilityStats abilityStats;
+        public StatModifiers statModifier;
         CharacterController controller;
-
+        BasicPlayer player;
         public Transform firePoint;
-        bool canDash = true;
+        float timer;
 
-        private void Awake()
+        bool canDash = true;
+     
+        void Start()
         {
-            controller = GetComponent<CharacterController>();
+            controller = GameManager.Instance.playerController.GetComponent<CharacterController>();
+            player = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
+
+            abilityType = AbilityType.RAPIDFIRE;
+            abilityStats.multiplier = 5;
+            abilityStats.time = 5;
         }
 
         void Update()
@@ -41,8 +51,25 @@ public class Ability : MonoBehaviour
                 }
                 controller.Move(moveDirection * Time.deltaTime * dashSpeed);
             }
-           
-        }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                switch(abilityType)
+                {
+                    case AbilityType.DASH:
+                        //dash();
+                        break;
+                    case AbilityType.RAPIDHEAL:
+                        StartCoroutine(rapidHeal());                  
+                        break;
+                    case AbilityType.RAPIDFIRE:
+                        //StartCoroutine(rapidFire());
+                        break;
+
+                }
+
+            }
+         }
 
         void checkDash()
         {
@@ -57,4 +84,17 @@ public class Ability : MonoBehaviour
         else
             canDash = true;
         }
-  }
+
+        IEnumerator rapidHeal()
+        {
+            int swapStat;
+            swapStat = player.statHandler.HealthRegenLevel;
+
+            player.statHandler.HealthRegenLevel *= abilityStats.multiplier;
+
+            yield return new WaitForSeconds(abilityStats.time);
+
+            player.statHandler.HealthRegenLevel = swapStat;
+        }
+
+}
