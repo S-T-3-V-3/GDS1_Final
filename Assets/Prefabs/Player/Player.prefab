@@ -283,8 +283,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
-  dashDistance: 5
-  dashStoppingSpeed: 0.1
+  abilityType: 0
+  abilityStats:
+    time: 0
+    multiplier: 0
+    dashDistance: 0
   firePoint: {fileID: 2294213428059731054}
 --- !u!1001 &1060608393577246842
 PrefabInstance:

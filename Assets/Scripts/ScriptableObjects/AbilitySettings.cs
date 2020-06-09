@@ -17,6 +17,7 @@ public struct AbilityStats
 {
     public float time;
     public int multiplier;
+    public float dashDistance;
 }
 
 
@@ -24,5 +25,6 @@ public enum AbilityType
 {
     DASH,
     RAPIDHEAL,
-    RAPIDFIRE
+    RAPIDFIRE,
+    INVISIBILITY
 }

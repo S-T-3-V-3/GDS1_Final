@@ -1,63 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Ability : MonoBehaviour
 {
-        public Vector3 moveDirection;
-        public const float maxDashTime = 1.0f;
-        public float dashDistance = 10;
-        public float dashStoppingSpeed = 0.1f;
-        float currentDashTime = maxDashTime;
-        float dashSpeed = 6;
+        public Vector3 moveDirection = Vector3.zero;
+
+        GameManager gameManager;
+        GameSettings gameSettings;
 
         public AbilityType abilityType;
         public AbilityStats abilityStats;
-        public StatModifiers statModifier;
-        CharacterController controller;
-        BasicPlayer player;
-        public Transform firePoint;
-        float timer;
 
-        bool canDash = true;
+        CharacterController characterController;
+        BasicPlayer player;
+
+        public Transform firePoint;
      
         void Start()
         {
-            controller = GameManager.Instance.playerController.GetComponent<CharacterController>();
+            gameManager = GameManager.Instance;
+            gameSettings = gameManager.gameSettings;
+
+            characterController= GameManager.Instance.playerController.GetComponent<CharacterController>();
             player = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
 
-            abilityType = AbilityType.RAPIDFIRE;
-            abilityStats.multiplier = 5;
-            abilityStats.time = 5;
+            AbilitySettings abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.RAPIDFIRE).First();
+            abilityType = abilitySettings.abilityType;
+            abilityStats = abilitySettings.abilityStats;
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+           if (Input.GetKeyDown(KeyCode.E))
             {
-                checkDash();
-                currentDashTime = 0;
-            }
-            if (canDash)
-            {
-                if (currentDashTime < maxDashTime)
-                {
-                    moveDirection = transform.forward * dashDistance;
-                    currentDashTime += dashStoppingSpeed;
-                }
-                else
-                {
-                    moveDirection = Vector3.zero;
-                }
-                controller.Move(moveDirection * Time.deltaTime * dashSpeed);
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                switch(abilityType)
+            switch (abilityType)
                 {
                     case AbilityType.DASH:
-                        //dash();
+                        StartCoroutine(dash());
                         break;
                     case AbilityType.RAPIDHEAL:
                         StartCoroutine(rapidHeal());                  
@@ -65,31 +46,46 @@ public class Ability : MonoBehaviour
                     case AbilityType.RAPIDFIRE:
                         StartCoroutine(rapidFire());
                         break;
+                    case AbilityType.INVISIBILITY:
+                        StartCoroutine(invisible());
+                        break;
 
-                }
+            }
 
             }
          }
+
+        IEnumerator dash()
+        {
+            checkDash();
+            GameManager.Instance.playerController.stateManager.RemoveState();
+            moveDirection = transform.forward * abilityStats.dashDistance;
+            characterController.Move(moveDirection);
+            characterController.Move(player.velocity * Time.deltaTime);
+           
+
+            yield return new WaitForSeconds(abilityStats.time);
+
+            moveDirection = Vector3.zero;
+            GameManager.Instance.playerController.stateManager.AddState<MovementState>();
+        }
 
         void checkDash()
         {
             Ray ray = new Ray(firePoint.position, firePoint.forward);
             RaycastHit hitInfo;
-
-        if (Physics.Raycast(ray, out hitInfo, dashDistance))
-        {
-            canDash = false;
+            float swapStats = abilityStats.dashDistance;
+            if (Physics.Raycast(ray, out hitInfo, abilityStats.dashDistance))
+                abilityStats.dashDistance = hitInfo.distance;
             Debug.Log(hitInfo.distance);
-        }
-        else
-            canDash = true;
+   
         }
 
         IEnumerator rapidHeal()
         {
             int swapStat;
             swapStat = player.statHandler.HealthRegenLevel;
-
+            
             player.statHandler.HealthRegenLevel *= abilityStats.multiplier;
 
             yield return new WaitForSeconds(abilityStats.time);
@@ -108,5 +104,14 @@ public class Ability : MonoBehaviour
 
             player.statHandler.AttackSpeedLevel = swapStat;
         }
+    /*
+        IEnumerator invisible()
+        {
+            player.canTakeDamage = false;
+        Debug.Log("de");
+            yield return new WaitForSeconds(abilityStats.time);
 
+            player.canTakeDamage = true;
+            */
+    }
 }

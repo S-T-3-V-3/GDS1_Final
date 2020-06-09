@@ -25,5 +25,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9fa062b175a7ed144b2ec6ad14ea3c6e, type: 2}
   - {fileID: 11400000, guid: 5f85e002bdfea4e84981fcfdaa3cdd19, type: 2}
   - {fileID: 11400000, guid: 8db92c7314fcb4c1480afb7c645c0f61, type: 2}
+  Abilities:
+  - {fileID: 11400000, guid: e96fcc77254a6924ebe72d61de254b43, type: 2}
+  - {fileID: 11400000, guid: ee81327ba3c1e1948a1947247e7367f5, type: 2}
+  - {fileID: 11400000, guid: eb2a34172c053824db2cc1c253f7c72e, type: 2}
+  - {fileID: 11400000, guid: da8ef91afb92b0044bc22176008db74e, type: 2}
   aimPointUI: {fileID: 7675460154675966554, guid: 4837f4c7f2c384fd287058b62becec89,
     type: 3}

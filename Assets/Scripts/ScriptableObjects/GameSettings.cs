@@ -13,6 +13,7 @@ public class GameSettings : ScriptableObject
     public WorldTiles worldTiles;
     public List<EnemySettings> Enemies;
     public List<WeaponSettings> Weapons;
+    public List<AbilitySettings> Abilities;
 
     [Header("UI Settings")]
     public GameObject aimPointUI;
