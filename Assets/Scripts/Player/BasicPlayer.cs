@@ -65,7 +65,7 @@ public class BasicPlayer : Pawn
             Application.Quit();
         }
 
-        if(Input.GetKeyDown(KeyCode.I)) {
+        if(Input.GetKeyDown(KeyCode.Semicolon)) {
             gameManager.OnAddScore.Invoke(100, Vector3.zero);
         }
         ////////////////////////////////////////////
