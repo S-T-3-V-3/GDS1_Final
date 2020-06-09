@@ -34,8 +34,8 @@ MonoBehaviour:
       energy: 50
       maxEnergy: 50
       energyRegen: 2
-      moveSpeed: 5
-      sprintSpeed: 10
+      moveSpeed: 8
+      sprintSpeed: 12
       attackSpeed: 1
       damage: 10
       critChance: 5
@@ -50,10 +50,13 @@ MonoBehaviour:
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
     maxHealthLevel: 0
     healthRegenLevel: 0
     damageLevel: 0
-    agilityLevel: 0
+    energyLevel: 0
     attackSpeedLevel: 0
     critChanceLevel: 0
   aimSystem: {fileID: 8479316095007590557, guid: b21657e3b0a9a498ab2b008506f6a8f1,

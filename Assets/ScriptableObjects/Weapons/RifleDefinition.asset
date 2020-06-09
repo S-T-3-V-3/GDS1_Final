@@ -18,8 +18,8 @@ MonoBehaviour:
   weaponBaseStats:
     weaponDamage: 10
     critDamage: 5
-    range: 10
-    shotSpeed: 30
+    range: 15
+    shotSpeed: 45
     fireRate: 1
     accuracy: 0
     hasPiercingShots: 0

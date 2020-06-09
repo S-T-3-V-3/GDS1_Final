@@ -38,16 +38,24 @@ public class BasicProjectile : MonoBehaviour
 
         if (other.gameObject.GetComponent<IDamageable>() != null)
         {
-            DamageType damage;
-            damage.owningObject = owningObject;
-            damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = this.initVelocity;
-            damage.damageAmount = this.damageAmount;
-            damage.isCrit = false;
-            damage.isPiercing = false;
+            //Responsible to preventing enemy fire
+            if(owningObject.GetComponent<BasicEnemy>() != null && other.gameObject.GetComponent<BasicEnemy>())
+            {
+                Die();
+            }
+            else
+            {
+                DamageType damage;
+                damage.owningObject = owningObject;
+                damage.impactPosition = other.contacts.First().point;
+                damage.impactVelocity = this.initVelocity;
+                damage.damageAmount = this.damageAmount;
+                damage.isCrit = false;
+                damage.isPiercing = false;
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
-            AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
+                other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
+                AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
+            }
 
             Die();
         }

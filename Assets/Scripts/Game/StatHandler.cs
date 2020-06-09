@@ -35,8 +35,8 @@ public class StatHandler
                 DamageLevel++;
                 break;
 
-            case StatType.AGILITY:
-                AgilityLevel++;
+            case StatType.ENERGY:
+                EnergyLevel++;
                 break;
 
             case StatType.ATTACK_SPEED:
@@ -77,20 +77,20 @@ public class StatHandler
     }
     [SerializeField] private int damageLevel = 1;
 
-    public int AgilityLevel {
-        get { return agilityLevel; }
+    public int EnergyLevel {
+        get { return energyLevel; }
         private set {
-            agilityLevel++;
-            currentStats.maxEnergy = baseStats.maxEnergy + (agilityLevel * modifiers.MaxEnergy);
-            currentStats.sprintSpeed = baseStats.sprintSpeed + agilityLevel * modifiers.SprintSpeed;
+            energyLevel++;
+            currentStats.maxEnergy = baseStats.maxEnergy + (energyLevel * modifiers.MaxEnergy);
+            /*currentStats.sprintSpeed = baseStats.sprintSpeed + energyLevel * modifiers.SprintSpeed;
 
             currentStats.sprintSpeed = baseStats.sprintSpeed;
 
-            for (int i = 0; i < agilityLevel; i++)
-                currentStats.sprintSpeed += modifiers.SprintSpeed * (agilityLevel - 1);
+            for (int i = 0; i < energyLevel; i++)
+                currentStats.sprintSpeed += modifiers.SprintSpeed * (energyLevel - 1);*/
         }
     }
-    [SerializeField] private int agilityLevel = 1;
+    [SerializeField] private int energyLevel = 1;
 
     public int AttackSpeedLevel {
         get { return attackSpeedLevel; }
@@ -214,7 +214,7 @@ public enum StatType {
     MAX_HP = 1,
     HP_REGEN = 2,
     DAMAGE = 3,
-    AGILITY = 4,
+    ENERGY = 4,
     ATTACK_SPEED = 5,
     CRIT_CHANCE = 6
 }

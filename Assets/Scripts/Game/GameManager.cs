@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject ProjectilePrefab;
     public GameObject HUDPrefab;
 
+    [Header("Environment Materials")]
+    public List<Material> rockMaterials;
+    public List<Material> groundMaterials;
+
     [Header("Settings")]
     public GameSettings gameSettings;
 

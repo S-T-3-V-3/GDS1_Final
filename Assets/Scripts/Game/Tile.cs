@@ -8,8 +8,23 @@ using System.Linq;
 public class Tile : MonoBehaviour
 {
     public List<Connection> connections;
+    public List<MeshRenderer> rocks;
+    public List<MeshRenderer> groundRocks;
+
     public Transform startLocation;
     public bool isInitialized = false;
+
+    void Start() {
+        //Set a material for the rocks and floors from the game manager
+        foreach(MeshRenderer rock in rocks)
+        {
+            rock.material = GameManager.Instance.rockMaterials[Random.Range(0,GameManager.Instance.rockMaterials.Count)]; 
+        }
+        foreach(MeshRenderer ground in groundRocks)
+        {
+            ground.material = GameManager.Instance.groundMaterials[Random.Range(0,GameManager.Instance.groundMaterials.Count)]; 
+        }
+    }
 
     void OnDrawGizmos() {
         foreach (Connection n in connections.Where(x => x.transform != null)) {
