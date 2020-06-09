@@ -53,6 +53,16 @@ MonoBehaviour:
     type: 3}
   HUDPrefab: {fileID: 4820513166456618387, guid: f3d497e348f7e6048a4a23ed8b9949d7,
     type: 3}
+  PausePrefab: {fileID: 7266263905791287532, guid: c585b0a141058114bae8b48458ff16af,
+    type: 3}
+  ControlsUIPrefab: {fileID: 7266263905791287532, guid: 45c649dcf2da00541b43c8a253dcb5a3,
+    type: 3}
+  rockMaterials:
+  - {fileID: 2100000, guid: d30a0fd01b0c2654ca83f1d609af3f8f, type: 2}
+  - {fileID: 2100000, guid: 43c4a3f7b44653340a51c6cdf6f9bbc5, type: 2}
+  groundMaterials:
+  - {fileID: 2100000, guid: 869d06dfad7cb6341b3d8e25b2d0d733, type: 2}
+  - {fileID: 2100000, guid: 79d6e5ad9fc8bfb42af54bb914080651, type: 2}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}
@@ -61,7 +71,8 @@ MonoBehaviour:
   gameOverUI: {fileID: 0}
   scoreManager: {fileID: 0}
   hud: {fileID: 0}
+  PauseHUD: {fileID: 0}
+  ControlsHUD: {fileID: 0}
   OnAddScore:
     m_PersistentCalls:
       m_Calls: []
-  playerScore: 0

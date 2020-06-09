@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverUIPrefab;
     public GameObject ProjectilePrefab;
     public GameObject HUDPrefab;
+    public GameObject PausePrefab;
+    public GameObject ControlsUIPrefab;
+
+    [Header("Environment Materials")]
+    public List<Material> rockMaterials;
+    public List<Material> groundMaterials;
 
     [Header("Settings")]
     public GameSettings gameSettings;
@@ -25,7 +32,11 @@ public class GameManager : MonoBehaviour
     public GameOverUI gameOverUI;
     public ScoreManager scoreManager;
     public HUD hud;
+    public GameObject PauseHUD;
+    public GameObject ControlsHUD;
     public ScoreEvent OnAddScore;
+
+    public static bool GameIsPaused = false;
 
     private void Awake()
     {
@@ -43,12 +54,16 @@ public class GameManager : MonoBehaviour
         
         GameObject hudObject = GameObject.Instantiate(HUDPrefab);
         hud = hudObject.GetComponent<HUD>();
+        PauseHUD = Instantiate(PausePrefab, this.transform);
+        ControlsHUD = Instantiate(ControlsUIPrefab, this.transform);
     }
 
     void Start()
     {
         SpawnPlayer();
         GameOverUIPrefab.SetActive(false);
+        PauseHUD.SetActive(false);
+        ControlsHUD.SetActive(false);
         OnAddScore.Invoke(0, Vector3.zero);
     }
 
@@ -62,6 +77,49 @@ public class GameManager : MonoBehaviour
         playerController = null;
         gameOverUI.Invoke("ShowDeathScreen", deathScreenDelay);
         //Set player to a dead state
+    }
+
+    public void OnPauseButton()
+    {
+        if(ControlsHUD.activeSelf)
+        {
+            PauseHUD.SetActive(true);
+            ControlsHUD.SetActive(false);
+        }
+        else if(GameIsPaused)
+        {
+            Resume();
+        }
+        else
+        {
+            Pause();
+        }
+    }
+
+    void Resume()
+    {
+        PauseHUD.SetActive(false);
+        //Time.timeScale = 1f;
+        GameIsPaused = false;
+    }
+
+    void Pause()
+    {
+        PauseHUD.SetActive(true);
+        //Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+
+    public void LoadControls()
+    {
+        PauseHUD.SetActive(false);
+        ControlsHUD.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Application Closes on Build Version");
+        Application.Quit();
     }
 }
 
