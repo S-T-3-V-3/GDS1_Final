@@ -63,7 +63,7 @@ public class Ability : MonoBehaviour
                         StartCoroutine(rapidHeal());                  
                         break;
                     case AbilityType.RAPIDFIRE:
-                        //StartCoroutine(rapidFire());
+                        StartCoroutine(rapidFire());
                         break;
 
                 }
@@ -95,6 +95,18 @@ public class Ability : MonoBehaviour
             yield return new WaitForSeconds(abilityStats.time);
 
             player.statHandler.HealthRegenLevel = swapStat;
+        }
+
+        IEnumerator rapidFire()
+        {
+            int swapStat;
+            swapStat = player.statHandler.AttackSpeedLevel;
+
+            player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
+
+            yield return new WaitForSeconds(abilityStats.time);
+
+            player.statHandler.AttackSpeedLevel = swapStat;
         }
 
 }
