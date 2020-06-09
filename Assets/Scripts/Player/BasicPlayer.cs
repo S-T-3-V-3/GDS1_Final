@@ -48,7 +48,7 @@ public class BasicPlayer : Pawn
         //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
-        WeaponType startingWeaponType = WeaponType.SHOTGUN;
+        WeaponType startingWeaponType = WeaponType.RIFLE;
         WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == startingWeaponType).First().weaponBaseStats;
         EquipWeapon<RifleWeapon>(startingWeaponType, newStats); // TODO WE NEED TO MAKE A RIFLE WEAPON LOL
     }

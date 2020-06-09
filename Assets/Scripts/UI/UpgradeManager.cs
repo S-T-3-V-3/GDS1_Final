@@ -11,7 +11,7 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public Button MaxHP;
     public Button HPRegen;
-    public Button Agility;
+    public Button Energy;
     public Button Damage;
     public Button AttackSpeed;
     public Button CritChance;
@@ -51,8 +51,8 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             SkillIncrease(StatType.HP_REGEN);
         });
 
-        Agility.onClick.AddListener(() => {
-            SkillIncrease(StatType.AGILITY);
+        Energy.onClick.AddListener(() => {
+            SkillIncrease(StatType.ENERGY);
         });
 
         Damage.onClick.AddListener(() => {
@@ -108,7 +108,7 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 SkillIncrease(StatType.HP_REGEN);
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
-                SkillIncrease(StatType.AGILITY);
+                SkillIncrease(StatType.ENERGY);
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 SkillIncrease(StatType.DAMAGE);
@@ -146,7 +146,7 @@ public class UpgradeManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         MaxHP.interactable = skillButtonsEnabled;
         HPRegen.interactable = skillButtonsEnabled;
-        Agility.interactable = skillButtonsEnabled;
+        Energy.interactable = skillButtonsEnabled;
         Damage.interactable= skillButtonsEnabled;
         AttackSpeed.interactable = skillButtonsEnabled;
         CritChance.interactable = skillButtonsEnabled;

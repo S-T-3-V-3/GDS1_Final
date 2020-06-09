@@ -23,11 +23,17 @@ public class RifleWeapon : Weapon
         currentBullet.damageAmount = weaponStats.weaponDamage + ownerStats.Damage;
 
         if (weaponModel != null)
-            currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed;
-        else
         {
-            currentBullet.initVelocity = this.transform.forward * weaponStats.shotSpeed; // Remove when enemies have weapons
+            if(currentBullet.owningObject.GetComponent<BasicPlayer>())
+            {
+                currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed;
+            }
+            else
+            {
+                currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed * 0.35f;
+            }
         }
+            
 
         muzzleFlash.Play();
         AudioManager.Instance.onSoundEvent.Invoke(SoundType.Rifle);

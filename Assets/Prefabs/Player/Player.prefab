@@ -2200,16 +2200,17 @@ MonoBehaviour:
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
     maxHealthLevel: 0
     healthRegenLevel: 0
     damageLevel: 0
-    agilityLevel: 0
+    energyLevel: 0
     attackSpeedLevel: 0
     critChanceLevel: 0
   equippedWeapon: {fileID: 0}
   firePoint: {fileID: 0}
-  deathEffectPrefab: {fileID: 1394122508529849891, guid: d3ff0538fafb42c41bd38ae6f1a7d850,
-    type: 3}
   gunPosition: {fileID: 7689455360915784238}
   dropPosition: {fileID: 7033397585121660205}
   groundPosition: {fileID: 5779607403557573619}
@@ -2221,6 +2222,7 @@ MonoBehaviour:
   groundDistance: 0.4
   canTakeDamage: 1
   isGrounded: 1
+  isSprinting: 0
 --- !u!136 &2251835159167874599
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2288,7 +2290,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 50
-  m_StepOffset: 0.8
+  m_StepOffset: 1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
