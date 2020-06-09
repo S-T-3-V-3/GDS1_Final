@@ -46,9 +46,9 @@ public class Ability : MonoBehaviour
                     case AbilityType.RAPIDFIRE:
                         StartCoroutine(rapidFire());
                         break;
-                    case AbilityType.INVISIBILITY:
-                        StartCoroutine(invisible());
-                        break;
+                    //case AbilityType.INVISIBILITY:
+                        //StartCoroutine(invisible());
+                        //break;
 
             }
 
@@ -113,5 +113,4 @@ public class Ability : MonoBehaviour
 
             player.canTakeDamage = true;
             */
-    }
 }
