@@ -10,6 +10,7 @@ public class MovementState : PlayerState
     BasicPlayer player;
     PlayerController playerController;
     PlayerSettings playerSettings;
+    AutoLookAt playerAim;
 
     CharacterController characterController;
     Transform cameraTransform;
@@ -19,10 +20,12 @@ public class MovementState : PlayerState
     Vector3 lookAtPos;
     Vector3 prevLookAtPos;
     bool isShooting = false;
+    bool isLockedOn = false;
 
     public override void BeginState()
     {
         player = this.GetComponent<BasicPlayer>();
+        playerAim = this.gameObject.AddComponent<AutoLookAt>();
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         cameraTransform = GameManager.Instance.mainCamera.transform;
         playerController = this.GetComponent<PlayerController>();
@@ -65,11 +68,20 @@ public class MovementState : PlayerState
             prevLookAtPos = lookAtPos;
         }
 
+        //lookAtPos = playerAim.OnMouseAim(InputValue value);
+
         /////// HANDLE WEAPONS ///////
         //player.equippedWeapon.RenderAim();
 
         if (isShooting)
             player.equippedWeapon.Shoot();
+
+        /*if (isLockedOn)
+        {
+            if (!playerAim.EnemyIsInFieldOfView()) isLockedOn = false;
+            if (playerAim.targetedEnemy == null) return;
+            lookAtPos = playerAim.LockOntoEnemy();
+        }*/
 
         // There's got to be a better way to do this
         // Start by putting these kinds of things on the relevant objects
@@ -102,15 +114,45 @@ public class MovementState : PlayerState
         Ray ray = camera.ScreenPointToRay(mousePos);
 
         RaycastHit[] hits = Physics.RaycastAll(ray,100f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null).ToArray();
+
         if (hits.Length > 0) {
-            if (hits.First().collider.GetComponent<IDamageable>() != null) {
+
+            Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 2);
+
+            if(hitColliders.First().GetComponent<IDamageable>() != null) {
                 if (hits.First().collider.transform != this.transform)
+                {
                     lookAtPos = hits.First().collider.transform.position;
+
+                    if (isShooting)
+                    {
+                        playerAim.targetedEnemy = hits.First().collider.gameObject;
+                    }
+                    Debug.Log("Has Got Enemy");
+                }
+            }
+            else
+            {
+                lookAtPos = hits.First().point;
+                lookAtPos.y += 0.5f;
+            }
+
+            /*if (hits.First().collider.GetComponent<IDamageable>() != null) {
+                if (hits.First().collider.transform != this.transform)
+                {
+                    lookAtPos = hits.First().collider.transform.position;
+
+                    if (isShooting)
+                    {
+                        playerAim.targetedEnemy = hits.First().collider.gameObject;
+                    }
+                        
+                }
             }
             else {
                 lookAtPos = hits.First().point;
                 lookAtPos.y += 0.5f;
-            }
+            }*/
         }
     }
 

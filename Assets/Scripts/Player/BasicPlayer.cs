@@ -90,6 +90,7 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
+        equippedWeapon.autoAim = true;
         //Debug.Log(weaponType);
         //Debug.Log(equippedWeapon.name);
 

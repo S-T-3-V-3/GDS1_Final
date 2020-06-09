@@ -8,6 +8,7 @@ public class RifleWeapon : Weapon
     {
         base.Init(weaponDefinition, gunPosition);
         muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.MuzzleFlashPrefab, firePoint).GetComponent<ParticleSystem>();
+        weaponAim = GetComponent<AutoLookAt>();
         //muzzleFlash.gameObject.transform.parent = firePoint.transform;
     }
 
@@ -17,6 +18,12 @@ public class RifleWeapon : Weapon
 
         BasicProjectile currentBullet = GameObject.Instantiate(GameManager.Instance.ProjectilePrefab, GameManager.Instance.transform).GetComponent<BasicProjectile>();
         currentBullet.transform.position = firePoint.position + firePoint.forward * 0.4f; // Temp until refactor
+
+        if (autoAim && weaponAim.EnemyIsInFieldOfView())
+        {
+            Debug.Log("Has Locked Fire");
+            currentBullet.transform.LookAt(weaponAim.LockOntoEnemy());
+        }
 
         currentBullet.owningObject = this.gameObject;
         currentBullet.range = weaponStats.range;

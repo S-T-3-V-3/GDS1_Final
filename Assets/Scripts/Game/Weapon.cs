@@ -11,11 +11,13 @@ public class Weapon : MonoBehaviour
     public WeaponStats weaponStats;
     public Transform firePoint;
     public ParticleSystem muzzleFlash;
+    public AutoLookAt weaponAim;
 
     [HideInInspector] public RaycastHit hit;
     [HideInInspector] public Vector3 rayDirection;
     [HideInInspector] public Vector3 offset;
     [HideInInspector] public bool canShoot = false;
+    [HideInInspector] public bool autoAim = false;
 
     public virtual void Init(WeaponDefinition weaponDefinition, Transform gunPosition) {
         weaponModel = GameObject.Instantiate(weaponDefinition.WeaponPrefab);
