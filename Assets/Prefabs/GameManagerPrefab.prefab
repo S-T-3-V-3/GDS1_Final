@@ -51,11 +51,7 @@ MonoBehaviour:
     type: 3}
   ProjectilePrefab: {fileID: 3730659653983302890, guid: 08cd2dfc74d338d4984e00c20746151a,
     type: 3}
-  HUDPrefab: {fileID: 4820513166456618387, guid: 4568553177761634a874cd540c7825c0,
-    type: 3}
-  BeamRayPrefab: {fileID: 8622692740938188195, guid: e0b6b691947384fa8a2f918459a82a9b,
-    type: 3}
-  ShotgunParticlePrefab: {fileID: 3233069400109412320, guid: b101c37ddede940c2b5a9346bce136ba,
+  HUDPrefab: {fileID: 4820513166456618387, guid: f3d497e348f7e6048a4a23ed8b9949d7,
     type: 3}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}

@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
     public bool isInitialized = false;
 
     void Start() {
+        if (rocks == null) return;
+        
         foreach(MeshRenderer rock in rocks) {
             rock.material.color = rockColors[Random.Range(0,1)]; 
         }

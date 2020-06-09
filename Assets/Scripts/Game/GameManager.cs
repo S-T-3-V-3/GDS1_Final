@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public HUD hud;
     public ScoreEvent OnAddScore;
-    public float playerScore = 0.0f;
 
     private void Awake()
     {
@@ -36,12 +35,14 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         audioManager = Instantiate(gameSettings.audioManager).GetComponent<AudioManager>();
+        scoreManager = this.gameObject.AddComponent<ScoreManager>();
+
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
         mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
         gameOverUI = GameObject.Instantiate(GameOverUIPrefab, this.transform).GetComponent<GameOverUI>();
+        
         GameObject hudObject = GameObject.Instantiate(HUDPrefab);
         hud = hudObject.GetComponent<HUD>();
-        scoreManager = hudObject.GetComponentInChildren<ScoreManager>();
     }
 
     void Start()

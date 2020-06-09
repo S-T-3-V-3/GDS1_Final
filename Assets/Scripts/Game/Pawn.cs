@@ -8,7 +8,7 @@ public abstract class Pawn : MonoBehaviour, IDamageable
     public Weapon equippedWeapon;
     public Transform firePoint;
 
-    bool canTakeDamage = true;
+    public bool canTakeDamage = true;
 
     public abstract void InitDamageable();
 

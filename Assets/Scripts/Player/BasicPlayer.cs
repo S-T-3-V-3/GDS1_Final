@@ -14,9 +14,9 @@ public class BasicPlayer : Pawn
     public LayerMask groundMask;
     public Vector3 velocity;
     public float groundDistance;
-    public bool canTakeDamage = true;
     public bool isGrounded = true;
     public bool isSprinting = false;
+    
 
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
@@ -65,7 +65,7 @@ public class BasicPlayer : Pawn
             Application.Quit();
         }
 
-        if(Input.GetKeyDown(KeyCode.I)) {
+        if(Input.GetKeyDown(KeyCode.Semicolon)) {
             gameManager.OnAddScore.Invoke(100, Vector3.zero);
         }
         ////////////////////////////////////////////
