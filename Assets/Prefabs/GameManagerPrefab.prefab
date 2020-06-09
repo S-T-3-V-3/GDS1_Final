@@ -53,10 +53,12 @@ MonoBehaviour:
     type: 3}
   HUDPrefab: {fileID: 4820513166456618387, guid: 4568553177761634a874cd540c7825c0,
     type: 3}
-  BeamRayPrefab: {fileID: 8622692740938188195, guid: e0b6b691947384fa8a2f918459a82a9b,
-    type: 3}
-  ShotgunParticlePrefab: {fileID: 3233069400109412320, guid: b101c37ddede940c2b5a9346bce136ba,
-    type: 3}
+  rockMaterials:
+  - {fileID: 2100000, guid: d30a0fd01b0c2654ca83f1d609af3f8f, type: 2}
+  - {fileID: 2100000, guid: 43c4a3f7b44653340a51c6cdf6f9bbc5, type: 2}
+  groundMaterials:
+  - {fileID: 2100000, guid: 869d06dfad7cb6341b3d8e25b2d0d733, type: 2}
+  - {fileID: 2100000, guid: 79d6e5ad9fc8bfb42af54bb914080651, type: 2}
   gameSettings: {fileID: 11400000, guid: 264aaa7c6a2ea4080af38f5bc98e4897, type: 2}
   tileManager: {fileID: 0}
   mainCamera: {fileID: 0}

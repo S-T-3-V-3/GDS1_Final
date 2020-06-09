@@ -24,13 +24,14 @@ public class RifleWeapon : Weapon
 
         if (weaponModel != null)
         {
+            //Slow down enemy rifle shots in comparison to the player
             if(currentBullet.owningObject.GetComponent<BasicPlayer>())
             {
                 currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed;
             }
             else
             {
-                currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed * 0.35f;
+                currentBullet.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed * 0.3f;
             }
         }
             
