@@ -8,8 +8,17 @@ using System.Linq;
 public class Tile : MonoBehaviour
 {
     public List<Connection> connections;
+    public List<MeshRenderer> rocks;
+    public List<Color> rockColors;
+
     public Transform startLocation;
     public bool isInitialized = false;
+
+    void Start() {
+        foreach(MeshRenderer rock in rocks) {
+            rock.material.color = rockColors[Random.Range(0,1)]; 
+        }
+    }
 
     void OnDrawGizmos() {
         foreach (Connection n in connections.Where(x => x.transform != null)) {
