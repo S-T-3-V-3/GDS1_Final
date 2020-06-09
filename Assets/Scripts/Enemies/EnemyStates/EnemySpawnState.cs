@@ -17,6 +17,8 @@ public class EnemySpawnState : EnemyState
             yield return null;
         }
 
+        yield return null;
+        
         EnemyTransitionHandler.OnStart(enemy);
     }
 }
