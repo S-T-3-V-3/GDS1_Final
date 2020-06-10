@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
 
     public Transform startLocation;
     public bool isInitialized = false;
+    public bool hasActivated = false;
 
     void Start() {
         //Set a material for the rocks and floors from the game manager
@@ -36,6 +37,17 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public void BlockAllConnections(Tile caller) {
+        foreach (Connection connection in connections) {
+            if (connection.otherTile == null) {
+                BlockConnection(connection);
+            }
+            else if (connection.otherTile != caller) {
+                BlockConnection(connection);
+            }
+        }
+    }
+
     public void AddNeighbours(Tile caller, int currentDepth) {
         currentDepth--;
 
@@ -50,38 +62,72 @@ public class Tile : MonoBehaviour
                 connection.otherTile.transform.RotateAround(connectingTransform.position,Vector3.up,angle);
                 connection.otherTile.isInitialized = true;
 
-                if (currentDepth > 0)
+                if (currentDepth > 0) {
                     connection.otherTile.AddNeighbours(this, currentDepth);
+
+                    if (connection.block != null)
+                        UnblockConnection(connection);
+                }
+                else {
+                    connection.otherTile.BlockAllConnections(this);
+                }
             }
             else if (connection.otherTile != caller) {
-                if (currentDepth > 0)
+                if (currentDepth > 0) {
                     connection.otherTile.AddNeighbours(this, currentDepth);
+                    
+                    if (connection.block != null)
+                        UnblockConnection(connection);
+                }
+                else {
+                    connection.otherTile.BlockAllConnections(this);
+                }
             }
         }
     }
 
-    public void RemoveNeighbours(Tile caller, int currentDepth) {
-        currentDepth--;
+    // Must traverse a minimum of 3 tiles already explored OR 3 unexplored tiles before removing neighbours
+    public void RemoveNeighbours(Tile caller, int exploredDepth, int unexploredDepth, bool force = false) {
+        if (hasActivated) exploredDepth--;
+        else unexploredDepth--;
+        int currentDepth = Mathf.Min(exploredDepth, unexploredDepth);
 
         foreach (Connection connection in connections) {
             if (connection.otherTile != caller && connection.otherTile != null) {
                 if (currentDepth > 0) {
-                    connection.otherTile.RemoveNeighbours(this, currentDepth);
+                    connection.otherTile.RemoveNeighbours(this, exploredDepth, unexploredDepth);
                 }
                 else if (connection.otherTile != null) {
-                    connection.otherTile.RemoveNeighbours(this, currentDepth);
+                    connection.otherTile.RemoveNeighbours(this, exploredDepth, unexploredDepth, true);
                     GameObject.Destroy(connection.otherTile.gameObject);
+                    
+                    if (!force)
+                        BlockConnection(connection);
                 }
             }
         }
     }
 
+    void BlockConnection(Connection connection) {
+        if (connection.block != null) return;
+
+        connection.block = GameObject.Instantiate(GameManager.Instance.TileBlockingPrefab, connection.transform.position, connection.transform.rotation, this.transform);
+    }
+
+    void UnblockConnection(Connection connection) {
+        if (connection.block == null) return;
+
+        GameObject.Destroy(connection.block);
+    }
+
     void OnTriggerEnter(Collider other) {
         if (!isInitialized) return;
+        if (hasActivated) return;
 
         if (other.gameObject.GetComponent<PlayerController>() != null) {
-            RemoveNeighbours(this, GameManager.Instance.gameSettings.tiles.pastTileDepth);
+            RemoveNeighbours(this, GameManager.Instance.gameSettings.tiles.pastTileDepth, GameManager.Instance.gameSettings.tiles.pastTileDepth);
             AddNeighbours(this, GameManager.Instance.gameSettings.tiles.futureTileDepth);
+            hasActivated = true;
         }
     }
 }
@@ -90,5 +136,5 @@ public class Tile : MonoBehaviour
 public class Connection {
     public Transform transform;
     public Tile otherTile = null;
-    public bool isBlocked = false;
+    public GameObject block;
 }

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject HUDPrefab;
     public GameObject PausePrefab;
     public GameObject ControlsUIPrefab;
+    public GameObject TileBlockingPrefab;
 
     [Header("Environment Materials")]
     public List<Material> rockMaterials;

@@ -57,6 +57,8 @@ MonoBehaviour:
     type: 3}
   ControlsUIPrefab: {fileID: 7266263905791287532, guid: 45c649dcf2da00541b43c8a253dcb5a3,
     type: 3}
+  TileBlockingPrefab: {fileID: 9107731745816921876, guid: 47fd0539acb2e424a821eda0b46c3192,
+    type: 3}
   rockMaterials:
   - {fileID: 2100000, guid: d30a0fd01b0c2654ca83f1d609af3f8f, type: 2}
   - {fileID: 2100000, guid: 43c4a3f7b44653340a51c6cdf6f9bbc5, type: 2}

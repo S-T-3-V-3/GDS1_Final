@@ -3258,6 +3258,7 @@ MonoBehaviour:
   - {fileID: 6400642980812568793}
   startLocation: {fileID: 0}
   isInitialized: 0
+  hasActivated: 0
 --- !u!135 &346363696136927618
 SphereCollider:
   m_ObjectHideFlags: 0
