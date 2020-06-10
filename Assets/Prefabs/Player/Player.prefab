@@ -2192,10 +2192,9 @@ MonoBehaviour:
     modifiers:
       MaxHealth: 10
       HealthRegen: 0.5
-      Damage: 5
+      Damage: 0.1
       MaxEnergy: 10
-      SprintSpeed: 0.1
-      AttackSpeed: 0.3
+      AttackSpeed: 0.1
       CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
@@ -2211,6 +2210,7 @@ MonoBehaviour:
     critChanceLevel: 0
   equippedWeapon: {fileID: 0}
   firePoint: {fileID: 0}
+  canTakeDamage: 1
   gunPosition: {fileID: 7689455360915784238}
   dropPosition: {fileID: 7033397585121660205}
   groundPosition: {fileID: 5779607403557573619}
@@ -2220,7 +2220,6 @@ MonoBehaviour:
     m_Bits: 512
   velocity: {x: 0, y: 0, z: 0}
   groundDistance: 0.4
-  canTakeDamage: 1
   isGrounded: 1
   isSprinting: 0
 --- !u!136 &2251835159167874599
@@ -2289,7 +2288,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 50
+  m_SlopeLimit: 55
   m_StepOffset: 1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

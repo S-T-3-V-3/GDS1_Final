@@ -20,7 +20,7 @@ public class RifleWeapon : Weapon
 
         currentBullet.owningObject = this.gameObject;
         currentBullet.range = weaponStats.range;
-        currentBullet.damageAmount = weaponStats.weaponDamage + ownerStats.Damage;
+        currentBullet.damageAmount = weaponStats.weaponDamage * ownerStats.Damage;
 
         if (weaponModel != null)
         {

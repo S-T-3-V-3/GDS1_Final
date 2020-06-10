@@ -398,22 +398,24 @@ MonoBehaviour:
       HealthRegen: 0.5
       Damage: 5
       MaxEnergy: 10
-      SprintSpeed: 0.1
       AttackSpeed: 0.3
       CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
     maxHealthLevel: 0
     healthRegenLevel: 0
     damageLevel: 0
-    agilityLevel: 0
+    energyLevel: 0
     attackSpeedLevel: 0
     critChanceLevel: 0
   equippedWeapon: {fileID: 0}
   firePoint: {fileID: 4184286670145786594}
-  deathEffectPrefab: {fileID: 1394122508529849891, guid: d3ff0538fafb42c41bd38ae6f1a7d850,
-    type: 3}
+  canTakeDamage: 1
+  debug: 0
   enemyType: 0
   weaponPosition: {fileID: 2323557799983625645}
   spotLight: {fileID: 8616509140290331197}
@@ -492,7 +494,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 50
+  m_SlopeLimit: 20
   m_StepOffset: 0.8
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

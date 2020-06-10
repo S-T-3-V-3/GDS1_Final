@@ -55,6 +55,7 @@ public class ScoreManager : MonoBehaviour
             currentExperience -= experienceToNextLevel;
             playerLevel++;
             OnLevelUp.Invoke();
+            experienceToNextLevel += 100;
             OnExperienceGained.Invoke();
         }
     }
