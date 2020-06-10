@@ -21,7 +21,7 @@ public class RifleWeapon : Weapon
 
         if (autoAim && weaponAim.EnemyIsInFieldOfView())
         {
-            Debug.Log("Has Locked Fire");
+            //Debug.Log("Has Locked Fire");
             currentBullet.transform.LookAt(weaponAim.LockOntoEnemy());
         }
 

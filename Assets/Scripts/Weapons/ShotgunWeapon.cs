@@ -60,7 +60,7 @@ public class ShotgunWeapon : Weapon
             damage.isCrit = false;
             damage.isPiercing = false;
 
-            collisionEntity.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
+            //collisionEntity.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
 
             //Die();
         }

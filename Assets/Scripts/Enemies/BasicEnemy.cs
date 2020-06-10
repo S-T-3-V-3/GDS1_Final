@@ -177,6 +177,12 @@ public class BasicEnemy : Pawn
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.equippedWeapon.weaponStats.range;
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        if (debug)
+            Debug.Log(other.name);
+    }
+
     ////// Methods for Shader Manipulation //////
     IEnumerator ImpactEffect()
     {

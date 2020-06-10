@@ -20,7 +20,7 @@ public class BasicPlayer : Pawn
 
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
-    AimSystem aimSystem;
+    //AimSystem aimSystem;
 
     GameManager gameManager;
     GameSettings gameSettings;
@@ -34,7 +34,7 @@ public class BasicPlayer : Pawn
         if (GetComponent<PlayerController>() != null)
         {
             weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
-            aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
+            //aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
         }
     }
 
@@ -76,6 +76,7 @@ public class BasicPlayer : Pawn
             velocity.y = 0;
 
         velocity.y += gameSettings.gravity * Time.deltaTime;
+        
     }
 
     //EQUIPS WEAPONS
@@ -114,6 +115,8 @@ public class BasicPlayer : Pawn
             state.weaponType = equippedWeapon.weaponType;
         }
     }
+
+    
 
     public override void InitDamageable()
     {
