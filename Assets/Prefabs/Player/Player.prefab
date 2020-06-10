@@ -2114,7 +2114,7 @@ GameObject:
   - component: {fileID: 1907765868}
   m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2194,7 +2194,6 @@ MonoBehaviour:
       HealthRegen: 0.5
       Damage: 5
       MaxEnergy: 10
-      SprintSpeed: 0.1
       AttackSpeed: 0.3
       CritChance: 0.05
     OnHealthChanged:
@@ -2211,6 +2210,7 @@ MonoBehaviour:
     critChanceLevel: 0
   equippedWeapon: {fileID: 0}
   firePoint: {fileID: 0}
+  canTakeDamage: 1
   gunPosition: {fileID: 7689455360915784238}
   dropPosition: {fileID: 7033397585121660205}
   groundPosition: {fileID: 5779607403557573619}
@@ -2220,7 +2220,6 @@ MonoBehaviour:
     m_Bits: 512
   velocity: {x: 0, y: 0, z: 0}
   groundDistance: 0.4
-  canTakeDamage: 1
   isGrounded: 1
   isSprinting: 0
 --- !u!136 &2251835159167874599

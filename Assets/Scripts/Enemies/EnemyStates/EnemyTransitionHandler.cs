@@ -22,6 +22,10 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemyWanderState>();
                 break;
 
+            case EnemyType.TACTICAL_GUNNER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
             default:
                 break;
         }
@@ -41,6 +45,10 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemySeekState>();
                 break;
 
+            case EnemyType.TACTICAL_GUNNER:
+                enemy.SetState<EnemyDodgeState>();
+                break;
+
             default:
                 break;
         }
@@ -50,6 +58,10 @@ public static class EnemyTransitionHandler
         switch (enemy.enemyType) {
             case EnemyType.GUNNER:
                 enemy.SetState<EnemyPivotState>();
+                break;
+
+            case EnemyType.TACTICAL_GUNNER:
+                enemy.SetState<EnemyDodgeState>();
                 break;
 
             default:
@@ -73,6 +85,10 @@ public static class EnemyTransitionHandler
                 break;
 
             case EnemyType.HEAVY_GUNNER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
+            case EnemyType.TACTICAL_GUNNER:
                 enemy.SetState<EnemyWanderState>();
                 break;
 

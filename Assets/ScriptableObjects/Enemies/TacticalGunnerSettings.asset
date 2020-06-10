@@ -43,26 +43,27 @@ MonoBehaviour:
       HealthRegen: 0.5
       Damage: 5
       MaxEnergy: 10
-      SprintSpeed: 0.1
       AttackSpeed: 0.3
       CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
     maxHealthLevel: 0
     healthRegenLevel: 0
     damageLevel: 0
-    agilityLevel: 0
+    energyLevel: 0
     attackSpeedLevel: 0
     critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 5, y: 10}
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: 7220a7aac811b3740ba171a662d64685, type: 2}
     turnSpeed: 5
     detectionRange: 12
     perceptiveness: 0
     wanderDistance: 15
     wanderStuckDistance: 0.1
-    canShootAndSeek: 1
     enemyScore: 150
   weaponType: 1
