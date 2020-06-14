@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
         GameObject hudObject = GameObject.Instantiate(HUDPrefab);
         hud = hudObject.GetComponent<HUD>();
         scoreManager = hudObject.GetComponentInChildren<ScoreManager>();
+        hudObject.GetComponent<Canvas>().worldCamera = mainCamera;
     }
 
     void Start()

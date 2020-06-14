@@ -179,8 +179,24 @@ public class BasicEnemy : Pawn
 
     private void OnParticleCollision(GameObject other)
     {
-        if (debug)
-            Debug.Log(other.name);
+
+        if (other.name.Contains("Shotgun_Particles")) {
+            ParticleSystem shotgunParticles = other.GetComponent<ParticleSystem>();
+
+            //MUST BE OPTIMISED
+            WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.SHOTGUN).First();
+
+            DamageType damage;
+            damage.owningObject = this.gameObject;
+            damage.impactPosition = other.transform.position;
+            damage.impactVelocity = shotgunParticles.main.startSpeed.constant * other.transform.forward;
+            damage.damageAmount = weaponDefinition.weaponBaseStats.weaponDamage;
+            damage.isCrit = false;
+            damage.isPiercing = false;
+
+            OnReceivedDamage(damage, other.transform.position, other.transform.forward, shotgunParticles.main.startSpeed.constant);
+        }
+
     }
 
     ////// Methods for Shader Manipulation //////

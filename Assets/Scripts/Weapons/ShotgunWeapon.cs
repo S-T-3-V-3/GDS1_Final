@@ -25,7 +25,7 @@ public class ShotgunWeapon : Weapon
     {
         if (!canShoot) return;
 
-        for (int i = 0; i < weaponStats.numBullets; i++)
+        /*for (int i = 0; i < weaponStats.numBullets; i++)
         {
             offset = transform.up * Random.Range(-5, 5);
             offset = Quaternion.AngleAxis(Random.Range(0, 360), transform.forward) * offset;
@@ -35,7 +35,7 @@ public class ShotgunWeapon : Weapon
             {
                 ShotgunImpact();
             }
-        }
+        }*/
 
         AudioManager.Instance.onSoundEvent.Invoke(SoundType.Shotgun);
         shotgunParticles.emission.SetBurst(0, new ParticleSystem.Burst(0, weaponStats.numBullets));
@@ -47,7 +47,7 @@ public class ShotgunWeapon : Weapon
 
 
     //TODO >> This impact method is abit overkill and the stats havnt adjusted accordingly
-    void ShotgunImpact()
+    /*void ShotgunImpact()
     {
         GameObject collisionEntity = hit.collider.gameObject;
         if (collisionEntity.gameObject.GetComponent<IDamageable>() != null)
@@ -68,7 +68,7 @@ public class ShotgunWeapon : Weapon
         {
             //Die();
         }
-    }
+    }*/
 
     public override void AddShotEffect(WeaponDefinition settings)
     {

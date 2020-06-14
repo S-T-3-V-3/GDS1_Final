@@ -11,6 +11,7 @@ public class MovementState : PlayerState
     PlayerController playerController;
     PlayerSettings playerSettings;
     AutoLookAt playerAim;
+    MouseIndicator mouseIndicator;
 
     CharacterController characterController;
     Transform cameraTransform;
@@ -120,29 +121,36 @@ public class MovementState : PlayerState
         aimSystem.RenderAimLine(player.equippedWeapon.firePoint, lookAtPos, isAimingToPosition);
     }
 
+    ///TODO: Jaiden to refactor this later
     public void OnMouseAim(InputValue value) {
         Vector3 mousePos = value.Get<Vector2>();
         Camera camera = GameManager.Instance.mainCamera;
         Ray ray = camera.ScreenPointToRay(mousePos);
 
+        if (mouseIndicator == null) {
+            mouseIndicator = GameManager.Instance.hud.mouseIndicator.GetComponent<MouseIndicator>();
+        } else {
+            mouseIndicator.SetIndicatorPosition(mousePos);
+        }
+
+
         RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null).ToArray();
+        //RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
 
         if (hits.Length > 0) {
 
-            
+            RaycastHit[] filteredHits = hits.Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
             //Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 2).Where(x => x.name.Contains("Wall") == false && x.GetComponent<Tile>() == null).ToArray();
-            Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 2).Where(x => x.gameObject.GetComponent<IDamageable>() != null).ToArray();
+            Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 0.7f).Where(x => x.gameObject.GetComponent<IDamageable>() != null).ToArray();
             isAimingToPosition = true;
 
-            if (hitColliders.Length > 0)
+            if(filteredHits.Length > 0)
             {
-                //Debug.Log(hitColliders.First().name);
-                if (hitColliders.First().transform != this.transform)
-                {
-                    lookAtPos = hitColliders.First().transform.position;
+                if (filteredHits.First().transform != this.transform) {
+                    lookAtPos = filteredHits.First().transform.position;
+                    mouseIndicator.SetTransitionState(true);
 
-                    if (isShooting)
-                        playerAim.targetedEnemy = hitColliders.First().gameObject;
+                    if (isShooting) playerAim.targetedEnemy = filteredHits.First().collider.gameObject;
                 }
                 else
                 {
@@ -151,20 +159,41 @@ public class MovementState : PlayerState
                 }
 
                 return;
-            }
+            } else {
+                if (hitColliders.Length > 0)
+                {
+                    //Debug.Log(hitColliders.First().name);
+                    if (hitColliders.First().transform != this.transform)
+                    {
+                        lookAtPos = hitColliders.First().transform.position;
+                        mouseIndicator.SetTransitionState(true);
 
+                        if (isShooting) playerAim.targetedEnemy = hitColliders.First().gameObject;
+                    }
+                    else
+                    {
+                        lookAtPos = hits.First().point;
+                        lookAtPos.y += 0.5f;
+                    }
+
+                    return;
+                }
+            }
+            
             lookAtPos = hits.First().point;
             lookAtPos.y += 0.5f;
+            mouseIndicator.SetTransitionState(false);
 
         } else
         {
             isAimingToPosition = false;
+            mouseIndicator.SetTransitionState(false);
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(lookAtPos, 2);
+        Gizmos.DrawSphere(lookAtPos, 1f);
     }
 
     public void OnGamepadAim(InputValue value) {
