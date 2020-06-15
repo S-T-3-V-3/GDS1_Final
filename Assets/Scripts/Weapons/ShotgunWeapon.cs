@@ -56,7 +56,7 @@ public class ShotgunWeapon : Weapon
             damage.owningObject = this.gameObject;
             damage.impactPosition = hit.point;
             damage.impactVelocity = this.weaponStats.shotSpeed * rayDirection;
-            damage.damageAmount = this.weaponStats.weaponDamage;
+            damage.damageAmount = this.weaponStats.weaponDamage * ownerStats.Damage;
             damage.isCrit = false;
             damage.isPiercing = false;
 

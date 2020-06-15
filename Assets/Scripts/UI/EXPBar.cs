@@ -7,83 +7,57 @@ using DG.Tweening;
 
 public class EXPBar : MonoBehaviour
 {
-    //Level and Exp
-    public int playerLevel = 1;
-    private float baseLevelUpExperience = 200;
-    private float experienceToNextLevel;
-    private int currentExperience;
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI experienceNumberText;
+    public Image foregroundImage;
 
-    //UI
-    [SerializeField]
-    private TextMeshProUGUI levelText;
-    [SerializeField]
-    private TextMeshProUGUI experienceNumberText;
+    BasicPlayer playerRef;
+    ScoreManager scoreManager;
 
-    //Exp Tweener
-    int previousExperienceTarget;
-    Tween experienceTween;
-    [SerializeField]
-    private Image foregroundImage;
-
-    //Other Script References
-    public UpgradeManager upgradeManager;
+    float displayedCurrentXP = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        experienceToNextLevel = baseLevelUpExperience;
-        levelText.text = playerLevel.ToString();
-        experienceNumberText.text = $"{currentExperience}/{experienceToNextLevel}";
-
-        //This is just for tween initialization since I couldn't figure it out
-        experienceTween = DOTween.To(()=> currentExperience, x=> currentExperience = x, 0, 1);
+        StartCoroutine(Initialize());
     }
 
-    public void AddExperience(int value)
-    {     
-        int targetExperience = currentExperience + value;
+    IEnumerator Initialize() {
+        while (scoreManager == null) {
 
-        if(experienceTween.IsActive())
-        {
-            experienceTween.Kill();
-            targetExperience = previousExperienceTarget + value;
-        }
-
-        experienceTween = DOTween.To(()=> currentExperience, x=> currentExperience = x, targetExperience, 1);
-        previousExperienceTarget = targetExperience;
-    }
-
-    private void Update()
-    {
-        //Runs every frame the tweener is alive
-        if(experienceTween.IsActive())
-        {
-            experienceNumberText.text = $"{currentExperience}/{experienceToNextLevel}";
-            foregroundImage.fillAmount = (float)currentExperience / (float)experienceToNextLevel;
-
-            if (currentExperience/experienceToNextLevel >= 1)
+            if (GameManager.Instance.scoreManager != null)
             {
-                LevelUp();
+                scoreManager = GameManager.Instance.scoreManager;;
+                yield return null;
+
+                scoreManager.OnExperienceGained.AddListener(OnExpGain);
+                scoreManager.OnLevelUp.AddListener(OnLevelUp);
+                levelText.text = scoreManager.playerLevel.ToString();
+                experienceNumberText.text = $"{scoreManager.currentExperience}/{scoreManager.experienceToNextLevel}";
             }
+
+            yield return null;
         }
     }
 
-    void LevelUp()
-    {
-        experienceTween.Kill();
+    void OnExpGain() {
+        DOTween.Kill(experienceNumberText);
+        DOTween.To(
+            () => displayedCurrentXP,
+            x => {
+                displayedCurrentXP = x;
+                experienceNumberText.text = $"{displayedCurrentXP}/{scoreManager.experienceToNextLevel}";
+                foregroundImage.fillAmount = scoreManager.currentExperience / scoreManager.experienceToNextLevel;
+            },
+            scoreManager.currentExperience,
+            1f
+        ).SetOptions(true).SetUpdate(UpdateType.Fixed);
+    }
 
-        playerLevel++;
-        upgradeManager.skillPoints++;
-        upgradeManager.ShowUpgradeWindow();
-        levelText.text = playerLevel.ToString();
-
-        //Carry over overflowing previous exp points
-        int experienceFromPreviousLevel = (int)(previousExperienceTarget - experienceToNextLevel);
-
-        experienceToNextLevel = experienceToNextLevel + baseLevelUpExperience / 2;
-        currentExperience = 0;
-        foregroundImage.fillAmount = 0;
-
-        AddExperience(experienceFromPreviousLevel);
+    void OnLevelUp() {
+        levelText.text = scoreManager.playerLevel.ToString();
+        experienceNumberText.text = $"0/{scoreManager.experienceToNextLevel}";
+        foregroundImage.fillAmount = 0f;
+        displayedCurrentXP = 0;
     }
 }

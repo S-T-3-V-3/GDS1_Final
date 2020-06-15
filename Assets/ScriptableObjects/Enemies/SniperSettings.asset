@@ -36,23 +36,25 @@ MonoBehaviour:
       moveSpeed: 6
       sprintSpeed: 0
       attackSpeed: 0.6
-      damage: 25
+      damage: 1
       critChance: 0
     modifiers:
       MaxHealth: 10
-      HealthRegen: 0.5
+      HealthRegen: 0.1
       Damage: 5
       MaxEnergy: 10
-      SprintSpeed: 0.1
-      AttackSpeed: 0.3
+      AttackSpeed: 0.1
       CritChance: 0.05
     OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnEnergyChanged:
       m_PersistentCalls:
         m_Calls: []
     maxHealthLevel: 0
     healthRegenLevel: 0
     damageLevel: 0
-    agilityLevel: 0
+    energyLevel: 0
     attackSpeedLevel: 0
     critChanceLevel: 0
   traits:
@@ -63,6 +65,5 @@ MonoBehaviour:
     perceptiveness: 0
     wanderDistance: 15
     wanderStuckDistance: 0.1
-    canShootAndSeek: 0
     enemyScore: 150
   weaponType: 4

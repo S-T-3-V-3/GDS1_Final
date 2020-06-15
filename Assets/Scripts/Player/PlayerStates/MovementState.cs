@@ -218,4 +218,9 @@ public class MovementState : PlayerState
         animationController.SetBool("isSprinting", player.isSprinting);
         player.statHandler.MoveSpeed = player.isSprinting ? player.statHandler.SprintSpeed : player.statHandler.WalkSpeed;
     }
+
+    public void OnPause(InputValue value)
+    {
+        GameManager.Instance.OnPauseButton();
+    }
 }

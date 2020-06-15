@@ -34,11 +34,17 @@ public class AudioManager : MonoBehaviour
         backgroundAudioSource = gameObject.AddComponent<AudioSource>();
         generalAudioSource = gameObject.AddComponent<AudioSource>();
 
+        generalAudioSource.volume = backgroundAudioSource.volume = 0.1f;
+
         backgroundAudioSource.clip = audioSettings.backgroundAmbience;
         backgroundAudioSource.loop = true;
         backgroundAudioSource.Play();
     }
 
+    public void SetVolume(float value)
+    {
+        generalAudioSource.volume = backgroundAudioSource.volume = value;
+    }
 
     public void PlaySoundEffect(SoundType soundType)
     {

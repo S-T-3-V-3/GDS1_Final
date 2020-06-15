@@ -72,7 +72,7 @@ public class StatHandler
         get { return damageLevel; }
         private set {
             damageLevel++;
-            currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel - 1);
+            currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel);
         }
     }
     [SerializeField] private int damageLevel = 1;
@@ -82,12 +82,6 @@ public class StatHandler
         private set {
             energyLevel++;
             currentStats.maxEnergy = baseStats.maxEnergy + (energyLevel * modifiers.MaxEnergy);
-            /*currentStats.sprintSpeed = baseStats.sprintSpeed + energyLevel * modifiers.SprintSpeed;
-
-            currentStats.sprintSpeed = baseStats.sprintSpeed;
-
-            for (int i = 0; i < energyLevel; i++)
-                currentStats.sprintSpeed += modifiers.SprintSpeed * (energyLevel - 1);*/
         }
     }
     [SerializeField] private int energyLevel = 1;
@@ -96,7 +90,7 @@ public class StatHandler
         get { return attackSpeedLevel; }
         private set {
             attackSpeedLevel++;
-            currentStats.attackSpeed =  baseStats.attackSpeed + (attackSpeedLevel - 1) * (modifiers.AttackSpeed * baseStats.attackSpeed);
+            currentStats.attackSpeed = baseStats.attackSpeed + (modifiers.AttackSpeed * AttackSpeedLevel);
         }
     }
     [SerializeField] private int attackSpeedLevel = 1;
@@ -206,6 +200,29 @@ public class StatHandler
         StatHandler clone = new StatHandler(baseStats, modifiers);
         return clone;
     }
+
+    public string PreviewStatIncrease(StatType stat) {
+        if (stat == StatType.MAX_HP)
+            return (currentStats.maxHealth + modifiers.MaxHealth).ToString();
+
+        else if (stat == StatType.HP_REGEN)
+            return (baseStats.healthRegen + ((healthRegenLevel+1) * modifiers.HealthRegen)).ToString();
+
+        else if (stat == StatType.DAMAGE)
+            return (baseStats.damage + (modifiers.Damage * (damageLevel + 1))).ToString();
+
+        else if (stat == StatType.ENERGY)
+            return (baseStats.maxEnergy + ((energyLevel+1) * modifiers.MaxEnergy)).ToString();
+
+        else if (stat == StatType.ATTACK_SPEED)
+            return (baseStats.attackSpeed + (modifiers.AttackSpeed * (AttackSpeedLevel+1))).ToString();
+
+        else if (stat == StatType.CRIT_CHANCE)
+            return (baseStats.critChance + modifiers.CritChance * critChanceLevel).ToString();
+
+        else
+            return "Error";
+    }
 }
 
 //////////// Stat Enums ////////////
@@ -230,17 +247,14 @@ public class StatModifiers {
     [Header("Base stat multiplier : Default 0.5")]
     public float  HealthRegen = 0.5f;// = 0.5f
 
-    [Header("Flat per level : Default 5")]
-    public float Damage = 5f;// = 5f
+    [Header("Flat per level : Default 0.1")]
+    public float Damage = 0.1f;// = 0.1f
 
     [Header("Flat per level : Default 10")]
     public float MaxEnergy = 10f;// = 10f
 
-    [Header("Flat per level : Default 0.1")]
-    public float SprintSpeed = 0.1f;// = 0.1f
-
-    [Header("Base stat multiplier : Default 0.3")]
-    public float AttackSpeed = 0.3f;// = 0.3f
+    [Header("Base stat scalar : Default 0.1")]
+    public float AttackSpeed = 0.1f;// = 0.1f
 
     [Header("Flat per level : Default 5")]
     public float CritChance = 5f;// = 5f

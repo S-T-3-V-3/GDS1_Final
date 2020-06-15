@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class HealthBar : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HealthBar : MonoBehaviour
     BasicPlayer playerRef;
     float timeSinceModified = 0;
     public TextMeshProUGUI healthNumberText;
+    float displayedCurrentHealth = 0f;
 
     void Start()
     {
@@ -34,48 +36,18 @@ public class HealthBar : MonoBehaviour
         UpdateHealth();
     }
 
-    private void UpdateHealth()
+    public void UpdateHealth()
     {
-        float targetHealthPercent = playerRef.statHandler.CurrentHealth / playerRef.statHandler.MaxHealth;
-
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
-        
-        currentCoroutine = StartCoroutine(UpdateImage(targetHealthPercent));
-    }
-
-    IEnumerator UpdateImage(float targetHealthPercent)
-    {
-        float currentHealthPercent = foregroundImage.fillAmount;
-        float startHealthPercent = currentHealthPercent;
-        timeSinceModified = 0f;
-
-        //Lerp to the new health percent
-        while (Mathf.Abs(currentHealthPercent - targetHealthPercent) > sensitivity)
-        {
-            yield return new WaitForEndOfFrame();
-
-            timeSinceModified += Time.deltaTime;
-            currentHealthPercent = Mathf.Lerp(startHealthPercent, targetHealthPercent, timeSinceModified / lerpSpeed);
-            
-            foregroundImage.fillAmount = currentHealthPercent;
-
-            UpdateText();
-        }
-
-        //Set image to the new health amount
-        foregroundImage.fillAmount = targetHealthPercent;
-        UpdateText();
-    }
-
-    public void UpdateText()
-    {
-        int displayedCurrentHealth = (int)Mathf.Ceil(playerRef.statHandler.CurrentHealth);
-        
-        if(displayedCurrentHealth < 0)
-            displayedCurrentHealth = 0;
-
-        healthNumberText.text = $"{displayedCurrentHealth}/{playerRef.statHandler.MaxHealth}";
+        DOTween.To(
+            () => displayedCurrentHealth,
+            x => {
+                displayedCurrentHealth = x;
+                healthNumberText.text = $"{string.Format("{0:#0.0}",displayedCurrentHealth)}/{string.Format("{0:#0.0}",playerRef.statHandler.MaxHealth)}";
+                foregroundImage.fillAmount = displayedCurrentHealth / playerRef.statHandler.MaxHealth;
+            },
+            Mathf.Max(playerRef.statHandler.CurrentHealth, 0),
+            0.75f
+        ).SetUpdate(UpdateType.Fixed);
     }
 
 }

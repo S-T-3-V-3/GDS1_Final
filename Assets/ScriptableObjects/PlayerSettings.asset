@@ -37,15 +37,14 @@ MonoBehaviour:
       moveSpeed: 8
       sprintSpeed: 12
       attackSpeed: 1
-      damage: 10
+      damage: 1
       critChance: 5
     modifiers:
       MaxHealth: 10
       HealthRegen: 0.5
-      Damage: 5
+      Damage: 0.1
       MaxEnergy: 10
-      SprintSpeed: 0.1
-      AttackSpeed: 0.3
+      AttackSpeed: 0.1
       CritChance: 5
     OnHealthChanged:
       m_PersistentCalls:
