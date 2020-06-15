@@ -30,17 +30,6 @@ public class AimSystem : MonoBehaviour
 
         if (isInWorld)
         {
-            /*if (Physics.Raycast(startPosition, firePoint.forward, out hit, 100))
-            {
-                //Debug.Log("should be runnign");
-                aimLine.SetPosition(1, startPosition + firePoint.forward * hit.distance);
-            }
-            else
-            {
-                
-                aimLine.SetPosition(1, startPosition + firePoint.forward * 100);
-            }*/
-
             aimLine.enabled = true;
             aimLine.SetPosition(1, endPos);
             return;

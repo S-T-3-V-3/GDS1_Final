@@ -132,8 +132,7 @@ public class MovementState : PlayerState
         } else {
             mouseIndicator.SetIndicatorPosition(mousePos);
         }
-
-
+        
         RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null).ToArray();
         //RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
 

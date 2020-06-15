@@ -148,12 +148,14 @@ public class BasicEnemy : Pawn
             ////THIS IS TEMPORARY
             ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
             ///
-            int randomSelect = Random.Range(0, 10);
+            int randomSelect = Random.Range(0, 25);
 
-            if (randomSelect > 6)
+            if (randomSelect > 16)
                 item.weaponType = WeaponType.RIFLE;
-            else
+            else if (randomSelect > 8)
                 item.weaponType = WeaponType.SHOTGUN;
+            else
+                item.weaponType = WeaponType.MACHINE_GUN;
         }
     }
 

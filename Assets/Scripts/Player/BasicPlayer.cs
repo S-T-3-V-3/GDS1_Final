@@ -92,8 +92,6 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
         equippedWeapon.autoAim = true;
-        //Debug.Log(weaponType);
-        //Debug.Log(equippedWeapon.name);
 
         weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 
@@ -116,13 +114,16 @@ public class BasicPlayer : Pawn
         }
     }
 
-    
-
     public override void InitDamageable()
     {
         statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
         statHandler.CurrentHealth = statHandler.MaxHealth;
         statHandler.Energy = statHandler.MaxEnergy;
+    }
+
+    public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed){
+        base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
+        StartCoroutine(GameManager.Instance.hud.FadeImpact());
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
@@ -137,18 +138,4 @@ public class BasicPlayer : Pawn
         gameManager.GameOver(particleLifetime);
         GameObject.Destroy(this.gameObject);       
     }
-
-    //NEEDS UPDATING
-    /*IEnumerator ImpactEffect()
-    {
-        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
-        float matAlpha = 1;
-
-        while(matAlpha > 0)
-        {
-            matAlpha -= 0.2f;
-            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-    }*/
 }

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
-  m_Name: RifleDefinition
+  m_Name: MachineGun
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 704757315446152108, guid: ca31962c67c194b558b0a6c06168256d,
+  WeaponPrefab: {fileID: 6006405879163836587, guid: cbc169dfe1dcc498ca6110a4d2a82713,
     type: 3}
-  weaponType: 1
+  weaponType: 2
   weaponBaseStats:
-    weaponDamage: 20
-    critDamage: 5
-    range: 15
+    weaponDamage: 10
+    critDamage: 3
+    range: 13
     shotSpeed: 45
-    attackSpeed: 1
-    accuracy: 0
+    attackSpeed: 3
+    accuracy: 1
     hasPiercingShots: 0
     numBullets: 0
     chargeTime: 0

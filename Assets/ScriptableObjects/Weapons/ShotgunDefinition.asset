@@ -20,7 +20,7 @@ MonoBehaviour:
     critDamage: 0
     range: 8
     shotSpeed: 45
-    fireRate: 1.5
+    attackSpeed: 1
     accuracy: 0
     hasPiercingShots: 0
     numBullets: 6

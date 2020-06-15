@@ -7,6 +7,7 @@ public class HUD : MonoBehaviour
 {
     public ScoreManager scoreBoard;
     public GameObject mouseIndicator;
+    public Image redVignette;
     
     //////////////// TODO: DELETE THIS
     public Image EnergyImage;
@@ -17,5 +18,26 @@ public class HUD : MonoBehaviour
 
         float energyPerfect = playerRef.statHandler.Energy / playerRef.statHandler.MaxEnergy;
         EnergyImage.fillAmount = energyPerfect;
+    }
+
+    public IEnumerator FadeImpact(){
+        
+        bool isAdding = true;
+        float currentAlpha = 0;
+        Debug.Log("has enocountered");
+        while (currentAlpha >= 0) {
+
+            if(currentAlpha >= 1) isAdding = false;
+
+            if (currentAlpha <= 1 && isAdding) {
+                currentAlpha += 0.2f;
+                redVignette.color = new Color(redVignette.color.r, redVignette.color.g, redVignette.color.b, currentAlpha);
+            } else {
+                currentAlpha -= 0.2f;
+                redVignette.color = new Color(redVignette.color.r, redVignette.color.g, redVignette.color.b, currentAlpha);
+            }
+
+            yield return null;
+        }
     }
 }

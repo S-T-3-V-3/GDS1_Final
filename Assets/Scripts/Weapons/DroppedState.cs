@@ -46,6 +46,9 @@ public class DroppedState : MonoBehaviour
             case WeaponType.SHOTGUN:
                 player.EquipWeapon<ShotgunWeapon>(weaponType, newStats);
                 break;
+            case WeaponType.MACHINE_GUN:
+                player.EquipWeapon<RifleWeapon>(weaponType, newStats);
+                break;
         }
 
         GameObject.Destroy(this.gameObject);
