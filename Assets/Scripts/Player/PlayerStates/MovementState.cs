@@ -72,20 +72,11 @@ public class MovementState : PlayerState
             prevLookAtPos = lookAtPos;
         }
 
-        //lookAtPos = playerAim.OnMouseAim(InputValue value);
-
         /////// HANDLE WEAPONS ///////
         //player.equippedWeapon.RenderAim();
 
         if (isShooting)
             player.equippedWeapon.Shoot();
-
-        /*if (isLockedOn)
-        {
-            if (!playerAim.EnemyIsInFieldOfView()) isLockedOn = false;
-            if (playerAim.targetedEnemy == null) return;
-            lookAtPos = playerAim.LockOntoEnemy();
-        }*/
 
         // There's got to be a better way to do this
         // Start by putting these kinds of things on the relevant objects
@@ -132,10 +123,8 @@ public class MovementState : PlayerState
         } else {
             mouseIndicator.SetIndicatorPosition(mousePos);
         }
-        
-        RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null).ToArray();
-        //RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
 
+        RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null && x.collider.GetComponent<TileCameraTrigger>() == null).ToArray();
         if (hits.Length > 0) {
 
             RaycastHit[] filteredHits = hits.Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
@@ -157,6 +146,7 @@ public class MovementState : PlayerState
                     lookAtPos.y += 0.5f;
                 }
 
+                Debug.Log(filteredHits.First().transform.name);
                 return;
             } else {
                 if (hitColliders.Length > 0)
@@ -174,7 +164,6 @@ public class MovementState : PlayerState
                         lookAtPos = hits.First().point;
                         lookAtPos.y += 0.5f;
                     }
-
                     return;
                 }
             }
