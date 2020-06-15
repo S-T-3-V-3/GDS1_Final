@@ -17,6 +17,6 @@ public class CameraSearchState : CameraState
         if (gameManager.playerController == null) return;
 
         cameraController.targetTransform = gameManager.playerController.gameObject.transform;
-        cameraController.SetState<CameraFollowState>();
+        cameraController.SetState<CameraStartState>();
     }
 }
