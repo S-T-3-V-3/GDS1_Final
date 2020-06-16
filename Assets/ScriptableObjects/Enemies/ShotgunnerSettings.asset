@@ -24,7 +24,7 @@ MonoBehaviour:
       moveSpeed: 0
       sprintSpeed: 0
       attackSpeed: 0
-      damage: 0
+      damageScale: 0
       critChance: 0
     baseStats:
       health: 30
@@ -36,7 +36,7 @@ MonoBehaviour:
       moveSpeed: 8
       sprintSpeed: 0
       attackSpeed: 0.4
-      damage: 1
+      damageScale: 0.5
       critChance: 0
     modifiers:
       MaxHealth: 10
@@ -58,7 +58,7 @@ MonoBehaviour:
     attackSpeedLevel: 0
     critChanceLevel: 0
   traits:
-    wanderUpdateFrequency: {x: 0, y: 0}
+    wanderUpdateFrequency: {x: 5, y: 10}
     material: {fileID: 2100000, guid: 8051ab89485a26641966ac9035a580c1, type: 2}
     turnSpeed: 5
     detectionRange: 12

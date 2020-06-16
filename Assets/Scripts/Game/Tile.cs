@@ -125,10 +125,15 @@ public class Tile : MonoBehaviour
         if (hasActivated) return;
 
         if (other.gameObject.GetComponent<PlayerController>() != null) {
-            RemoveNeighbours(this, GameManager.Instance.gameSettings.tiles.pastTileDepth, GameManager.Instance.gameSettings.tiles.pastTileDepth);
-            AddNeighbours(this, GameManager.Instance.gameSettings.tiles.futureTileDepth);
+            StartCoroutine(DoAddNeighbour());
             hasActivated = true;
         }
+    }
+
+    IEnumerator DoAddNeighbour() {
+        RemoveNeighbours(this, GameManager.Instance.gameSettings.tiles.pastTileDepth, GameManager.Instance.gameSettings.tiles.pastTileDepth);
+        AddNeighbours(this, GameManager.Instance.gameSettings.tiles.futureTileDepth);
+        yield return null;
     }
 }
 

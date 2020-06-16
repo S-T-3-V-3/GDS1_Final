@@ -13,6 +13,9 @@ public class EnemyIdleState : EnemyState
     CharacterController characterController;
 
     public override void BeginState() {
+        if (GameManager.Instance.playerController.transform == null)
+            enemy.SetState<EnemyInactiveState>();
+            
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;

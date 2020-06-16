@@ -25,7 +25,7 @@ public class HUD : MonoBehaviour, IPausable
         
         bool isAdding = true;
         float currentAlpha = 0;
-        Debug.Log("has enocountered");
+        //Debug.Log("has enocountered");
         while (currentAlpha >= 0) {
 
             if(currentAlpha >= 1) isAdding = false;

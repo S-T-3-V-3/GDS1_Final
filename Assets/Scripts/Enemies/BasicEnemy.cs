@@ -191,28 +191,6 @@ public class BasicEnemy : Pawn
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.equippedWeapon.weaponStats.range;
     }
 
-    private void OnParticleCollision(GameObject other)
-    {
-
-        if (other.name.Contains("Shotgun_Particles")) {
-            ParticleSystem shotgunParticles = other.GetComponent<ParticleSystem>();
-
-            //MUST BE OPTIMISED
-            WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.SHOTGUN).First();
-
-            DamageType damage;
-            damage.owningObject = this.gameObject;
-            damage.impactPosition = other.transform.position;
-            damage.impactVelocity = shotgunParticles.main.startSpeed.constant * other.transform.forward;
-            damage.damageAmount = weaponDefinition.weaponBaseStats.weaponDamage;
-            damage.isCrit = false;
-            damage.isPiercing = false;
-
-            OnReceivedDamage(damage, other.transform.position, other.transform.forward, shotgunParticles.main.startSpeed.constant);
-        }
-
-    }
-
     ////// Methods for Shader Manipulation //////
     IEnumerator ImpactEffect()
     {
@@ -242,7 +220,7 @@ public static class EnemyWeaponHandler {
                     break;
 
                 case WeaponType.MACHINE_GUN:
-                    //enemy.EquipWeapon<MachineGunWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    enemy.EquipWeapon<RifleWeapon>(enemy.enemySettings.weaponType, weaponStats);
                     break;
 
                 case WeaponType.LASER:

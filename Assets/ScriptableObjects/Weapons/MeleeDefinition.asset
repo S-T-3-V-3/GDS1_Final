@@ -15,11 +15,11 @@ MonoBehaviour:
   WeaponPrefab: {fileID: 0}
   weaponType: 0
   weaponBaseStats:
-    weaponDamage: 20
+    weaponDamage: 30
     critDamage: 0
     range: 0
     shotSpeed: 45
-    fireRate: 1
+    attackSpeed: 1
     accuracy: 0
     hasPiercingShots: 0
     numBullets: 0

@@ -18,6 +18,9 @@ public class EnemyWanderState : EnemyState
     bool isStuck = false;
 
     public override void BeginState() {
+        if (GameManager.Instance.playerController.transform == null)
+            enemy.SetState<EnemyInactiveState>();
+            
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;

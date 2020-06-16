@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour
         canShoot = false;
         float timeSinceFired = 0;
 
-        while (timeSinceFired < (1/ownerStats.AttackSpeed))
+        while (timeSinceFired < (1 / (ownerStats.AttackSpeed * weaponStats.attackSpeed)))
         {
             yield return null;
             if (GameManager.Instance.sessionData.isPaused) yield return null;
