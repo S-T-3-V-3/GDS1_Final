@@ -9,6 +9,8 @@ public class CameraFollowState : CameraState
     Vector3 moveToPosition;
     CameraSettings cameraSettings;
     Vector3 velocity;
+    CameraRaycast cameraRaycast;
+    float step = 1;
 
     public override void BeginState()
     {
@@ -16,6 +18,8 @@ public class CameraFollowState : CameraState
         cameraController = this.gameObject.GetComponent<CameraController>();
         targetTransform = cameraController.targetTransform;
         velocity = Vector3.zero;
+
+        cameraRaycast = this.gameObject.GetComponent<CameraRaycast>();
 
         this.gameObject.transform.LookAt(targetTransform);
     }
@@ -36,7 +40,14 @@ public class CameraFollowState : CameraState
         moveToPosition = offset + Vector3.Normalize(this.transform.position - offset) * cameraSettings.minOffsetDistance;
         moveToPosition.y = offset.y;
 
-        if (force)
+        if(cameraRaycast.isBlocked)
+        {
+            this.gameObject.transform.position = Vector3.MoveTowards(
+                this.gameObject.transform.position,
+                cameraRaycast.hitInfo.point,
+                step);
+        }
+        else if (force)
             this.gameObject.transform.position = moveToPosition;
         else
             this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
