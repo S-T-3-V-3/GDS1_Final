@@ -55,6 +55,13 @@ public class BasicProjectile : MonoBehaviour, IPausable
                 damage.isCrit = false;
                 damage.isPiercing = false;
 
+                if(owningObject.GetComponent<BasicPlayer>() !=null)
+                {
+                    BasicPlayer player = owningObject.GetComponent<BasicPlayer>();
+                    if(Random.Range(0, 101) <= player.statHandler.CritChance)
+                        damage.isCrit = true;
+                }
+
                 other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
             }
 

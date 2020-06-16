@@ -52,5 +52,6 @@ public enum SoundType
     LOADShotgun,
     LOADRifle,
     LOADMachine,
-    Explosions
+    Explosions,
+    CritSound
 }

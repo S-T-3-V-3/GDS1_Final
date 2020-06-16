@@ -86,6 +86,24 @@ public class BasicEnemy : Pawn
     {
         base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
 
+        if(damageType.isCrit)
+        {
+            // Play cool effect on critical hit
+            GameObject critEffect = GameObject.Instantiate(gameManager.gameSettings.CritEffectPrefab, transform.position, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+            critEffect.AddComponent<ParticleSystemPauser>();
+
+            GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
+            shockWave.AddComponent<ParticleSystemPauser>();
+            DelayedAction shockWaveDelay = shockWave.AddComponent<DelayedAction>();
+            shockWaveDelay.maxDelayTime = 3f;
+
+            AudioManager.Instance.PlaySoundEffect(SoundType.CritSound);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
+        }
+
         GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.DebrisSparkPrefab, hitPoint, Quaternion.identity);
         debryEffect.AddComponent<DelayedAction>();
         debryEffect.GetComponent<DelayedAction>().maxDelayTime = 2f;
