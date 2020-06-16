@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public Transform targetTransform;
     public Vector3 cameraDestination;
+    public Vector3 previousPosition;
     CameraStateManager stateManager;
 
     void Start()

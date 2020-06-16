@@ -9,6 +9,7 @@ public class CameraFollowState : CameraState
     Vector3 moveToPosition;
     CameraSettings cameraSettings;
     Vector3 velocity;
+    Vector3 velocity2;
     CameraRaycast cameraRaycast;
     float step = 1;
 
@@ -18,6 +19,7 @@ public class CameraFollowState : CameraState
         cameraController = this.gameObject.GetComponent<CameraController>();
         targetTransform = cameraController.targetTransform;
         velocity = Vector3.zero;
+        velocity2 = Vector3.zero;
 
         cameraRaycast = this.gameObject.GetComponent<CameraRaycast>();
 
@@ -32,7 +34,10 @@ public class CameraFollowState : CameraState
         }
 
         DoMovement();
-        this.gameObject.transform.LookAt(targetTransform);
+
+        Vector3 targetPosition = Vector3.SmoothDamp(cameraController.previousPosition, targetTransform.position, ref velocity2, cameraSettings.lagSpeed / 4f);
+        this.gameObject.transform.LookAt(targetPosition);
+        cameraController.previousPosition = targetPosition;
     }
 
     void DoMovement(bool force = false) {
