@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+ 
 public class Ability : MonoBehaviour
 {
         public Vector3 moveDirection = Vector3.zero;
@@ -26,9 +26,11 @@ public class Ability : MonoBehaviour
             characterController= GameManager.Instance.playerController.GetComponent<CharacterController>();
             player = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
 
-            AbilitySettings abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.RAPIDFIRE).First();
+            AbilitySettings abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.DASH).First();
             abilityType = abilitySettings.abilityType;
             abilityStats = abilitySettings.abilityStats;
+
+            firePoint = player.transform;
         }
 
         void Update()
@@ -46,9 +48,9 @@ public class Ability : MonoBehaviour
                     case AbilityType.RAPIDFIRE:
                         StartCoroutine(rapidFire());
                         break;
-                    //case AbilityType.INVISIBILITY:
-                        //StartCoroutine(invisible());
-                        //break;
+                    case AbilityType.INVISIBILITY:
+                         StartCoroutine(invisible());
+                        break;
 
             }
 
@@ -80,37 +82,36 @@ public class Ability : MonoBehaviour
             Debug.Log(hitInfo.distance);
    
         }
-
+   
         IEnumerator rapidHeal()
         {
             int swapStat;
             swapStat = player.statHandler.HealthRegenLevel;
             
-            player.statHandler.HealthRegenLevel *= abilityStats.multiplier;
+            player.statHandler.currentsStats.HealthRegen *= abilityStats.multiplier;
 
             yield return new WaitForSeconds(abilityStats.time);
 
             player.statHandler.HealthRegenLevel = swapStat;
         }
-
         IEnumerator rapidFire()
-        {
-            int swapStat;
-            swapStat = player.statHandler.AttackSpeedLevel;
+       {
+           int swapStat;
+           swapStat = player.statHandler.AttackSpeedLevel;
 
-            player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
+           player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
 
-            yield return new WaitForSeconds(abilityStats.time);
+           yield return new WaitForSeconds(abilityStats.time);
 
-            player.statHandler.AttackSpeedLevel = swapStat;
-        }
-    /*
-        IEnumerator invisible()
-        {
-            player.canTakeDamage = false;
-        Debug.Log("de");
-            yield return new WaitForSeconds(abilityStats.time);
+           player.statHandler.AttackSpeedLevel = swapStat;
+       }
 
-            player.canTakeDamage = true;
-            */
+       IEnumerator invisible()
+       {
+           player.canTakeDamage = false;
+       Debug.Log("de");
+           yield return new WaitForSeconds(abilityStats.time);
+
+           player.canTakeDamage = true;
+           */
 }

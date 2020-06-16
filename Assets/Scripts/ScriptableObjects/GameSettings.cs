@@ -10,11 +10,23 @@ public class GameSettings : ScriptableObject
     public CameraSettings cameraSettings;
     public AudioSettings audioSettings;
     public AudioManager audioManager;
-    public WorldTiles worldTiles;
+    public WorldTiles tiles;
     public List<EnemySettings> Enemies;
-    public List<WeaponSettings> Weapons;
+    public List<WeaponDefinition> WeaponList;
     public List<AbilitySettings> Abilities;
+    public float gravity = -9.8f;
 
-    [Header("UI Settings")]
-    public GameObject aimPointUI;
+    [Header("Game Effects")]
+    public GameObject DebrisSparkPrefab;
+    public GameObject ExperienceOrbPrefab;
+    public GameObject MuzzleFlashPrefab;
+    public GameObject ShockwavePrefab;
+    public GameObject DirectionalExplosionPrefab;
+    public GameObject ShotgunParticlePrefab;
+    public GameObject BeamRayEffectPrefab;
+
+    [Header("Game Indicators")]
+    public GameObject dropIndicator;
+    public Material blueGlowMaterial;
+    public Material yellowGlowMaterial;
 }

@@ -11,46 +11,73 @@ public class EnemySeekState : EnemyState
     EnemyType enemyType;
     EnemySettings enemySettings;
     Transform playerTransform;
-    Rigidbody rb;
+    CharacterController characterController;
+
+    float heavyGunnerTimeShooting = 0f;
+    float heavyGunnerSinceShooting;
+    bool heavyGunnerShooting = false;
 
     public override void BeginState() {
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;
         playerTransform = GameManager.Instance.playerController.transform;
-
-        rb = this.GetComponent<Rigidbody>();        
+        
+        characterController = this.GetComponent<CharacterController>();       
     }
 
     void FixedUpdate()
     {
+        if (enemy.isPaused) return;
         if (playerTransform == null) return;
 
+        enemy.GravityUpdate();
+        characterController.Move(enemy.velocity * Time.deltaTime);
+
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
-            Vector3 targetDirection = Vector3.Normalize(this.transform.position - playerTransform.position);
-            Vector3 newPosition = this.transform.position - (targetDirection * Time.fixedDeltaTime * enemySettings.statHandler.MoveSpeed);
-            this.GetComponent<Rigidbody>().MovePosition(newPosition);
-            this.transform.rotation = Quaternion.LookRotation(-targetDirection);
+            Vector3 targetDirection = Vector3.Normalize(playerTransform.position - this.transform.position);
+            Vector3 newPosition = targetDirection * Time.fixedDeltaTime * (enemy.statHandler.MoveSpeed/2);
+            
+            characterController.Move(newPosition);
+            
+            Vector3 lookRotation = new Vector3(targetDirection.x, 0, targetDirection.z);
+            this.transform.rotation = Quaternion.LookRotation(lookRotation);
+            
+            if (enemy.equippedWeapon != null && enemy.equippedWeapon.weaponModel != null)
+                enemy.equippedWeapon.weaponModel.transform.LookAt(enemy.equippedWeapon.weaponModel.transform.position + targetDirection * 3f);
         }
         else {
             EnemyTransitionHandler.OnLostPlayer(this.enemy);
         }
 
-        if (enemySettings.traits.canShootAndSeek)
+        if (enemySettings.weaponType != WeaponType.MELEE && BasicEnemy.IsPlayerInWeaponRange(this.enemy)) {
+            EnemyTransitionHandler.OnPlayerInWeaponRange(this.enemy);
+
             enemy.equippedWeapon.Shoot();
+        }
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (enemySettings.weaponType != WeaponType.MELEE) return;
+        if (enemySettings.weaponType != WeaponType.MELEE)
+        {
+            return;
+        }
+        
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("Player Collide");
+        }
 
         if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
             DamageType damage;
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
-            damage.damageAmount = enemySettings.statHandler.Damage;
+            damage.impactVelocity = enemy.transform.forward * enemy.equippedWeapon.weaponStats.shotSpeed;
+            damage.damageAmount = enemy.statHandler.Damage;
             damage.isCrit = false;
             damage.isPiercing = false;
+
+            Debug.Log("Attack");
 
             other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
         }

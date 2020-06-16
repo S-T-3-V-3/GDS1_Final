@@ -16,7 +16,7 @@ public class CameraSearchState : CameraState
     void Update() {
         if (gameManager.playerController == null) return;
 
-        cameraController.targetTransform = gameManager.playerController.gameObject.transform;
-        cameraController.SetState<CameraFollowState>();
+        cameraController.targetTransform = gameManager.playerController.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().gameObject.transform;
+        cameraController.SetState<CameraStartState>();
     }
 }

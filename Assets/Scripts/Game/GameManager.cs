@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IPausable
 {
     public static GameManager Instance = null;
     
@@ -13,6 +14,13 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverUIPrefab;
     public GameObject ProjectilePrefab;
     public GameObject HUDPrefab;
+    public GameObject PausePrefab;
+    public GameObject ControlsUIPrefab;
+    public GameObject TileBlockingPrefab;
+
+    [Header("Environment Materials")]
+    public List<Material> rockMaterials;
+    public List<Material> groundMaterials;
 
     [Header("Settings")]
     public GameSettings gameSettings;
@@ -25,8 +33,12 @@ public class GameManager : MonoBehaviour
     public GameOverUI gameOverUI;
     public ScoreManager scoreManager;
     public HUD hud;
+    public GameObject PauseHUD;
+    public GameObject ControlsHUD;
     public ScoreEvent OnAddScore;
-    public float playerScore = 0.0f;
+
+    [Header("Components")]
+    public SessionData sessionData;
 
     private void Awake()
     {
@@ -35,28 +47,33 @@ public class GameManager : MonoBehaviour
         else
             Instance = this;
 
+        sessionData = this.gameObject.AddComponent<SessionData>();
+
         audioManager = Instantiate(gameSettings.audioManager).GetComponent<AudioManager>();
+        scoreManager = this.gameObject.AddComponent<ScoreManager>();
+
         tileManager = GameObject.Instantiate(TileManagerPrefab).GetComponent<TileManager>();
         mainCamera = GameObject.Instantiate(CameraPrefab, this.transform).GetComponent<Camera>();
         gameOverUI = GameObject.Instantiate(GameOverUIPrefab, this.transform).GetComponent<GameOverUI>();
-        hud = GameObject.Instantiate(HUDPrefab).GetComponent<HUD>();
+        
+        GameObject hudObject = GameObject.Instantiate(HUDPrefab);
+        hud = hudObject.GetComponent<HUD>();
+        PauseHUD = hud.PauseHUD;
+        ControlsHUD = Instantiate(ControlsUIPrefab, this.transform);
     }
 
     void Start()
     {
         SpawnPlayer();
         GameOverUIPrefab.SetActive(false);
+        PauseHUD.SetActive(false);
+        ControlsHUD.SetActive(false);
         OnAddScore.Invoke(0, Vector3.zero);
     }
 
     void SpawnPlayer()
-    {
-        // Really wasn't a fan of the laser / no cursor system
-        // Not knowing the distance of your cursor from the player makes turning feel really really bad
-        // Laser with visible cursor might be ok, but the laser asset should be much more polished before implemented imo - Steve
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Confined;
-        playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, new Vector3(0, 2, 0), Quaternion.identity).GetComponent<PlayerController>();
+    {   
+        playerController = GameObject.Instantiate(gameSettings.playerSettings.playerPrefab, tileManager.rootTile.startLocation.position, Quaternion.identity).GetComponent<PlayerController>();
     }
 
     public void GameOver(float deathScreenDelay)
@@ -64,6 +81,28 @@ public class GameManager : MonoBehaviour
         playerController = null;
         gameOverUI.Invoke("ShowDeathScreen", deathScreenDelay);
         //Set player to a dead state
+    }
+
+    public void LoadControls()
+    {
+        PauseHUD.SetActive(false);
+        ControlsHUD.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Application Closes on Build Version");
+        Application.Quit();
+    }
+
+    public void Pause()
+    {
+        PauseHUD.SetActive(true);
+    }
+
+    public void UnPause()
+    {
+        PauseHUD.SetActive(false);
     }
 }
 

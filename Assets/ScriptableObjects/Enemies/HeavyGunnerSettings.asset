@@ -14,42 +14,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   statHandler:
-    MaxHealthLevel: 1
-    HealthRegenLevel: 1
-    DamageLevel: 1
-    AgilityLevel: 1
-    AttackSpeedLevel: 1
-    CritChanceLevel: 1
     currentStats:
+      health: 0
       maxHealth: 0
-      currentHealth: 0
-      healthRegenSpeed: 0
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
       moveSpeed: 0
       sprintSpeed: 0
-      damage: 0
       attackSpeed: 0
+      damageScale: 0
       critChance: 0
-      maxStamina: 0
-      currentStamina: 0
-      staminaRegenSpeed: 0
-    ABMaxHealth: 10
-    MBHealthRegen: 0.5
-    ADamage: 5
-    ABMaxStamina: 10
-    MCSprintSpeed: 0.1
-    MBAttackSpeed: 0.3
-    ACritChance: 0.05
+    baseStats:
+      health: 50
+      maxHealth: 50
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
+      moveSpeed: 6
+      sprintSpeed: 0
+      attackSpeed: 0.7
+      damageScale: 0.5
+      critChance: 0
+    modifiers:
+      MaxHealth: 10
+      HealthRegen: 0.5
+      Damage: 0.1
+      MaxEnergy: 10
+      AttackSpeed: 0.1
+      CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    maxHealthLevel: 0
+    healthRegenLevel: 0
+    damageLevel: 0
+    energyLevel: 0
+    attackSpeedLevel: 0
+    critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 0, y: 0}
-    material: {fileID: 0}
-    turnSpeed: 0
-    detectionRange: 0
+    material: {fileID: 2100000, guid: a952df11365e92749a8e16e3e7aba3b7, type: 2}
+    turnSpeed: 5
+    detectionRange: 12
     perceptiveness: 0
-    wanderDistance: 0
-    wanderStuckDistance: 0
-    canShootAndSeek: 0
-    enemyScore: 0
-  weaponType: 0
+    wanderDistance: 15
+    wanderStuckDistance: 0.1
+    enemyScore: 150
+  weaponType: 2

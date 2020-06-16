@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3918918905525988023}
   - component: {fileID: 8336567480030317469}
   - component: {fileID: 4595228313134729627}
+  - component: {fileID: 5960632815045266117}
   m_Layer: 8
   m_Name: CameraPrefab
   m_TagString: Untagged
@@ -203,3 +204,15 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+--- !u!114 &5960632815045266117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2990334424778168962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9cd860f3252d040ad040a5b70f296a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
