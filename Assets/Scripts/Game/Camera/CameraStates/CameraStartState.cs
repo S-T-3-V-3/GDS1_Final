@@ -16,6 +16,7 @@ public class CameraStartState : CameraState
         targetTransform = cameraController.targetTransform;
 
         this.gameObject.transform.LookAt(targetTransform);
+        cameraController.previousPosition = targetTransform.position;
     }
 
     void Update() {

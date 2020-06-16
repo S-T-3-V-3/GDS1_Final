@@ -94,6 +94,8 @@ public class BasicPlayer : Pawn
         equippedWeapon.ownerStats = this.statHandler;
         equippedWeapon.AddShotEffect(weaponDefinition);
         equippedWeapon.canShoot = true;
+
+        gameManager.hud.weaponStats.Init(equippedWeapon.weaponType, equippedWeapon.weaponStats);
     }
 
     void DropWeapon() {
@@ -106,9 +108,9 @@ public class BasicPlayer : Pawn
         {
             Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
-            DroppedState dropState = droppedItem.GetComponent<DroppedState>();
+            DroppedWeapon dropState = droppedItem.GetComponent<DroppedWeapon>();
             dropState.weaponType = equippedWeapon.weaponType;
-            dropState.Init("Player");
+            dropState.Init(equippedWeapon.weaponModel, "Player");
             GameObject.Destroy(equippedWeapon.weaponModel);
             GameObject.Destroy(equippedWeapon);
         }

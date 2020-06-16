@@ -19,6 +19,15 @@ public class MovementState : PlayerState
     Animator animationController;
     AimSystem aimSystem;
 
+    //Mouse Aim Variables:
+    Vector3 mousePos;
+    Camera camera;
+    Ray ray;
+    RaycastHit[] hits;
+    RaycastHit[] filteredHits;
+    Collider[] hitColliders;
+
+    Vector3 newPosition;
     Vector3 lookAtPos;
     Vector3 prevLookAtPos;
     bool isShooting = false;
@@ -55,7 +64,7 @@ public class MovementState : PlayerState
             player.statHandler.Energy += player.statHandler.EnergyRegenSpeed * Time.deltaTime;
         }
 
-        Vector3 newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
+        newPosition = currentMovementInput * player.statHandler.MoveSpeed * Time.fixedDeltaTime;
         characterController.Move(newPosition);
         characterController.Move(player.velocity * Time.deltaTime);
 
@@ -77,16 +86,11 @@ public class MovementState : PlayerState
         /////// HANDLE WEAPONS ///////
         //player.equippedWeapon.RenderAim();
 
-        if (isShooting)
-            player.equippedWeapon.Shoot();
+        if (isShooting) player.equippedWeapon.Shoot();
 
         // There's got to be a better way to do this
         // Start by putting these kinds of things on the relevant objects
         // IE; a laser beam shouldn't be controlled by the players movement state
-        /*
-        else
-            player.equippedWeapon.DisableLaser();
-        */
 
         if (player.statHandler.CurrentHealth < player.statHandler.MaxHealth) {
             player.statHandler.CurrentHealth += player.statHandler.HealthRegen * Time.deltaTime;
@@ -114,72 +118,63 @@ public class MovementState : PlayerState
         aimSystem.RenderAimLine(player.equippedWeapon.firePoint, lookAtPos, isAimingToPosition);
     }
 
-    ///TODO: Jaiden to refactor this later
     public void OnMouseAim(InputValue value) {
         if (player.isPaused) return;
 
-        Vector3 mousePos = value.Get<Vector2>();
-        Camera camera = GameManager.Instance.mainCamera;
+        mousePos = value.Get<Vector2>();
+        camera = GameManager.Instance.mainCamera;
         Ray ray = camera.ScreenPointToRay(mousePos);
 
-        if (mouseIndicator == null) {
+        if (mouseIndicator == null)
             mouseIndicator = GameManager.Instance.hud.mouseIndicator.GetComponent<MouseIndicator>();
-        } else {
+        else
             mouseIndicator.SetIndicatorPosition(mousePos);
-        }
 
-        RaycastHit[] hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null && x.collider.GetComponent<TileCameraTrigger>() == null).ToArray();
+        hits = Physics.RaycastAll(ray,200f).Where(x => x.collider.name.Contains("Wall") == false && x.collider.GetComponent<Tile>() == null && x.collider.GetComponent<TileCameraTrigger>() == null).ToArray();
+
         if (hits.Length > 0) {
-
-            RaycastHit[] filteredHits = hits.Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
-            //Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 2).Where(x => x.name.Contains("Wall") == false && x.GetComponent<Tile>() == null).ToArray();
-            Collider[] hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 0.7f).Where(x => x.gameObject.GetComponent<IDamageable>() != null).ToArray();
             isAimingToPosition = true;
-
-            if(filteredHits.Length > 0)
-            {
-                if (filteredHits.First().transform != this.transform) {
-                    lookAtPos = filteredHits.First().transform.position;
-                    mouseIndicator.SetTransitionState(true);
-
-                    if (isShooting) playerAim.targetedEnemy = filteredHits.First().collider.gameObject;
-                }
-                else
-                {
-                    lookAtPos = hits.First().point;
-                    lookAtPos.y += 0.5f;
-                }
-                
-                return;
-            } else {
-                if (hitColliders.Length > 0)
-                {
-                    //Debug.Log(hitColliders.First().name);
-                    if (hitColliders.First().transform != this.transform)
-                    {
-                        lookAtPos = hitColliders.First().transform.position;
-                        mouseIndicator.SetTransitionState(true);
-
-                        if (isShooting) playerAim.targetedEnemy = hitColliders.First().gameObject;
-                    }
-                    else
-                    {
-                        lookAtPos = hits.First().point;
-                        lookAtPos.y += 0.5f;
-                    }
-                    return;
-                }
-            }
+            filteredHits = hits.Where(x => x.collider.GetComponent<IDamageable>() != null).ToArray();
+            hitColliders = Physics.OverlapSphere(hits.First().collider.transform.position, 0.7f).Where(x => x.gameObject.GetComponent<IDamageable>() != null).ToArray();
+            
+            if (HighlightOnDirectAim()) return;
+            if  (HighlightOnOverlapAim()) return;
             
             lookAtPos = hits.First().point;
             lookAtPos.y += 0.5f;
             mouseIndicator.SetTransitionState(false);
+            return;
 
-        } else
-        {
-            isAimingToPosition = false;
-            mouseIndicator.SetTransitionState(false);
         }
+
+        isAimingToPosition = false;
+        mouseIndicator.SetTransitionState(false);
+    }
+
+    bool HighlightOnDirectAim(){
+        if(filteredHits.Length > 0) {
+            if (filteredHits.First().transform != this.transform) {
+                lookAtPos = filteredHits.First().transform.position;
+                mouseIndicator.SetTransitionState(true);
+
+                if (isShooting) playerAim.targetedEnemy = filteredHits.First().collider.gameObject;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    bool HighlightOnOverlapAim(){
+        if (hitColliders.Length > 0) {
+            if (hitColliders.First().transform != this.transform) {
+                lookAtPos = hitColliders.First().transform.position;
+                mouseIndicator.SetTransitionState(true);
+
+                if (isShooting) playerAim.targetedEnemy = hitColliders.First().gameObject;
+            }
+            return true;
+        }
+        return false;
     }
 
     private void OnDrawGizmos()
