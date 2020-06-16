@@ -17,7 +17,6 @@ public class CameraFollowState : CameraState
         targetTransform = cameraController.targetTransform;
         velocity = Vector3.zero;
 
-        DoMovement(true);
         this.gameObject.transform.LookAt(targetTransform);
     }
 

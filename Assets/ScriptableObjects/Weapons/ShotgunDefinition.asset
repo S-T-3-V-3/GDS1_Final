@@ -16,11 +16,11 @@ MonoBehaviour:
     type: 3}
   weaponType: 3
   weaponBaseStats:
-    weaponDamage: 40
+    weaponDamage: 30
     critDamage: 0
-    range: 12
+    range: 8
     shotSpeed: 45
-    fireRate: 1.5
+    attackSpeed: 1
     accuracy: 0
     hasPiercingShots: 0
     numBullets: 6

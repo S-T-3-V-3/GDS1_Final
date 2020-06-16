@@ -88,6 +88,8 @@ public class BasicEnemy : Pawn
 
         GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.DebrisSparkPrefab, hitPoint, Quaternion.identity);
         GameObject.Destroy(debryEffect, 2f);
+        
+        AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
@@ -118,6 +120,8 @@ public class BasicEnemy : Pawn
         DropWeapon();
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
+
+        AudioManager.Instance.PlaySoundEffect(SoundType.Explosions);
     }
 
     public void EquipWeapon<T>(WeaponType weaponType, WeaponStats weaponStats) where T : Weapon
@@ -129,7 +133,6 @@ public class BasicEnemy : Pawn
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, weaponPosition);
         //Debug.Log(weaponType);
-        //Debug.Log(equippedWeapon.name);
 
         equippedWeapon.ownerStats = this.statHandler;
         equippedWeapon.AddShotEffect(weaponDefinition);
@@ -149,18 +152,22 @@ public class BasicEnemy : Pawn
             ///CHANGE THIS TO A BETTER VERSION WHEN THE WEAPONS ARE WORKING FOR ENEMY
 
             //WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
-            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
-            DroppedState item = droppedItem.AddComponent<DroppedState>();
+            Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
+            GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
+            DroppedState dropIdicator = droppedItem.GetComponent<DroppedState>();
+            dropIdicator.Init("Enemy");
 
             ////THIS IS TEMPORARY
             ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
             ///
-            int randomSelect = Random.Range(0, 10);
+            int randomSelect = Random.Range(0, 25);
 
-            if (randomSelect > 6)
-                item.weaponType = WeaponType.RIFLE;
+            if (randomSelect > 16)
+                dropIdicator.weaponType = WeaponType.RIFLE;
+            else if (randomSelect > 8)
+                dropIdicator.weaponType = WeaponType.SHOTGUN;
             else
-                item.weaponType = WeaponType.SHOTGUN;
+                dropIdicator.weaponType = WeaponType.MACHINE_GUN;
         }
     }
 
@@ -182,6 +189,28 @@ public class BasicEnemy : Pawn
     public static bool IsPlayerInWeaponRange(BasicEnemy enemy) {        
         if (GameManager.Instance.playerController == null) return false;
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.equippedWeapon.weaponStats.range;
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+
+        if (other.name.Contains("Shotgun_Particles")) {
+            ParticleSystem shotgunParticles = other.GetComponent<ParticleSystem>();
+
+            //MUST BE OPTIMISED
+            WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.SHOTGUN).First();
+
+            DamageType damage;
+            damage.owningObject = this.gameObject;
+            damage.impactPosition = other.transform.position;
+            damage.impactVelocity = shotgunParticles.main.startSpeed.constant * other.transform.forward;
+            damage.damageAmount = weaponDefinition.weaponBaseStats.weaponDamage;
+            damage.isCrit = false;
+            damage.isPiercing = false;
+
+            OnReceivedDamage(damage, other.transform.position, other.transform.forward, shotgunParticles.main.startSpeed.constant);
+        }
+
     }
 
     ////// Methods for Shader Manipulation //////

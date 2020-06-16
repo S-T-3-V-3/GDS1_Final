@@ -26,6 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81649ef283364614f859af993a851003, type: 2}
   - {fileID: 11400000, guid: 7f4ebe640e14b514f8c221abc856ed0f, type: 2}
   - {fileID: 11400000, guid: aeeca11b3d7d21f48804903246de30ef, type: 2}
+  - {fileID: 11400000, guid: e07ecb1e77e7040b791d0d797ef13682, type: 2}
   gravity: -9.8
   DebrisSparkPrefab: {fileID: 1981929775162810702, guid: 1a7f17279ee474a7db50c3737395b6b7,
     type: 3}
@@ -43,3 +44,5 @@ MonoBehaviour:
     type: 3}
   dropIndicator: {fileID: 9088756121751315764, guid: ba7a9aed0d903444ba41c071ba801c07,
     type: 3}
+  blueGlowMaterial: {fileID: 2100000, guid: ec7f56d8b1ee2499d8076da150211d61, type: 2}
+  yellowGlowMaterial: {fileID: 2100000, guid: 0033d1855e41b42259b1adda3153fdae, type: 2}

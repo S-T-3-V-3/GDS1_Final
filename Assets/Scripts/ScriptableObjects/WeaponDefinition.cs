@@ -13,14 +13,14 @@ public class WeaponDefinition : ScriptableObject
 [System.Serializable]
 public struct WeaponStats {
     public float weaponDamage;
-    public float critDamage;
+    public float critDamage; //UNUSED
     public float range;
     public float shotSpeed;
-    public float fireRate;
-    public float accuracy;
-    public bool hasPiercingShots;
+    public float attackSpeed; //UNUSED
+    public float accuracy; //UNUSED
+    public bool hasPiercingShots; //UNUSED
     public int numBullets;
-    public float chargeTime;
+    public float chargeTime; //UNUSED
 }
 
 public enum WeaponType {

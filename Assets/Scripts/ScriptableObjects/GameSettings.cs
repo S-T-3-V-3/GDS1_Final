@@ -26,4 +26,6 @@ public class GameSettings : ScriptableObject
 
     [Header("Game Indicators")]
     public GameObject dropIndicator;
+    public Material blueGlowMaterial;
+    public Material yellowGlowMaterial;
 }

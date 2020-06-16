@@ -21,7 +21,7 @@ public class BasicPlayer : Pawn
 
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
-    AimSystem aimSystem;
+    //AimSystem aimSystem;
 
     GameManager gameManager;
     GameSettings gameSettings;
@@ -35,7 +35,7 @@ public class BasicPlayer : Pawn
         if (GetComponent<PlayerController>() != null)
         {
             weaponsIK = gameObject.AddComponent<IKWeaponsAnimator>();
-            aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
+            //aimSystem = Instantiate(playerSettings.aimSystem, transform).GetComponent<AimSystem>();
         }
     }
 
@@ -44,9 +44,6 @@ public class BasicPlayer : Pawn
         gameSettings = gameManager.gameSettings;
         velocity = Vector3.zero;
         InitDamageable();
-
-        // Get Impact Material
-        //impactMaterial = GetComponent<MeshRenderer>().materials[1];
 
         //Equip starting weapon
         WeaponType startingWeaponType = WeaponType.RIFLE;
@@ -75,6 +72,7 @@ public class BasicPlayer : Pawn
             velocity.y = 0;
 
         velocity.y += gameSettings.gravity * Time.deltaTime;
+        
     }
 
     //EQUIPS WEAPONS
@@ -89,8 +87,7 @@ public class BasicPlayer : Pawn
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, gunPosition);
-        //Debug.Log(weaponType);
-        //Debug.Log(equippedWeapon.name);
+        equippedWeapon.autoAim = true;
 
         weaponsIK.SetWeaponHandIK(equippedWeapon.weaponModel.GetComponent<WeaponTransforms>(), gunPosition);
 
@@ -107,9 +104,13 @@ public class BasicPlayer : Pawn
 
         if(Physics.Raycast(dropPosition.position, Vector3.up * -1, out hit, 10))
         {
-            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
-            DroppedState state = droppedItem.AddComponent<DroppedState>();
-            state.weaponType = equippedWeapon.weaponType;
+            Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
+            GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
+            DroppedState dropState = droppedItem.GetComponent<DroppedState>();
+            dropState.weaponType = equippedWeapon.weaponType;
+            dropState.Init("Player");
+            GameObject.Destroy(equippedWeapon.weaponModel);
+            GameObject.Destroy(equippedWeapon);
         }
     }
 
@@ -118,6 +119,12 @@ public class BasicPlayer : Pawn
         statHandler = gameManager.gameSettings.playerSettings.playerStats.GetCopy();
         statHandler.CurrentHealth = statHandler.MaxHealth;
         statHandler.Energy = statHandler.MaxEnergy;
+    }
+
+    public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed){
+        base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
+        StartCoroutine(GameManager.Instance.hud.FadeImpact());
+        AudioManager.Instance.PlaySoundEffect(SoundType.PlayerImpact);
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)

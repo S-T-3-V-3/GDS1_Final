@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9088756121751315767}
+  - component: {fileID: 2187362598622222695}
+  - component: {fileID: 1401295572141961168}
   m_Layer: 0
   m_Name: Item_Indicator
   m_TagString: Untagged
@@ -32,6 +34,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2187362598622222695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9088756121751315764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0220ed48f02de4770b87cfdf0bd65100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 0
+  indicatorRenderers:
+  - {fileID: 9088756122280341471}
+  - {fileID: 1530243741867832940}
+--- !u!65 &1401295572141961168
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9088756121751315764}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.07, z: 1}
+  m_Center: {x: 0, y: 0.62, z: 0}
 --- !u!1 &9088756122280341469
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +74,6 @@ GameObject:
   - component: {fileID: 9088756122280341465}
   - component: {fileID: 9088756122280341470}
   - component: {fileID: 9088756122280341471}
-  - component: {fileID: 9088756122280341468}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -112,19 +142,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &9088756122280341468
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9088756122280341469}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &9088756120395619257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,6 +219,12 @@ PrefabInstance:
 --- !u!4 &4277024670820020387 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 41fd01be4c8514d8096bc034cd44c417,
+    type: 3}
+  m_PrefabInstance: {fileID: 9088756120395619257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1530243741867832940 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1504981713932161579, guid: 41fd01be4c8514d8096bc034cd44c417,
     type: 3}
   m_PrefabInstance: {fileID: 9088756120395619257}
   m_PrefabAsset: {fileID: 0}

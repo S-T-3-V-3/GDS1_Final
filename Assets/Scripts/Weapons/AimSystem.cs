@@ -10,40 +10,32 @@ public class AimSystem : MonoBehaviour
     RaycastHit hit;
 
     Vector3 startPosition;
+    Vector3 prevEndPos;
     float vertOffset = 0.1f;
     float forwardOffset = -0.2f;
 
     void Awake()
     {
         aimLine = GetComponent<LineRenderer>();
-    }
+    } 
 
-    public void RenderAimLine(Transform firePoint)
+    public void RenderAimLine(Transform firePoint, Vector3 endPos, bool isInWorld)
     {
-        /*if(aimPointUI == null)
-        {
-            aimPointUI = Instantiate(GameManager.Instance.gameSettings.aimPointUI, GameManager.Instance.hud.transform).GetComponent<RectTransform>();
-        }*/
 
-        startPosition = firePoint.position + (firePoint.up * vertOffset) + (firePoint.forward * forwardOffset);
+        //startPosition = firePoint.position + (firePoint.up * vertOffset) + (firePoint.forward * forwardOffset);
+        startPosition = firePoint.position + (firePoint.forward * forwardOffset);
         aimLine.SetPosition(0, startPosition);
 
-        if (Physics.Raycast(startPosition, firePoint.forward, out hit, 100))
-        {
-            aimLine.SetPosition(1, startPosition + firePoint.forward * hit.distance);  
-        } else
-        {
-            aimLine.SetPosition(1, startPosition + firePoint.forward * 100);
-        }
-    }
+        //Debug.Log(aimLine.enabled);
 
-    void RenderAimPoint()
-    {
-        /*if (Camera.main != null)
+        if (isInWorld)
         {
-            aimPointUI.gameObject.SetActive(true);
-            Debug.Log(Camera.main.WorldToScreenPoint(startPosition + firePoint.forward * hit.distance));
-            aimPointUI.position = Camera.main.WorldToScreenPoint(startPosition + firePoint.forward * hit.distance);
-        }*/
+            aimLine.enabled = true;
+            aimLine.SetPosition(1, endPos);
+            return;
+        }
+
+
+        aimLine.enabled = false;
     }
 }

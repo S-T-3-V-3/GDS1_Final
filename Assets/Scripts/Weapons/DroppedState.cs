@@ -5,22 +5,32 @@ using UnityEngine;
 
 public class DroppedState : MonoBehaviour
 {
-    Transform indicator;
     public WeaponType weaponType;
+    public MeshRenderer[] indicatorRenderers;
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        indicator = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity).transform;
         GameObject.Destroy(this.gameObject, 10);
-        GameObject.Destroy(indicator.gameObject, 10);
+    }
+
+    public void Init(string originName){
+        Material glowMat;
+
+        if(originName.Equals("Player"))
+            glowMat = GameManager.Instance.gameSettings.blueGlowMaterial;
+        else 
+            glowMat = GameManager.Instance.gameSettings.yellowGlowMaterial;
+
+        foreach (MeshRenderer rend in indicatorRenderers) {
+            rend.material = glowMat;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        indicator.transform.Rotate(0, 2, 0);
+        transform.Rotate(0, 2, 0);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,27 +38,29 @@ public class DroppedState : MonoBehaviour
         if (other.gameObject.GetComponent<BasicPlayer>() == null) return;
 
         BasicPlayer player = other.gameObject.GetComponent<BasicPlayer>();
-
         if(player.equippedWeapon.weaponType == weaponType)
         {
-            GameObject.Destroy(this.gameObject);
-            GameObject.Destroy(indicator.gameObject);
+            GameObject.Destroy(gameObject);
             return;
         }
 
         WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First().weaponBaseStats;
-
         switch (weaponType)
         {
             case WeaponType.RIFLE:
                 player.EquipWeapon<RifleWeapon>(weaponType, newStats);
+                AudioManager.Instance.PlaySoundEffect(SoundType.LOADRifle);
                 break;
             case WeaponType.SHOTGUN:
                 player.EquipWeapon<ShotgunWeapon>(weaponType, newStats);
+                AudioManager.Instance.PlaySoundEffect(SoundType.LOADShotgun);
+                break;
+            case WeaponType.MACHINE_GUN:
+                player.EquipWeapon<RifleWeapon>(weaponType, newStats);
+                AudioManager.Instance.PlaySoundEffect(SoundType.LOADMachine);
                 break;
         }
 
         GameObject.Destroy(this.gameObject);
-        GameObject.Destroy(indicator.gameObject);
     }
 }

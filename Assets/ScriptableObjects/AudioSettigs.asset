@@ -39,3 +39,19 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 10bee162cc5324130bd77376f20043e0, type: 3}
     - {fileID: 8300000, guid: 78b0f75b4b4204ba2921233bebec1a4b, type: 3}
     - {fileID: 8300000, guid: c9a4bd822be9142c78ed49d93d5e8b5f, type: 3}
+  - type: 8
+    soundClips:
+    - {fileID: 8300000, guid: 293fc6b6f98354b6fa35be500801d7e3, type: 3}
+  - type: 9
+    soundClips:
+    - {fileID: 8300000, guid: 35f5a634f2c044da08ce1d420ad80056, type: 3}
+  - type: 10
+    soundClips:
+    - {fileID: 8300000, guid: 54d8edeb3be014bd8b15cce8f8b4059a, type: 3}
+  - type: 7
+    soundClips:
+    - {fileID: 8300000, guid: 45eab701307384a07ad5058344add1b8, type: 3}
+  - type: 11
+    soundClips:
+    - {fileID: 8300000, guid: a2196b4ad7b524c61a1104c805604e39, type: 3}
+    - {fileID: 8300000, guid: 0ca57ae8688d34eada933b408ae39803, type: 3}
