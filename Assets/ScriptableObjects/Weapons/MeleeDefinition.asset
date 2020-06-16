@@ -18,7 +18,7 @@ MonoBehaviour:
     weaponDamage: 20
     critDamage: 0
     range: 0
-    shotSpeed: 0
+    shotSpeed: 45
     fireRate: 1
     accuracy: 0
     hasPiercingShots: 0

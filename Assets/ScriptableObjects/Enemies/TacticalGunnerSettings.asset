@@ -36,14 +36,14 @@ MonoBehaviour:
       moveSpeed: 8
       sprintSpeed: 0
       attackSpeed: 1.2
-      damage: 1
+      damage: 10
       critChance: 0
     modifiers:
       MaxHealth: 10
       HealthRegen: 0.5
-      Damage: 0.1
+      Damage: 5
       MaxEnergy: 10
-      AttackSpeed: 0.1
+      AttackSpeed: 0.3
       CritChance: 0.05
     OnHealthChanged:
       m_PersistentCalls:
@@ -59,7 +59,7 @@ MonoBehaviour:
     critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 5, y: 10}
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: 7220a7aac811b3740ba171a662d64685, type: 2}
     turnSpeed: 5
     detectionRange: 12
     perceptiveness: 0
