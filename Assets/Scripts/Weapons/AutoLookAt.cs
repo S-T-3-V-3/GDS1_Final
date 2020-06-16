@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AutoLookAt : MonoBehaviour

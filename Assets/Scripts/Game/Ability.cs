@@ -88,22 +88,22 @@ public class Ability : MonoBehaviour
             int swapStat;
             swapStat = player.statHandler.HealthRegenLevel;
             
-            player.statHandler.currentsStats.HealthRegen *= abilityStats.multiplier;
+            //player.statHandler.currentsStats.HealthRegen *= abilityStats.multiplier;
 
             yield return new WaitForSeconds(abilityStats.time);
 
-            player.statHandler.HealthRegenLevel = swapStat;
+            //player.statHandler.HealthRegenLevel = swapStat;
         }
         IEnumerator rapidFire()
        {
            int swapStat;
            swapStat = player.statHandler.AttackSpeedLevel;
 
-           player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
+           //player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
 
            yield return new WaitForSeconds(abilityStats.time);
 
-           player.statHandler.AttackSpeedLevel = swapStat;
+           //player.statHandler.AttackSpeedLevel = swapStat;
        }
 
        IEnumerator invisible()
@@ -113,5 +113,5 @@ public class Ability : MonoBehaviour
            yield return new WaitForSeconds(abilityStats.time);
 
            player.canTakeDamage = true;
-           */
+       }
 }
