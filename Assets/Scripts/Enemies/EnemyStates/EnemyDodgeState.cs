@@ -44,7 +44,7 @@ public class EnemyDodgeState : EnemyState
     
     void Update()
     {
-
+        if (enemy.isPaused) return;
 
         enemy.GravityUpdate();
         characterController.Move(enemy.velocity * Time.deltaTime);

@@ -85,6 +85,9 @@ public class BasicEnemy : Pawn
     public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)
     {
         base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
+        IngameDamageText damageText = GameObject.Instantiate(gameManager.DamageTextPrefab, gameManager.transform).GetComponent<IngameDamageText>();
+        damageText.damageText.text = $"{(int)damageType.damageAmount}";
+        damageText.transform.position = hitPoint;
 
         if(damageType.isCrit)
         {

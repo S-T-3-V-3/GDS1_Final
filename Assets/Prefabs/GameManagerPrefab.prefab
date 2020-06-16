@@ -53,11 +53,11 @@ MonoBehaviour:
     type: 3}
   HUDPrefab: {fileID: 4820513166456618387, guid: f3d497e348f7e6048a4a23ed8b9949d7,
     type: 3}
-  PausePrefab: {fileID: 7266263905791287532, guid: c585b0a141058114bae8b48458ff16af,
-    type: 3}
   ControlsUIPrefab: {fileID: 7266263905791287532, guid: 45c649dcf2da00541b43c8a253dcb5a3,
     type: 3}
   TileBlockingPrefab: {fileID: 9107731745816921876, guid: 47fd0539acb2e424a821eda0b46c3192,
+    type: 3}
+  DamageTextPrefab: {fileID: 8262867880042661110, guid: 828e877c04d904a43a44f5eedc032413,
     type: 3}
   rockMaterials:
   - {fileID: 2100000, guid: d30a0fd01b0c2654ca83f1d609af3f8f, type: 2}
@@ -78,3 +78,4 @@ MonoBehaviour:
   OnAddScore:
     m_PersistentCalls:
       m_Calls: []
+  sessionData: {fileID: 0}

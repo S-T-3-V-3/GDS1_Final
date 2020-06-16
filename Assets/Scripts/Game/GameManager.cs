@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour, IPausable
     public GameObject GameOverUIPrefab;
     public GameObject ProjectilePrefab;
     public GameObject HUDPrefab;
-    public GameObject PausePrefab;
     public GameObject ControlsUIPrefab;
     public GameObject TileBlockingPrefab;
+    public GameObject DamageTextPrefab;
 
     [Header("Environment Materials")]
     public List<Material> rockMaterials;
