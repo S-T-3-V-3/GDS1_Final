@@ -54,7 +54,7 @@ public class StatHandler
         get { return maxHealthLevel; }
         private set {
             currentStats.maxHealth = currentStats.maxHealth + modifiers.MaxHealth;
-            maxHealthLevel++;
+            maxHealthLevel = value;
             CurrentHealth += 10;
         }
     }
@@ -63,7 +63,7 @@ public class StatHandler
     public int HealthRegenLevel {
         get { return healthRegenLevel; }
         private set {
-            healthRegenLevel++;
+            healthRegenLevel = value;
             currentStats.healthRegen = baseStats.healthRegen + (healthRegenLevel * modifiers.HealthRegen);
         }
     }
@@ -72,7 +72,7 @@ public class StatHandler
     public int DamageLevel {
         get { return damageLevel; }
         private set {
-            damageLevel++;
+            damageLevel = value;
             currentStats.damageScale = baseStats.damageScale + (modifiers.Damage * damageLevel);
         }
     }
@@ -81,7 +81,7 @@ public class StatHandler
     public int EnergyLevel {
         get { return energyLevel; }
         private set {
-            energyLevel++;
+            energyLevel = value;
             currentStats.maxEnergy = baseStats.maxEnergy + (energyLevel * modifiers.MaxEnergy);
         }
     }
@@ -90,7 +90,7 @@ public class StatHandler
     public int AttackSpeedLevel {
         get { return attackSpeedLevel; }
         private set {
-            attackSpeedLevel++;
+            attackSpeedLevel = value;
             currentStats.attackSpeed = baseStats.attackSpeed + (modifiers.AttackSpeed * AttackSpeedLevel);
         }
     }
@@ -99,7 +99,7 @@ public class StatHandler
     public int CritChanceLevel {
         get { return critChanceLevel; }
         private set {
-            critChanceLevel++;
+            critChanceLevel = value;
             currentStats.critChance = baseStats.critChance + modifiers.CritChance * (critChanceLevel - 1);
         }
     }
@@ -223,6 +223,24 @@ public class StatHandler
 
         else
             return "Error";
+    }
+
+    //////////// Ability Functions ////////////
+    public void RegenAbility()
+    {
+        currentStats.healthRegen += 30;
+    }
+    public void StopRegenAbility()
+    {
+        currentStats.healthRegen -=30;
+    }
+    public void AttackSpeedAbility()
+    {
+        currentStats.attackSpeed += 5;
+    }
+    public void StopAttackSpeedAbility()
+    {
+        currentStats.attackSpeed -= 5;
     }
 }
 

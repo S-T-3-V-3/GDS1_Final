@@ -36,35 +36,16 @@ public class Ability : MonoBehaviour
 
 
         public void OnAbility(InputValue value) {
-            if(value.isPressed)
+            if(value.isPressed) //Check if ability is unlocked
             {
-                Dash();
+                //switch (abilityType) case AbilityType.DASH:
+
+                //Dash
+                //RapidHealAbility();
+                //RapidFireAbility();
+                //Invisible();
             }
         }
-
-        void Update()
-        {
-           if (Input.GetKeyDown(KeyCode.E))
-            {
-            switch (abilityType)
-                {
-                    case AbilityType.DASH:
-                        Dash();
-                        break;
-                    case AbilityType.RAPIDHEAL:
-                        StartCoroutine(rapidHeal());                  
-                        break;
-                    case AbilityType.RAPIDFIRE:
-                        StartCoroutine(rapidFire());
-                        break;
-                    case AbilityType.INVISIBILITY:
-                         StartCoroutine(invisible());
-                        break;
-
-            }
-
-            }
-         }
 
         void Dash()
         {
@@ -78,7 +59,6 @@ public class Ability : MonoBehaviour
             }
             
         }
-
         float checkDashDistance()
         {
             Ray ray = new Ray(firePoint.position, firePoint.forward);
@@ -90,35 +70,73 @@ public class Ability : MonoBehaviour
             return abilityStats.dashDistance;
         }
    
-        IEnumerator rapidHeal()
+        void RapidHealAbility()
         {
-            int swapStat;
-            swapStat = player.statHandler.HealthRegenLevel;
-            
-            //player.statHandler.currentsStats.HealthRegen *= abilityStats.multiplier;
+            if(player.statHandler.Energy == player.statHandler.MaxEnergy)
+            {
+                player.statHandler.RegenAbility();
+                StartCoroutine(healPlayer());
+            }
+        }
+        IEnumerator healPlayer()
+        {
+            yield return null;
+            if(player.statHandler.Energy > 0)
+            {
+                Debug.Log("Rapidly healing player");
+                player.statHandler.Energy -= 20f * Time.deltaTime;
+                StartCoroutine(healPlayer());
+            }
+            else
+            {
+                player.statHandler.StopRegenAbility();
+            }
+        }
 
-            yield return new WaitForSeconds(abilityStats.time);
-
-            //player.statHandler.HealthRegenLevel = swapStat;
+        void RapidFireAbility()
+        {
+            if(player.statHandler.Energy == player.statHandler.MaxEnergy)
+            {
+                player.statHandler.AttackSpeedAbility();
+                StartCoroutine(rapidFire());
+            }
         }
         IEnumerator rapidFire()
-       {
-           int swapStat;
-           swapStat = player.statHandler.AttackSpeedLevel;
+        {
+            yield return null;
+            if(player.statHandler.Energy > 0)
+            {
+                Debug.Log("Increasing Player Attack Speed");
+                player.statHandler.Energy -= 15f * Time.deltaTime;
+                StartCoroutine(rapidFire());
+            }
+            else
+            {
+                player.statHandler.StopAttackSpeedAbility();
+            }
+        }
 
-           //player.statHandler.AttackSpeedLevel *= abilityStats.multiplier;
+        void Invisible()
+        {
+            if(player.statHandler.Energy == player.statHandler.MaxEnergy)
+            {
+                player.canTakeDamage = false;
+                StartCoroutine(ImmunityFrames());
+            }
+        }
+        IEnumerator ImmunityFrames()
+        {
+            yield return null;
+            if(player.statHandler.Energy > 0)
+            {
+                player.statHandler.Energy -= 25f * Time.deltaTime;
+                StartCoroutine(ImmunityFrames());
+            }
+            else
+            {
+                player.canTakeDamage = true;
+            }
 
-           yield return new WaitForSeconds(abilityStats.time);
-
-           //player.statHandler.AttackSpeedLevel = swapStat;
-       }
-
-       IEnumerator invisible()
-       {
-           player.canTakeDamage = false;
-            Debug.Log("test1");
-           yield return new WaitForSeconds(abilityStats.time);
-            Debug.Log("test2");
-           player.canTakeDamage = true;
-       }
+            Debug.Log("Player is invincible: " + !player.canTakeDamage);
+        }
 }
