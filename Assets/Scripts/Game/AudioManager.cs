@@ -50,23 +50,8 @@ public class AudioManager : MonoBehaviour
     {
         Sound soundSelection = audioSettings.soundEffects.Where(x => x.type == soundType).First();
         AudioClip sound = soundSelection.clip;
-        generalAudioSource.PlayOneShot(sound);
+        generalAudioSource.PlayOneShot(sound, soundSelection.volume);
     }
-
-    /*void PlayFootstep()
-    {
-        if (timeUntilNextStep >= 0)
-        {
-            timeUntilNextStep -= Time.deltaTime;
-            return;
-        }
-
-        int selection = Random.Range(0, audioSettings.playerFootstepClips.Length);
-        playerAudioSource.PlayOneShot(audioSettings.playerFootstepClips[selection]);
-        timeUntilNextStep = audioSettings.footstepRate;
-    }
-    */
-
 }
 
 [System.Serializable]

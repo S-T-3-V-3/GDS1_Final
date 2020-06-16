@@ -24,6 +24,8 @@ public class Sound
 {
     public SoundType type;
     public AudioClip[] soundClips;
+    [Range(0,4)]
+    public float volume = 1f;
 
     [HideInInspector]
     public AudioClip clip
