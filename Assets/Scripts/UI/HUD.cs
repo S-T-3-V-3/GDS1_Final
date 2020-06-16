@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUD : MonoBehaviour, IPausable
 {
-    public ScoreManager scoreBoard;
+    public TextMeshProUGUI ScoreText;
     public GameObject PauseHUD;
     public GameObject mouseIndicator;
     public Image redVignette;

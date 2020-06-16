@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class ScoreManager : MonoBehaviour
     public float currentExperience;
 
     BasicPlayer playerRef;
+    HUD hud;
 
     void Start()
     {
@@ -38,6 +40,7 @@ public class ScoreManager : MonoBehaviour
                 yield return new WaitForEndOfFrame();
 
                 GameManager.Instance.OnAddScore.AddListener(AddScore);
+                hud = GameManager.Instance.hud;
             }
 
             yield return null;
@@ -47,6 +50,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int value, Vector3 pos)
     {
         currentScore += value;
+        hud.ScoreText.text = $"Score: {currentScore}";
         
         currentExperience += value;
         OnExperienceGained.Invoke();
