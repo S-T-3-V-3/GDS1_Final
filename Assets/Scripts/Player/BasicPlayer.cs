@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class BasicPlayer : Pawn
 {
@@ -44,9 +45,6 @@ public class BasicPlayer : Pawn
         velocity = Vector3.zero;
         InitDamageable();
 
-        // Get Impact Material
-        //impactMaterial = GetComponent<MeshRenderer>().materials[1];
-
         //Equip starting weapon
         WeaponType startingWeaponType = WeaponType.RIFLE;
         WeaponStats newStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == startingWeaponType).First().weaponBaseStats;
@@ -61,14 +59,12 @@ public class BasicPlayer : Pawn
             SceneManager.LoadScene(scene.name);
         }
 
-        if (Input.GetKey(KeyCode.Escape)){
-            Application.Quit();
-        }
-
         if(Input.GetKeyDown(KeyCode.Semicolon)) {
             gameManager.OnAddScore.Invoke(100, Vector3.zero);
         }
         ////////////////////////////////////////////
+
+        if (isPaused) return;
 
         isGrounded = Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
         
@@ -108,9 +104,13 @@ public class BasicPlayer : Pawn
 
         if(Physics.Raycast(dropPosition.position, Vector3.up * -1, out hit, 10))
         {
-            GameObject droppedItem = GameObject.Instantiate(equippedWeapon.weaponModel, hit.point, Quaternion.identity);
-            DroppedState state = droppedItem.AddComponent<DroppedState>();
-            state.weaponType = equippedWeapon.weaponType;
+            Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
+            GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
+            DroppedState dropState = droppedItem.GetComponent<DroppedState>();
+            dropState.weaponType = equippedWeapon.weaponType;
+            dropState.Init("Player");
+            GameObject.Destroy(equippedWeapon.weaponModel);
+            GameObject.Destroy(equippedWeapon);
         }
     }
 
@@ -124,6 +124,7 @@ public class BasicPlayer : Pawn
     public override void OnReceivedDamage(DamageType damageType, Vector3 hitPoint, Vector3 hitDirection, float hitSpeed){
         base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
         StartCoroutine(GameManager.Instance.hud.FadeImpact());
+        AudioManager.Instance.PlaySoundEffect(SoundType.PlayerImpact);
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)

@@ -35,7 +35,13 @@ public class ShotgunWeapon : Weapon
 
     public override void AddShotEffect(WeaponDefinition settings)
     {
-        if (weaponType == WeaponType.SHOTGUN && shotgunParticles == null)
+        if (weaponType == WeaponType.SHOTGUN && shotgunParticles == null) {
             shotgunParticles = Instantiate(GameManager.Instance.gameSettings.ShotgunParticlePrefab, firePoint).GetComponent<ParticleSystem>();
+
+            ShotgunParticleController shotgunParticleController = shotgunParticles.GetComponent<ShotgunParticleController>();
+            shotgunParticleController.owningObject = this.gameObject;
+            shotgunParticleController.damageAmount = weaponStats.weaponDamage * ownerStats.Damage;
+            shotgunParticleController.initVelocity = weaponModel.transform.forward * weaponStats.shotSpeed;
+        }
     }
 }

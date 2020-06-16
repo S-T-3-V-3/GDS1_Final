@@ -24,7 +24,7 @@ MonoBehaviour:
       moveSpeed: 0
       sprintSpeed: 0
       attackSpeed: 0
-      damage: 0
+      damageScale: 0
       critChance: 0
     baseStats:
       health: 30
@@ -36,7 +36,7 @@ MonoBehaviour:
       moveSpeed: 8
       sprintSpeed: 0
       attackSpeed: 1.2
-      damage: 0.5
+      damageScale: 0.5
       critChance: 0
     modifiers:
       MaxHealth: 10

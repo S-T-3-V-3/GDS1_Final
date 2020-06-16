@@ -21,6 +21,10 @@ MonoBehaviour:
   Enemies:
   - {fileID: 11400000, guid: 06fed1892e4291841b34101f924e2407, type: 2}
   - {fileID: 11400000, guid: 77e5e47c81dc9da47a469088c9906f43, type: 2}
+  - {fileID: 11400000, guid: 092aa35695c85b74e8465ea4286a239d, type: 2}
+  - {fileID: 11400000, guid: a986c45bd5bc6ac48a7ec306d9b707d2, type: 2}
+  - {fileID: 11400000, guid: 4cfc11b255c1ee5489973bcc38033791, type: 2}
+  - {fileID: 11400000, guid: 218cfcaf9f719c94ea54ebec63f85a1b, type: 2}
   WeaponList:
   - {fileID: 11400000, guid: 6cd1ff24d1defdb40b589e1ca55cea04, type: 2}
   - {fileID: 11400000, guid: 81649ef283364614f859af993a851003, type: 2}
@@ -44,3 +48,5 @@ MonoBehaviour:
     type: 3}
   dropIndicator: {fileID: 9088756121751315764, guid: ba7a9aed0d903444ba41c071ba801c07,
     type: 3}
+  blueGlowMaterial: {fileID: 2100000, guid: ec7f56d8b1ee2499d8076da150211d61, type: 2}
+  yellowGlowMaterial: {fileID: 2100000, guid: 0033d1855e41b42259b1adda3153fdae, type: 2}

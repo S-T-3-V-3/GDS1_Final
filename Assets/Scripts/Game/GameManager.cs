@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IPausable
 {
     public static GameManager Instance = null;
     
@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
     public GameObject ControlsHUD;
     public ScoreEvent OnAddScore;
 
-    public static bool GameIsPaused = false;
+    [Header("Components")]
+    public SessionData sessionData;
 
     private void Awake()
     {
@@ -45,6 +46,8 @@ public class GameManager : MonoBehaviour
             GameObject.Destroy(this.gameObject);
         else
             Instance = this;
+
+        sessionData = this.gameObject.AddComponent<SessionData>();
 
         audioManager = Instantiate(gameSettings.audioManager).GetComponent<AudioManager>();
         scoreManager = this.gameObject.AddComponent<ScoreManager>();
@@ -55,7 +58,7 @@ public class GameManager : MonoBehaviour
         
         GameObject hudObject = GameObject.Instantiate(HUDPrefab);
         hud = hudObject.GetComponent<HUD>();
-        PauseHUD = Instantiate(PausePrefab, this.transform);
+        PauseHUD = hud.PauseHUD;
         ControlsHUD = Instantiate(ControlsUIPrefab, this.transform);
     }
 
@@ -80,37 +83,6 @@ public class GameManager : MonoBehaviour
         //Set player to a dead state
     }
 
-    public void OnPauseButton()
-    {
-        if(ControlsHUD.activeSelf)
-        {
-            PauseHUD.SetActive(true);
-            ControlsHUD.SetActive(false);
-        }
-        else if(GameIsPaused)
-        {
-            Resume();
-        }
-        else
-        {
-            Pause();
-        }
-    }
-
-    void Resume()
-    {
-        PauseHUD.SetActive(false);
-        //Time.timeScale = 1f;
-        GameIsPaused = false;
-    }
-
-    void Pause()
-    {
-        PauseHUD.SetActive(true);
-        //Time.timeScale = 0f;
-        GameIsPaused = true;
-    }
-
     public void LoadControls()
     {
         PauseHUD.SetActive(false);
@@ -121,6 +93,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Application Closes on Build Version");
         Application.Quit();
+    }
+
+    public void Pause()
+    {
+        PauseHUD.SetActive(true);
+    }
+
+    public void UnPause()
+    {
+        PauseHUD.SetActive(false);
     }
 }
 

@@ -11,7 +11,7 @@ public class PauseMenuUI : MonoBehaviour
 
     public void Resume()
     {
-        GameManager.Instance.OnPauseButton();
+        GameManager.Instance.sessionData.TogglePause();
     }
 
     public void LoadControls()

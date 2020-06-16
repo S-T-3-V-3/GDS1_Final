@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class MouseIndicator : MonoBehaviour
 {
-    public RectTransform indicatorTransform;
     public Canvas parentCanvas;
+    RectTransform indicatorTransform;
     RectTransform parentTransform;
     Image indicatorImage;
     Animator indicatorAnim;

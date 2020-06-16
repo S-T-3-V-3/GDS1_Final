@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : MonoBehaviour
+public class HUD : MonoBehaviour, IPausable
 {
     public ScoreManager scoreBoard;
+    public GameObject PauseHUD;
     public GameObject mouseIndicator;
     public Image redVignette;
     
@@ -24,7 +25,7 @@ public class HUD : MonoBehaviour
         
         bool isAdding = true;
         float currentAlpha = 0;
-        Debug.Log("has enocountered");
+        //Debug.Log("has enocountered");
         while (currentAlpha >= 0) {
 
             if(currentAlpha >= 1) isAdding = false;
@@ -39,5 +40,15 @@ public class HUD : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void Pause()
+    {
+        mouseIndicator.SetActive(false);
+    }
+
+    public void UnPause()
+    {
+        mouseIndicator.SetActive(true);
     }
 }

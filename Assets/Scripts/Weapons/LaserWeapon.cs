@@ -52,6 +52,7 @@ public class LaserWeapon : Weapon
 
     IEnumerator LaserActiveCheck() {
         while (isLaserActive) {
+            if (GameManager.Instance.sessionData.isPaused) yield return null;
             yield return null;
 
             elapsedTime += Time.deltaTime;

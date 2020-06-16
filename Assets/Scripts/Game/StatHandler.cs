@@ -72,7 +72,7 @@ public class StatHandler
         get { return damageLevel; }
         private set {
             damageLevel++;
-            currentStats.damage = baseStats.damage + (modifiers.Damage * damageLevel);
+            currentStats.damageScale = baseStats.damageScale + (modifiers.Damage * damageLevel);
         }
     }
     [SerializeField] private int damageLevel = 1;
@@ -162,7 +162,7 @@ public class StatHandler
 
     public float Damage {
         get {
-            return currentStats.damage;
+            return currentStats.damageScale;
         }
     }
 
@@ -209,7 +209,7 @@ public class StatHandler
             return (baseStats.healthRegen + ((healthRegenLevel+1) * modifiers.HealthRegen)).ToString();
 
         else if (stat == StatType.DAMAGE)
-            return (baseStats.damage + (modifiers.Damage * (damageLevel + 1))).ToString();
+            return (baseStats.damageScale + (modifiers.Damage * (damageLevel + 1))).ToString();
 
         else if (stat == StatType.ENERGY)
             return (baseStats.maxEnergy + ((energyLevel+1) * modifiers.MaxEnergy)).ToString();
@@ -272,6 +272,6 @@ public struct PawnStats {
     public float moveSpeed;
     public float sprintSpeed;
     public float attackSpeed;
-    public float damage;
+    public float damageScale;
     public float critChance;
 }
