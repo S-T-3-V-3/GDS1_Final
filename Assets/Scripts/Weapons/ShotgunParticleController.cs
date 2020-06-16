@@ -9,22 +9,22 @@ public class ShotgunParticleController : MonoBehaviour
     public Vector3 initVelocity;
     public GameObject owningObject;
 
-    void OnPArticleCollisionEnter(Collision other) {
-        if (other.gameObject == owningObject || owningObject == null) return;
+    void OnParticleCollision(GameObject other) {
+        if (other == owningObject || owningObject == null) return;
 
-        if (other.gameObject.GetComponent<BasicProjectile>() != null) return;
+        if (other.GetComponent<BasicProjectile>() != null) return;
 
-        if (other.gameObject.GetComponent<IDamageable>() != null)
+        if (other.GetComponent<IDamageable>() != null)
         {
             DamageType damage;
             damage.owningObject = owningObject;
-            damage.impactPosition = other.contacts.First().point;
+            damage.impactPosition = other.transform.position;
             damage.impactVelocity = this.initVelocity;
             damage.damageAmount = this.damageAmount;
             damage.isCrit = false;
             damage.isPiercing = false;
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
+            other.GetComponent<IDamageable>().OnReceivedDamage(damage, other.transform.position, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
         }
     }
 }

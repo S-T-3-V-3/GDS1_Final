@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   weaponType: 3
   weaponBaseStats:
-    weaponDamage: 30
+    weaponDamage: 10
     critDamage: 0
     range: 8
     shotSpeed: 45
