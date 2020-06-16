@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f369744b757834c87bf72864513a52e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 8010749674356764625}
   rightHandPoint: {fileID: 6763736276189938177}
   leftHandPoint: {fileID: 5898245685508178070}
   firePoint: {fileID: 6334737216319061309}

@@ -108,7 +108,7 @@ public class BasicPlayer : Pawn
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
             DroppedState dropState = droppedItem.GetComponent<DroppedState>();
             dropState.weaponType = equippedWeapon.weaponType;
-            dropState.Init("Player");
+            dropState.Init(equippedWeapon.weaponModel, "Player");
             GameObject.Destroy(equippedWeapon.weaponModel);
             GameObject.Destroy(equippedWeapon);
         }

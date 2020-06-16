@@ -9,6 +9,7 @@ public class HUD : MonoBehaviour, IPausable
     public TextMeshProUGUI ScoreText;
     public GameObject PauseHUD;
     public GameObject mouseIndicator;
+    public WeaponPanel weaponPanel;
     public Image redVignette;
     
     //////////////// TODO: DELETE THIS
@@ -26,7 +27,7 @@ public class HUD : MonoBehaviour, IPausable
         
         bool isAdding = true;
         float currentAlpha = 0;
-        //Debug.Log("has enocountered");
+        
         while (currentAlpha >= 0) {
 
             if(currentAlpha >= 1) isAdding = false;
@@ -35,7 +36,7 @@ public class HUD : MonoBehaviour, IPausable
                 currentAlpha += 0.2f;
                 redVignette.color = new Color(redVignette.color.r, redVignette.color.g, redVignette.color.b, currentAlpha);
             } else {
-                currentAlpha -= 0.2f;
+                currentAlpha -= 0.08f;
                 redVignette.color = new Color(redVignette.color.r, redVignette.color.g, redVignette.color.b, currentAlpha);
             }
 

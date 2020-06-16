@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f369744b757834c87bf72864513a52e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 9017023385988342009}
   rightHandPoint: {fileID: 1819374057465229332}
   leftHandPoint: {fileID: 1846054583746811371}
   firePoint: {fileID: 968760034827325479}
@@ -226,6 +227,12 @@ PrefabInstance:
 --- !u!4 &2585554565690584486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 1cac5d4be962941c5afdacb445941f68,
+    type: 3}
+  m_PrefabInstance: {fileID: 7393512985298847420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9017023385988342009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7225482314661206459, guid: 1cac5d4be962941c5afdacb445941f68,
     type: 3}
   m_PrefabInstance: {fileID: 7393512985298847420}
   m_PrefabAsset: {fileID: 0}
