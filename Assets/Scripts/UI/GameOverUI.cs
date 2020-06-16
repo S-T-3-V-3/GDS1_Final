@@ -24,7 +24,7 @@ public class GameOverUI : MonoBehaviour
             isPlayerDead = true;
             gameObject.SetActive(true);
             gameManager = GameManager.Instance;
-            finalScoreText.text = "Your Score: " + gameManager.playerScore;
+            finalScoreText.text = "Your Score: " + gameManager.scoreManager.currentScore;
         }
     }
 

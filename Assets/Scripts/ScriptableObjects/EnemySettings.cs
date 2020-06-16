@@ -30,6 +30,5 @@ public struct EnemyTraits {
     public float perceptiveness;
     public float wanderDistance;    
     public float wanderStuckDistance;
-    public bool canShootAndSeek;
     public int enemyScore;
 }

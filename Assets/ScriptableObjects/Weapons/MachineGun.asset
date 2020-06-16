@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2e395f957d95f4ebffc4e1f17124d2, type: 3}
   m_Name: MachineGun
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   weaponType: 2
   fireType: 2
   WeaponPrefab: {fileID: 0}
@@ -24,4 +25,18 @@ MonoBehaviour:
     accuracy: 0
     hasPiercingShots: 0
     numBullets: 3
+=======
+  WeaponPrefab: {fileID: 6006405879163836587, guid: cbc169dfe1dcc498ca6110a4d2a82713,
+    type: 3}
+  weaponType: 2
+  weaponBaseStats:
+    weaponDamage: 10
+    critDamage: 3
+    range: 13
+    shotSpeed: 45
+    attackSpeed: 3
+    accuracy: 1
+    hasPiercingShots: 0
+    numBullets: 0
+>>>>>>> 2c0e89c10ed7f0ee5d814b63e22b9b80f2b6e687
     chargeTime: 0

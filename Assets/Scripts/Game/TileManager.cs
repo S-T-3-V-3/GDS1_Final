@@ -10,8 +10,8 @@ public class TileManager : MonoBehaviour
 
     WorldTiles worldTiles;
 
-    void Start() {
-        worldTiles = GameManager.Instance.gameSettings.worldTiles;
+    void Awake() {
+        worldTiles = GameManager.Instance.gameSettings.tiles;
 
         // Add Standard Tiles
         foreach(WeightedTile wt in worldTiles.standardTiles) {
@@ -19,7 +19,10 @@ public class TileManager : MonoBehaviour
         }
 
         rootTile = GameObject.Instantiate(this.GetStartingTile(),this.transform).GetComponent<Tile>();
-        rootTile.AddNeighbours(null, GameManager.Instance.gameSettings.worldTiles.futureTileDepth);
+    }
+
+    void Start() {
+        rootTile.AddNeighbours(null, GameManager.Instance.gameSettings.tiles.futureTileDepth);
     }
 
     public GameObject GetStartingTile() {
