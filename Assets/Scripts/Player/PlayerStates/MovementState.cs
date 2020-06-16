@@ -145,8 +145,7 @@ public class MovementState : PlayerState
                     lookAtPos = hits.First().point;
                     lookAtPos.y += 0.5f;
                 }
-
-                Debug.Log(filteredHits.First().transform.name);
+                
                 return;
             } else {
                 if (hitColliders.Length > 0)

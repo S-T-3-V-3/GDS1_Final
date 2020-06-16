@@ -48,4 +48,9 @@ public enum SoundType
     Footstep,
     Charge,
     Impact,
+    PlayerImpact,
+    LOADShotgun,
+    LOADRifle,
+    LOADMachine,
+    Explosions
 }

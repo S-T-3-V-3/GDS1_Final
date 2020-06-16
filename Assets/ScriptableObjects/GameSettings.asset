@@ -44,3 +44,5 @@ MonoBehaviour:
     type: 3}
   dropIndicator: {fileID: 9088756121751315764, guid: ba7a9aed0d903444ba41c071ba801c07,
     type: 3}
+  blueGlowMaterial: {fileID: 2100000, guid: ec7f56d8b1ee2499d8076da150211d61, type: 2}
+  yellowGlowMaterial: {fileID: 2100000, guid: 0033d1855e41b42259b1adda3153fdae, type: 2}
