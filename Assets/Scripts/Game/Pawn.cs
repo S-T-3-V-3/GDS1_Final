@@ -21,14 +21,13 @@ public abstract class Pawn : MonoBehaviour, IDamageable, IPausable
     {
         if (canTakeDamage == false) return;
 
-        statHandler.CurrentHealth -= damageType.damageAmount;
+        if (damageType.isCrit)
+            statHandler.CurrentHealth -= damageType.damageAmount * 2;
+        else
+            statHandler.CurrentHealth -= damageType.damageAmount;
 
         if (statHandler.CurrentHealth <= 0)
             OnDeath(hitPoint, hitDirection, hitSpeed);
-        
-        if (damageType.isCrit) {
-            // Do something
-        }
     }
 
     public virtual void Pause() {

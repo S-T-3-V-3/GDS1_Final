@@ -23,6 +23,7 @@ public class GameSettings : ScriptableObject
     public GameObject DirectionalExplosionPrefab;
     public GameObject ShotgunParticlePrefab;
     public GameObject BeamRayEffectPrefab;
+    public GameObject CritEffectPrefab;
 
     [Header("Game Indicators")]
     public GameObject dropIndicator;
