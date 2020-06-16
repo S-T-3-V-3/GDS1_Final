@@ -26,6 +26,14 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemyWanderState>();
                 break;
 
+            case EnemyType.SNIPER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
+            case EnemyType.SHOTGUNNER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
             default:
                 break;
         }
@@ -49,6 +57,14 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemyDodgeState>();
                 break;
 
+            case EnemyType.SNIPER:
+                enemy.SetState<EnemyDodgeState>();
+                break;
+
+            case EnemyType.SHOTGUNNER:
+                enemy.SetState<EnemyDodgeState>();
+                break;
+
             default:
                 break;
         }
@@ -61,6 +77,14 @@ public static class EnemyTransitionHandler
                 break;
 
             case EnemyType.TACTICAL_GUNNER:
+                enemy.SetState<EnemyDodgeState>();
+                break;
+
+            case EnemyType.SNIPER:
+                enemy.SetState<EnemyDodgeState>();
+                break;
+
+            case EnemyType.SHOTGUNNER:
                 enemy.SetState<EnemyDodgeState>();
                 break;
 
@@ -89,6 +113,14 @@ public static class EnemyTransitionHandler
                 break;
 
             case EnemyType.TACTICAL_GUNNER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
+            case EnemyType.SNIPER:
+                enemy.SetState<EnemyWanderState>();
+                break;
+
+            case EnemyType.SHOTGUNNER:
                 enemy.SetState<EnemyWanderState>();
                 break;
 

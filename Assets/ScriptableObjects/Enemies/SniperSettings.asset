@@ -35,8 +35,8 @@ MonoBehaviour:
       energyRegen: 0
       moveSpeed: 6
       sprintSpeed: 0
-      attackSpeed: 0.6
-      damage: 1
+      attackSpeed: 0.4
+      damage: 2
       critChance: 0
     modifiers:
       MaxHealth: 10
@@ -59,11 +59,11 @@ MonoBehaviour:
     critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 5, y: 10}
-    material: {fileID: 0}
+    material: {fileID: 2100000, guid: ba6f7ad7ef347ed4bb7813f7c79f7c4b, type: 2}
     turnSpeed: 4
     detectionRange: 25
     perceptiveness: 0
     wanderDistance: 15
     wanderStuckDistance: 0.1
     enemyScore: 150
-  weaponType: 4
+  weaponType: 1
