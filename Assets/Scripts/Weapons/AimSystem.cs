@@ -14,6 +14,7 @@ public class AimSystem : MonoBehaviour
     Vector3 prevEndPos;
     float vertOffset = 0.1f;
     float forwardOffset = -0.2f;
+    float lineDistance = 0;
 
     void Awake()
     {
@@ -23,14 +24,16 @@ public class AimSystem : MonoBehaviour
     public void RenderAimLine(Transform firePoint, Vector3 endPos, bool isInWorld)
     {
         //startPosition = firePoint.position + (firePoint.up * vertOffset) + (firePoint.forward * forwardOffset);
-        endPosition = endPos - firePoint.position;
+        //float actualDistance = Vector3.Distance(firePoint.position, endPos);
+        //lineDistance = Mathf.Clamp(actualDistance, 0, 1);
+        endPosition = (firePoint.position - endPos) * -lineDistance;
         startPosition = firePoint.position + (firePoint.forward * forwardOffset);
         aimLine.SetPosition(0, startPosition);
 
         if (isInWorld)
         {
             aimLine.enabled = true;
-            aimLine.SetPosition(1, endPosition);
+            aimLine.SetPosition(1, endPos);
             return;
         }
 

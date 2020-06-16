@@ -8,6 +8,7 @@ public class HUD : MonoBehaviour, IPausable
     public ScoreManager scoreBoard;
     public GameObject PauseHUD;
     public GameObject mouseIndicator;
+    public WeaponPanel weaponPanel;
     public Image redVignette;
     
     //////////////// TODO: DELETE THIS

@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f369744b757834c87bf72864513a52e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 581066227504033835}
   rightHandPoint: {fileID: 8520364446229482033}
   leftHandPoint: {fileID: 2476364496130553819}
   firePoint: {fileID: 4749128282441598826}
@@ -209,6 +210,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0fdea8fb4a8e45879b329e9f0299a8e, type: 3}
+--- !u!1 &581066227504033835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: c0fdea8fb4a8e45879b329e9f0299a8e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8877071717232929058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4488687497408954936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c0fdea8fb4a8e45879b329e9f0299a8e,

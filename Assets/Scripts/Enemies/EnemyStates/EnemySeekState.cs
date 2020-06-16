@@ -58,16 +58,26 @@ public class EnemySeekState : EnemyState
     }
 
     private void OnCollisionEnter(Collision other) {
-        if (enemySettings.weaponType != WeaponType.MELEE) return;
+        if (enemySettings.weaponType != WeaponType.MELEE)
+        {
+            return;
+        }
+        
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("Player Collide");
+        }
 
         if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
             DamageType damage;
             damage.owningObject = this.gameObject;
             damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = this.gameObject.GetComponent<Rigidbody>().velocity;
+            damage.impactVelocity = enemy.transform.forward * enemy.equippedWeapon.weaponStats.shotSpeed;
             damage.damageAmount = enemy.statHandler.Damage;
             damage.isCrit = false;
             damage.isPiercing = false;
+
+            Debug.Log("Attack");
 
             other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
         }

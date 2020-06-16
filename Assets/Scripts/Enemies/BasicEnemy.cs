@@ -132,7 +132,6 @@ public class BasicEnemy : Pawn
         equippedWeapon.weaponStats = weaponStats;
         equippedWeapon.weaponType = weaponType;
         equippedWeapon.Init(weaponDefinition, weaponPosition);
-        //Debug.Log(weaponType);
 
         equippedWeapon.ownerStats = this.statHandler;
         equippedWeapon.AddShotEffect(weaponDefinition);
@@ -155,7 +154,7 @@ public class BasicEnemy : Pawn
             Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
             DroppedState dropIdicator = droppedItem.GetComponent<DroppedState>();
-            dropIdicator.Init("Enemy");
+            dropIdicator.Init(equippedWeapon.weaponModel, "Enemy");
 
             ////THIS IS TEMPORARY
             ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
@@ -191,28 +190,6 @@ public class BasicEnemy : Pawn
         return Vector3.Magnitude(GameManager.Instance.playerController.transform.position - enemy.transform.position) <= enemy.equippedWeapon.weaponStats.range;
     }
 
-    private void OnParticleCollision(GameObject other)
-    {
-
-        if (other.name.Contains("Shotgun_Particles")) {
-            ParticleSystem shotgunParticles = other.GetComponent<ParticleSystem>();
-
-            //MUST BE OPTIMISED
-            WeaponDefinition weaponDefinition = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == WeaponType.SHOTGUN).First();
-
-            DamageType damage;
-            damage.owningObject = this.gameObject;
-            damage.impactPosition = other.transform.position;
-            damage.impactVelocity = shotgunParticles.main.startSpeed.constant * other.transform.forward;
-            damage.damageAmount = weaponDefinition.weaponBaseStats.weaponDamage;
-            damage.isCrit = false;
-            damage.isPiercing = false;
-
-            OnReceivedDamage(damage, other.transform.position, other.transform.forward, shotgunParticles.main.startSpeed.constant);
-        }
-
-    }
-
     ////// Methods for Shader Manipulation //////
     IEnumerator ImpactEffect()
     {
@@ -242,7 +219,7 @@ public static class EnemyWeaponHandler {
                     break;
 
                 case WeaponType.MACHINE_GUN:
-                    //enemy.EquipWeapon<MachineGunWeapon>(enemy.enemySettings.weaponType, weaponStats);
+                    enemy.EquipWeapon<RifleWeapon>(enemy.enemySettings.weaponType, weaponStats);
                     break;
 
                 case WeaponType.LASER:

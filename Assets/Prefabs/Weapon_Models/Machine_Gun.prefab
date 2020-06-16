@@ -70,6 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6485756122916120846}
   - component: {fileID: 2996763996835928627}
+  - component: {fileID: 2830494481581969897}
   m_Layer: 0
   m_Name: Machine_Gun
   m_TagString: Untagged
@@ -107,9 +108,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f369744b757834c87bf72864513a52e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 9017023385988342009}
   rightHandPoint: {fileID: 1819374057465229332}
   leftHandPoint: {fileID: 1846054583746811371}
   firePoint: {fileID: 968760034827325479}
+--- !u!65 &2830494481581969897
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6006405879163836587}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.5307975, z: 1}
+  m_Center: {x: 0, y: 1.2080109, z: 0}
 --- !u!1 &8875151335595257668
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +227,12 @@ PrefabInstance:
 --- !u!4 &2585554565690584486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 1cac5d4be962941c5afdacb445941f68,
+    type: 3}
+  m_PrefabInstance: {fileID: 7393512985298847420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9017023385988342009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7225482314661206459, guid: 1cac5d4be962941c5afdacb445941f68,
     type: 3}
   m_PrefabInstance: {fileID: 7393512985298847420}
   m_PrefabAsset: {fileID: 0}
