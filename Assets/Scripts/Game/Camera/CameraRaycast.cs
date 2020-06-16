@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraRaycast : MonoBehaviour
 {
+    public Vector3 targetPos;
     CameraController cameraController;
     CameraSettings cameraSettings;
     Transform targetTransform;
@@ -20,9 +21,12 @@ public class CameraRaycast : MonoBehaviour
 
     void LateUpdate()
     {
+        if (targetPos == null) return;
+        if (targetTransform == null) return;
+        
         RaycastHit hit;
         int layerMask = 1 << 9;
-        Vector3 dir = transform.position - targetTransform.position;
+        Vector3 dir = targetPos - targetTransform.position;
 
         if(Physics.Raycast(targetTransform.position, dir, out hit, cameraSettings.followDistance, layerMask)) 
         {

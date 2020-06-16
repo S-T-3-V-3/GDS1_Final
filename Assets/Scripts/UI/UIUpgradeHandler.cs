@@ -29,7 +29,7 @@ public class UIUpgradeHandler : MonoBehaviour
             }
 
             remainingSkillPoints = value;
-            remainingSkillPointsText.text = $"Points\n <b><size=30>{remainingSkillPoints}</size></b>";
+            remainingSkillPointsText.text = $"Points\n <b><size=30> {remainingSkillPoints}</size></b>";
             
             if (remainingSkillPoints <= 0) {
                 // Fade Out
@@ -134,6 +134,25 @@ public class UIUpgradeHandler : MonoBehaviour
         AnimateStat(attackSpeedText, attackSpeedValue, LevelStatus.VALUEONLY);
         AnimateStat(critChanceText, critChanceValue, LevelStatus.VALUEONLY);
         RemainingSkillPoints = 0;
+    }
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.F1))
+            SkillIncrease(StatType.MAX_HP);
+        
+        if (Input.GetKeyDown(KeyCode.F2))
+            SkillIncrease(StatType.HP_REGEN);
+        
+        if (Input.GetKeyDown(KeyCode.F3))
+            SkillIncrease(StatType.ENERGY);
+        
+        if (Input.GetKeyDown(KeyCode.F4))
+            SkillIncrease(StatType.DAMAGE);
+        
+        if (Input.GetKeyDown(KeyCode.F5))
+            SkillIncrease(StatType.ATTACK_SPEED);
+
+        if (Input.GetKeyDown(KeyCode.F6))
+            SkillIncrease(StatType.CRIT_CHANCE);
     }
 
     IEnumerator Initialize() {

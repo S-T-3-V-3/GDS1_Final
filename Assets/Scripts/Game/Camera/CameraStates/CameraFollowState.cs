@@ -37,29 +37,30 @@ public class CameraFollowState : CameraState
 
     void DoMovement(bool force = false) {
         Vector3 offset;
+
         float pauseZoom = 0.6f;
+
+        offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * cameraSettings.followDistance;
+        cameraRaycast.targetPos = offset + Vector3.Normalize(this.transform.position - offset) * cameraSettings.minOffsetDistance;
+        cameraRaycast.targetPos.y = offset.y;
 
         if (GameManager.Instance.sessionData.isPaused) {
             offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * (cameraSettings.followDistance * pauseZoom);
             moveToPosition = offset + Vector3.Normalize(this.transform.position - offset) * (cameraSettings.minOffsetDistance * pauseZoom);
             moveToPosition.y = (offset.y * pauseZoom);
+            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
         }
         else {
-            offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * cameraSettings.followDistance;
-            moveToPosition = offset + Vector3.Normalize(this.transform.position - offset) * cameraSettings.minOffsetDistance;
-            moveToPosition.y = offset.y;
+            moveToPosition = cameraRaycast.targetPos;
+            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
+            
+            if (cameraRaycast.isBlocked) {
+                moveToPosition.y = cameraRaycast.hitInfo.point.y;
+                force = true;
+            }
         }
 
-        if(cameraRaycast.isBlocked)
-        {
-            this.gameObject.transform.position = Vector3.MoveTowards(
-                this.gameObject.transform.position,
-                cameraRaycast.hitInfo.point,
-                step);
-        }
-        else if (force)
-            this.gameObject.transform.position = moveToPosition;
-        else
-            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
+        if (force)
+            this.gameObject.transform.position = moveToPosition;             
     }
 }
