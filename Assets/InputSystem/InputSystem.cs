@@ -51,18 +51,18 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Ability1"",
+                    ""name"": ""Pickup"",
                     ""type"": ""Value"",
                     ""id"": ""781f58b7-a290-4bd3-8b60-e2fcce663026"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Ability2"",
+                    ""name"": ""Ability"",
                     ""type"": ""Value"",
                     ""id"": ""ce42e826-3485-4f6d-8511-8bd7214cd4ed"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -245,7 +245,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
-                    ""action"": ""Ability1"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -256,18 +256,18 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
-                    ""action"": ""Ability1"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""17eeeecb-2f5a-41f7-b01e-446832b72b77"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
-                    ""action"": ""Ability2"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -278,7 +278,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
-                    ""action"": ""Ability2"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -381,8 +381,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_Player_MouseAim = m_Player.FindAction("MouseAim", throwIfNotFound: true);
         m_Player_GamepadAim = m_Player.FindAction("GamepadAim", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
-        m_Player_Ability1 = m_Player.FindAction("Ability1", throwIfNotFound: true);
-        m_Player_Ability2 = m_Player.FindAction("Ability2", throwIfNotFound: true);
+        m_Player_Pickup = m_Player.FindAction("Pickup", throwIfNotFound: true);
+        m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
@@ -438,8 +438,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_MouseAim;
     private readonly InputAction m_Player_GamepadAim;
     private readonly InputAction m_Player_Shoot;
-    private readonly InputAction m_Player_Ability1;
-    private readonly InputAction m_Player_Ability2;
+    private readonly InputAction m_Player_Pickup;
+    private readonly InputAction m_Player_Ability;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Pause;
     public struct PlayerActions
@@ -450,8 +450,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @MouseAim => m_Wrapper.m_Player_MouseAim;
         public InputAction @GamepadAim => m_Wrapper.m_Player_GamepadAim;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
-        public InputAction @Ability1 => m_Wrapper.m_Player_Ability1;
-        public InputAction @Ability2 => m_Wrapper.m_Player_Ability2;
+        public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
+        public InputAction @Ability => m_Wrapper.m_Player_Ability;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -475,12 +475,12 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Ability1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility1;
-                @Ability1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility1;
-                @Ability1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility1;
-                @Ability2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility2;
-                @Ability2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility2;
-                @Ability2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility2;
+                @Pickup.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Ability.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility;
+                @Ability.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility;
+                @Ability.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility;
                 @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
@@ -503,12 +503,12 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
-                @Ability1.started += instance.OnAbility1;
-                @Ability1.performed += instance.OnAbility1;
-                @Ability1.canceled += instance.OnAbility1;
-                @Ability2.started += instance.OnAbility2;
-                @Ability2.performed += instance.OnAbility2;
-                @Ability2.canceled += instance.OnAbility2;
+                @Pickup.started += instance.OnPickup;
+                @Pickup.performed += instance.OnPickup;
+                @Pickup.canceled += instance.OnPickup;
+                @Ability.started += instance.OnAbility;
+                @Ability.performed += instance.OnAbility;
+                @Ability.canceled += instance.OnAbility;
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
@@ -534,8 +534,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnMouseAim(InputAction.CallbackContext context);
         void OnGamepadAim(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
-        void OnAbility1(InputAction.CallbackContext context);
-        void OnAbility2(InputAction.CallbackContext context);
+        void OnPickup(InputAction.CallbackContext context);
+        void OnAbility(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }

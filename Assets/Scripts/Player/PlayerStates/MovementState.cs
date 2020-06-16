@@ -27,7 +27,7 @@ public class MovementState : PlayerState
     public override void BeginState()
     {
         player = this.GetComponent<BasicPlayer>();
-        playerAim = this.gameObject.AddComponent<AutoLookAt>();
+        playerAim = this.GetComponent<AutoLookAt>();
         playerSettings = GameManager.Instance.gameSettings.playerSettings;
         cameraTransform = GameManager.Instance.mainCamera.transform;
         playerController = this.GetComponent<PlayerController>();

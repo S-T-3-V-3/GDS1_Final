@@ -38,18 +38,18 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Ability1",
+                    "name": "Pickup",
                     "type": "Value",
                     "id": "781f58b7-a290-4bd3-8b60-e2fcce663026",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Ability2",
+                    "name": "Ability",
                     "type": "Value",
                     "id": "ce42e826-3485-4f6d-8511-8bd7214cd4ed",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -232,7 +232,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability1",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -243,18 +243,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability1",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "17eeeecb-2f5a-41f7-b01e-446832b72b77",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability2",
+                    "action": "Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -265,7 +265,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability2",
+                    "action": "Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

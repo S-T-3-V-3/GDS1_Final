@@ -2112,7 +2112,8 @@ GameObject:
   - component: {fileID: -5861117978951077306}
   - component: {fileID: 2091515455187893517}
   - component: {fileID: 1907765868}
-  - component: {fileID: 2495078011055320466}
+  - component: {fileID: 1767323227510636498}
+  - component: {fileID: 8777950785423168167}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -2854,6 +2855,39 @@ ParticleSystemForceField:
         m_RotationOrder: 4
     m_MultiplyDragByParticleSize: 1
     m_MultiplyDragByParticleVelocity: 1
+--- !u!114 &1767323227510636498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171722624489351093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d3fd385d5eedd44bda92a64cbf3bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: {x: 0, y: 0, z: 0}
+  abilityType: 0
+  abilityStats:
+    time: 0
+    multiplier: 0
+    dashDistance: 0
+  firePoint: {fileID: 0}
+--- !u!114 &8777950785423168167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171722624489351093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ccd3f05edbf6470b9dfcb98ee79d3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetedEnemy: {fileID: 0}
+  maxAngle: 90
 --- !u!1001 &7927396631330944423
 PrefabInstance:
   m_ObjectHideFlags: 0

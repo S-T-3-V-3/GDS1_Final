@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.InputSystem;
  
 public class Ability : MonoBehaviour
 {
@@ -33,6 +34,11 @@ public class Ability : MonoBehaviour
             firePoint = player.transform;
         }
 
+
+        public void OnAbility(InputValue value) {
+            Debug.Log("Ability Activated: " + value.isPressed);
+        }
+
         void Update()
         {
            if (Input.GetKeyDown(KeyCode.E))
@@ -59,28 +65,24 @@ public class Ability : MonoBehaviour
 
         IEnumerator dash()
         {
-            checkDash();
-            GameManager.Instance.playerController.stateManager.RemoveState();
-            moveDirection = transform.forward * abilityStats.dashDistance;
+            moveDirection = transform.forward * checkDashDistance();
             characterController.Move(moveDirection);
             characterController.Move(player.velocity * Time.deltaTime);
-           
 
             yield return new WaitForSeconds(abilityStats.time);
 
             moveDirection = Vector3.zero;
-            GameManager.Instance.playerController.stateManager.AddState<MovementState>();
         }
 
-        void checkDash()
+        float checkDashDistance()
         {
             Ray ray = new Ray(firePoint.position, firePoint.forward);
             RaycastHit hitInfo;
-            float swapStats = abilityStats.dashDistance;
+
             if (Physics.Raycast(ray, out hitInfo, abilityStats.dashDistance))
-                abilityStats.dashDistance = hitInfo.distance;
-            Debug.Log(hitInfo.distance);
-   
+                return hitInfo.distance;
+            
+            return abilityStats.dashDistance;
         }
    
         IEnumerator rapidHeal()
