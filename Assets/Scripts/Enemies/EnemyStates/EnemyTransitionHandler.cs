@@ -76,6 +76,10 @@ public static class EnemyTransitionHandler
                 enemy.SetState<EnemyPivotState>();
                 break;
 
+            case EnemyType.HEAVY_GUNNER:
+                enemy.SetState<EnemyPivotState>();
+                break;
+
             case EnemyType.TACTICAL_GUNNER:
                 enemy.SetState<EnemyDodgeState>();
                 break;

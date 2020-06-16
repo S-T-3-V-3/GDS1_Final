@@ -9,6 +9,9 @@ public class EnemyPivotState : EnemyState
     EnemySettings enemySettings;
     Transform playerTransform;
     CharacterController characterController;
+    private float cooldownTime = 0;
+    private float shootTime = 0;
+    private bool isShooting = false;
 
     public override void BeginState()
     {
@@ -33,7 +36,26 @@ public class EnemyPivotState : EnemyState
             if (enemy.equippedWeapon.weaponModel != null)
                 enemy.equippedWeapon.weaponModel.transform.LookAt(enemy.equippedWeapon.weaponModel.transform.position + targetDirection * 3f);
 
-            enemy.equippedWeapon.Shoot();
+            if (enemyType != EnemyType.HEAVY_GUNNER)
+            {
+                enemy.equippedWeapon.Shoot();
+            } else
+            {
+                if(isShooting == false && Time.time >= cooldownTime)
+                {
+                    isShooting = true;
+                    enemy.equippedWeapon.Shoot();
+                    shootTime = Time.time + 3f;
+                }else if(isShooting == true && Time.time <= shootTime)
+                {
+                    enemy.equippedWeapon.Shoot();
+                }
+                else if(isShooting == true && Time.time >= shootTime)
+                {
+                    isShooting = false;
+                    cooldownTime = Time.time + 1.5f;
+                }
+            }
         }
         else if (BasicEnemy.IsPlayerInRange(this.enemy))
         {
