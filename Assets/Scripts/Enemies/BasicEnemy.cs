@@ -174,7 +174,7 @@ public class BasicEnemy : Pawn
             //WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
             Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
-            DroppedState dropIdicator = droppedItem.GetComponent<DroppedState>();
+            DroppedWeapon dropIdicator = droppedItem.GetComponent<DroppedWeapon>();
             dropIdicator.Init(equippedWeapon.weaponModel, "Enemy");
 
             ////THIS IS TEMPORARY

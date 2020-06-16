@@ -9,7 +9,7 @@ public class HUD : MonoBehaviour, IPausable
     public TextMeshProUGUI ScoreText;
     public GameObject PauseHUD;
     public GameObject mouseIndicator;
-    public WeaponPanel weaponPanel;
+    public WeaponStatsUI weaponStats;
     public Image redVignette;
     
     //////////////// TODO: DELETE THIS

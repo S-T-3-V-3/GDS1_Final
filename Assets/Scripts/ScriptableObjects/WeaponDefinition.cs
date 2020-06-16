@@ -16,7 +16,7 @@ public struct WeaponStats {
     public float critDamage; //UNUSED
     public float range;
     public float shotSpeed;
-    public float attackSpeed; //UNUSED
+    public float attackSpeed;
     public float accuracy; //UNUSED
     public bool hasPiercingShots; //UNUSED
     public int numBullets;
