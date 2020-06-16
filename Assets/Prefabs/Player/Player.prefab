@@ -2136,6 +2136,7 @@ Transform:
   - {fileID: 1485883716922680827}
   - {fileID: 8076342702166136082}
   - {fileID: 7033397585121660205}
+  - {fileID: 4588252493944662137}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2249,7 +2250,7 @@ MonoBehaviour:
       moveSpeed: 0
       sprintSpeed: 0
       attackSpeed: 0
-      damage: 0
+      damageScale: 0
       critChance: 0
     baseStats:
       health: 0
@@ -2261,7 +2262,7 @@ MonoBehaviour:
       moveSpeed: 0
       sprintSpeed: 0
       attackSpeed: 0
-      damage: 0
+      damageScale: 0
       critChance: 0
     modifiers:
       MaxHealth: 10
@@ -2284,6 +2285,7 @@ MonoBehaviour:
     critChanceLevel: 0
   equippedWeapon: {fileID: 0}
   firePoint: {fileID: 0}
+  isPaused: 0
   canTakeDamage: 1
   gunPosition: {fileID: 7689455360915784238}
   dropPosition: {fileID: 7033397585121660205}
@@ -2358,7 +2360,7 @@ ParticleSystemForceField:
   m_Parameters:
     m_Shape: 0
     m_StartRange: 0
-    m_EndRange: 7
+    m_EndRange: 9
     m_Length: 1
     m_GravityFocus: 0
     m_RotationRandomness: {x: 1, y: 1}
@@ -2576,8 +2578,8 @@ ParticleSystemForceField:
         m_RotationOrder: 4
     m_RotationSpeedCurve:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
+      minMaxState: 0
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2592,8 +2594,17 @@ ParticleSystemForceField:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 1
-          value: 0
+          time: 0.6205203
+          value: 0.035843946
+          inSlope: -0.45281908
+          outSlope: -0.45281908
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.7833252
+          value: 0.0047302246
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -2629,8 +2640,8 @@ ParticleSystemForceField:
         m_RotationOrder: 4
     m_RotationAttractionCurve:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 1
+      minMaxState: 0
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2638,8 +2649,8 @@ ParticleSystemForceField:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -2647,8 +2658,8 @@ ParticleSystemForceField:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -2842,3 +2853,83 @@ ParticleSystemForceField:
         m_RotationOrder: 4
     m_MultiplyDragByParticleSize: 1
     m_MultiplyDragByParticleVelocity: 1
+--- !u!1001 &7927396631330944423
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8784827167588107845}
+    m_Modifications:
+    - target: {fileID: 4481517320112735987, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9180587077099609208, guid: edab849f0556ef44dbdec60ef77b97c6,
+        type: 3}
+      propertyPath: m_Name
+      value: IngameHealthBarPrefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: edab849f0556ef44dbdec60ef77b97c6, type: 3}
+--- !u!4 &4588252493944662137 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5886057830548823518, guid: edab849f0556ef44dbdec60ef77b97c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7927396631330944423}
+  m_PrefabAsset: {fileID: 0}

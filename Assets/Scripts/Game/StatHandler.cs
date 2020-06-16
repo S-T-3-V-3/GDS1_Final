@@ -55,6 +55,7 @@ public class StatHandler
         private set {
             currentStats.maxHealth = currentStats.maxHealth + modifiers.MaxHealth;
             maxHealthLevel++;
+            CurrentHealth += 10;
         }
     }
     [SerializeField] private int maxHealthLevel = 1;

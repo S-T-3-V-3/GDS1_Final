@@ -87,7 +87,9 @@ public class BasicEnemy : Pawn
         base.OnReceivedDamage(damageType, hitPoint, hitDirection, hitSpeed);
 
         GameObject debryEffect = Instantiate(GameManager.Instance.gameSettings.DebrisSparkPrefab, hitPoint, Quaternion.identity);
-        GameObject.Destroy(debryEffect, 2f);
+        debryEffect.AddComponent<DelayedAction>();
+        debryEffect.GetComponent<DelayedAction>().maxDelayTime = 2f;
+        debryEffect.AddComponent<ParticleSystemPauser>();
         
         AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
     }
@@ -106,8 +108,6 @@ public class BasicEnemy : Pawn
 
         GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.ExperienceOrbPrefab, transform.position, Quaternion.identity);
         experienceEffect.AddComponent<ParticleSystemPauser>();
-        DelayedAction xpDelay = experienceEffect.AddComponent<DelayedAction>();
-        xpDelay.maxDelayTime = 6f; 
 
         GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
         shockWave.AddComponent<ParticleSystemPauser>();
