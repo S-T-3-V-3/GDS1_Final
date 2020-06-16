@@ -91,11 +91,13 @@ public class BasicEnemy : Pawn
             // Play cool effect on critical hit
             GameObject critEffect = GameObject.Instantiate(gameManager.gameSettings.CritEffectPrefab, transform.position, Quaternion.FromToRotation(Vector3.forward, hitDirection));
             critEffect.AddComponent<ParticleSystemPauser>();
+            critEffect.AddComponent<DelayedAction>();
+            critEffect.GetComponent<DelayedAction>().maxDelayTime = 2f;
 
-            GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
-            shockWave.AddComponent<ParticleSystemPauser>();
-            DelayedAction shockWaveDelay = shockWave.AddComponent<DelayedAction>();
-            shockWaveDelay.maxDelayTime = 3f;
+            //GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
+            //shockWave.AddComponent<ParticleSystemPauser>();
+            //DelayedAction shockWaveDelay = shockWave.AddComponent<DelayedAction>();
+            //shockWaveDelay.maxDelayTime = 3f;
 
             AudioManager.Instance.PlaySoundEffect(SoundType.CritSound);
         }
@@ -108,8 +110,6 @@ public class BasicEnemy : Pawn
         debryEffect.AddComponent<DelayedAction>();
         debryEffect.GetComponent<DelayedAction>().maxDelayTime = 2f;
         debryEffect.AddComponent<ParticleSystemPauser>();
-        
-        AudioManager.Instance.PlaySoundEffect(SoundType.Impact);
     }
 
     public override void OnDeath(Vector3 hitPoint, Vector3 hitDirection, float hitSpeed)

@@ -16,7 +16,7 @@ public class AudioSettings : ScriptableObject
     public float footstepRate = 0.7f;
 
     [Header("Sound Effects")]
-    public List<Sound> soundEffect;
+    public List<Sound> soundEffects;
 }
 
 [System.Serializable]

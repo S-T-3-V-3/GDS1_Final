@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffect(SoundType soundType)
     {
-        Sound soundSelection = audioSettings.soundEffect.Where(x => x.type == soundType).First();
+        Sound soundSelection = audioSettings.soundEffects.Where(x => x.type == soundType).First();
         AudioClip sound = soundSelection.clip;
         generalAudioSource.PlayOneShot(sound);
     }
