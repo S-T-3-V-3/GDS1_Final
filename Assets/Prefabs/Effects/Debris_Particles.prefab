@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1981929775162810688}
   - component: {fileID: 1981929775162810703}
   m_Layer: 0
-  m_Name: Debry_Particles
+  m_Name: Debris_Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3792,7 +3792,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 513
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

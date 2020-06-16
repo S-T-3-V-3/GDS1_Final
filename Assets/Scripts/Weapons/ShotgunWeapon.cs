@@ -37,5 +37,6 @@ public class ShotgunWeapon : Weapon
     {
         if (weaponType == WeaponType.SHOTGUN && shotgunParticles == null)
             shotgunParticles = Instantiate(GameManager.Instance.gameSettings.ShotgunParticlePrefab, firePoint).GetComponent<ParticleSystem>();
+            shotgunParticles.Stop();
     }
 }
