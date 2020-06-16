@@ -53,6 +53,7 @@ public class EnemyDodgeState : EnemyState
         {
             UpdateTargetPosition();
         }
+
         else if (BasicEnemy.IsPlayerInWeaponRange(this.enemy))
         {
             timeSinceLastUpdate += Time.deltaTime;
@@ -89,13 +90,25 @@ public class EnemyDodgeState : EnemyState
     void UpdateTargetPosition()
     {
         isStuck = false;
+        bool hasValidPosition = false;
+        Vector3 newTarget = Vector3.zero;
+        int numAttempts = 0;
 
-        Vector3 newTarget = new Vector3(Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance), 0, Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance));
+        while (!hasValidPosition) {
+            newTarget = new Vector3(Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance), 0, Random.Range(-enemySettings.traits.wanderDistance, enemySettings.traits.wanderDistance));
+            numAttempts++;
+
+            if (((this.transform.position + newTarget) - playerTransform.position).magnitude < enemy.equippedWeapon.weaponStats.range * 0.7f)
+                hasValidPosition = true;
+
+            if (numAttempts > 20)
+                hasValidPosition = true;
+        }
 
         currentTargetLocation = Vector3.ClampMagnitude(newTarget, enemySettings.traits.wanderDistance);
         currentTargetLocation += this.transform.position;
 
-        nextUpdate = Random.Range(enemySettings.traits.wanderUpdateFrequency.x, enemySettings.traits.wanderUpdateFrequency.y);
+        nextUpdate = Random.Range(1, 3);
         timeSinceLastUpdate = 0f;
     }
 
