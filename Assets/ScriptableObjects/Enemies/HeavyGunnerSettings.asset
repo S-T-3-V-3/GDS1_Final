@@ -58,7 +58,7 @@ MonoBehaviour:
     attackSpeedLevel: 0
     critChanceLevel: 0
   traits:
-    wanderUpdateFrequency: {x: 0, y: 0}
+    wanderUpdateFrequency: {x: 5, y: 10}
     material: {fileID: 2100000, guid: a952df11365e92749a8e16e3e7aba3b7, type: 2}
     turnSpeed: 5
     detectionRange: 12
