@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2f9d9de60bd934a23ae2be0947db5db9, type: 3}
   - {fileID: 8300000, guid: 226dd438c99c045bcb0ea48aeb91288a, type: 3}
   footstepRate: 0.3
-  soundEffect:
+  soundEffects:
   - type: 0
     soundClips:
     - {fileID: 8300000, guid: 43f12fd8bc09b451e8aa8976e06f65f6, type: 3}
