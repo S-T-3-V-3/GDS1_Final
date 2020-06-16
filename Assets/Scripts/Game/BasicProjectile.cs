@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BasicProjectile : MonoBehaviour
+public class BasicProjectile : MonoBehaviour, IPausable
 {
     public float range;
     public float damageAmount;
@@ -23,6 +23,8 @@ public class BasicProjectile : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if (GameManager.Instance.sessionData.isPaused) return;
+
         if (Vector3.Magnitude(this.gameObject.transform.position - startPos) > range) {
             Die();
         }
@@ -76,7 +78,21 @@ public class BasicProjectile : MonoBehaviour
         ParticleSystem.ShapeModule shape = deathEffectObject.GetComponent<ParticleSystem>().shape;
         shape.radius = 0.2f;
 
-        GameObject.Destroy(deathEffectObject, particleLifetime);
+        DelayedAction delayedAction = deathEffectObject.AddComponent<DelayedAction>();
+        delayedAction.maxDelayTime = 3f;
+
+        deathEffectObject.AddComponent<ParticleSystemPauser>();
+
         GameObject.Destroy(this.gameObject);
+    }
+
+    public void Pause()
+    {
+        projectileRB.velocity = Vector3.zero;
+    }
+
+    public void UnPause()
+    {
+        projectileRB.velocity = initVelocity;
     }
 }

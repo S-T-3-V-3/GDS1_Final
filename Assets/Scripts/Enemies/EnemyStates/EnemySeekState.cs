@@ -28,6 +28,7 @@ public class EnemySeekState : EnemyState
 
     void FixedUpdate()
     {
+        if (enemy.isPaused) return;
         if (playerTransform == null) return;
 
         enemy.GravityUpdate();

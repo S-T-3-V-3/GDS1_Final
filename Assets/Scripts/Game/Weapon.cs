@@ -37,6 +37,7 @@ public class Weapon : MonoBehaviour
         while (timeSinceFired < (1/ownerStats.AttackSpeed))
         {
             yield return null;
+            if (GameManager.Instance.sessionData.isPaused) yield return null;
             timeSinceFired += Time.deltaTime;
         }
 

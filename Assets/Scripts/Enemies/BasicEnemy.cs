@@ -98,13 +98,20 @@ public class BasicEnemy : Pawn
         float particleLifetime = deathParticleSystem.startLifetime.constant;
         deathParticleSystem.startSpeed = hitSpeed;
         deathEffectObject.GetComponent<Renderer>().material = this.gameObject.GetComponent<Renderer>().material;
-        GameObject.Destroy(deathEffectObject, particleLifetime);
+        deathEffectObject.AddComponent<ParticleSystemPauser>();
+        DelayedAction deathDelay = deathEffectObject.AddComponent<DelayedAction>();
+        deathDelay.maxDelayTime = particleLifetime;
 
         GameObject experienceEffect = GameObject.Instantiate(gameManager.gameSettings.ExperienceOrbPrefab, transform.position, Quaternion.identity);
-        GameObject.Destroy(experienceEffect, 6f);
+        experienceEffect.AddComponent<ParticleSystemPauser>();
+        DelayedAction xpDelay = experienceEffect.AddComponent<DelayedAction>();
+        xpDelay.maxDelayTime = 6f; 
 
         GameObject shockWave = GameObject.Instantiate(gameManager.gameSettings.ShockwavePrefab, transform.position, Quaternion.identity);
-        GameObject.Destroy(shockWave, 3);
+        shockWave.AddComponent<ParticleSystemPauser>();
+        DelayedAction shockWaveDelay = shockWave.AddComponent<DelayedAction>();
+        shockWaveDelay.maxDelayTime = 3f;
+
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
@@ -188,6 +195,7 @@ public class BasicEnemy : Pawn
             matAlpha -= 0.3f;
             impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
             yield return new WaitForSeconds(Time.deltaTime);
+            if (GameManager.Instance.sessionData.isPaused) yield return null;
         }
     }
 }

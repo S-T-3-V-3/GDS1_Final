@@ -21,6 +21,8 @@ public class EnemyPivotState : EnemyState
 
     private void FixedUpdate()
     {
+        if (enemy.isPaused) return;
+        
         enemy.GravityUpdate();
         characterController.Move(enemy.velocity * Time.deltaTime);
 

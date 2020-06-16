@@ -33,6 +33,8 @@ public class MovementState : PlayerState
 
     public void FixedUpdate()
     {
+        if (player.isPaused) return;
+
         if (player.isSprinting) {
             player.statHandler.Energy -= 10f * Time.deltaTime;
 
@@ -97,6 +99,8 @@ public class MovementState : PlayerState
     }
 
     public void OnMouseAim(InputValue value) {
+        if (player.isPaused) return;
+
         Vector3 mousePos = value.Get<Vector2>();
         Camera camera = GameManager.Instance.mainCamera;
         Ray ray = camera.ScreenPointToRay(mousePos);
@@ -127,7 +131,7 @@ public class MovementState : PlayerState
         lookAtPos = this.transform.position + newLookAtPos;
     }
 
-    public void OnShoot(InputValue value) {
+    public void OnShoot(InputValue value) {        
         isShooting = value.Get<float>() > 0.25f;
     }
 
@@ -135,10 +139,5 @@ public class MovementState : PlayerState
         player.isSprinting = value.Get<float>() == 0 ? false : true;
         animationController.SetBool("isSprinting", player.isSprinting);
         player.statHandler.MoveSpeed = player.isSprinting ? player.statHandler.SprintSpeed : player.statHandler.WalkSpeed;
-    }
-
-    public void OnPause(InputValue value)
-    {
-        GameManager.Instance.OnPauseButton();
     }
 }

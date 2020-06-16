@@ -40,6 +40,7 @@ public class EnemyWanderState : EnemyState
     }
 
     void Update() {
+        if (enemy.isPaused) return;
         if(playerTransform == null) return;
 
         enemy.GravityUpdate();
@@ -96,6 +97,7 @@ public class EnemyWanderState : EnemyState
 
         while (true) {
             yield return new WaitForSeconds(0.5f);
+            if (GameManager.Instance.sessionData.isPaused) yield return null;
 
             if (currentPosition == Vector3.zero) {
                 currentPosition = this.transform.position;

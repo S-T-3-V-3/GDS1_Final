@@ -22,6 +22,7 @@ public class EnemyIdleState : EnemyState
     }
 
     void Update() {
+        if (enemy.isPaused) return;
         if (targetTransform == null) return;
 
         enemy.GravityUpdate();

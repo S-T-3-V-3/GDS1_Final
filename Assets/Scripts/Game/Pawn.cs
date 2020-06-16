@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Pawn : MonoBehaviour, IDamageable
+public abstract class Pawn : MonoBehaviour, IDamageable, IPausable
 {
     public StatHandler statHandler;
     public Weapon equippedWeapon;
     public Transform firePoint;
+
+    public bool isPaused = false;
 
     public bool canTakeDamage = true;
 
@@ -25,6 +27,21 @@ public abstract class Pawn : MonoBehaviour, IDamageable
         
         if (damageType.isCrit) {
             // Do something
+        }
+    }
+
+    public virtual void Pause() {
+        isPaused = true;
+
+        if (this.GetComponent<Animator>() != null) {
+            this.GetComponent<Animator>().StopPlayback();
+        }
+    }
+    public virtual void UnPause() {
+        isPaused = false;
+
+        if (this.GetComponent<Animator>() != null) {
+            this.GetComponent<Animator>().StartPlayback();
         }
     }
 }

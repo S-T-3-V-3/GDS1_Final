@@ -8,6 +8,7 @@ public class RifleWeapon : Weapon
     {
         base.Init(weaponDefinition, gunPosition);
         muzzleFlash = GameObject.Instantiate(GameManager.Instance.gameSettings.MuzzleFlashPrefab, firePoint).GetComponent<ParticleSystem>();
+        muzzleFlash.gameObject.AddComponent<ParticleSystemPauser>();
         //muzzleFlash.gameObject.transform.parent = firePoint.transform;
     }
 

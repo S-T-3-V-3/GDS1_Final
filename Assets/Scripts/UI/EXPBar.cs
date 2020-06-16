@@ -47,7 +47,7 @@ public class EXPBar : MonoBehaviour
             x => {
                 displayedCurrentXP = x;
                 experienceNumberText.text = $"{displayedCurrentXP}/{scoreManager.experienceToNextLevel}";
-                foregroundImage.fillAmount = scoreManager.currentExperience / scoreManager.experienceToNextLevel;
+                foregroundImage.fillAmount = displayedCurrentXP / scoreManager.experienceToNextLevel;
             },
             scoreManager.currentExperience,
             1f

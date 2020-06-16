@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class BasicPlayer : Pawn
 {
@@ -61,14 +62,12 @@ public class BasicPlayer : Pawn
             SceneManager.LoadScene(scene.name);
         }
 
-        if (Input.GetKey(KeyCode.Escape)){
-            Application.Quit();
-        }
-
         if(Input.GetKeyDown(KeyCode.Semicolon)) {
             gameManager.OnAddScore.Invoke(100, Vector3.zero);
         }
         ////////////////////////////////////////////
+
+        if (isPaused) return;
 
         isGrounded = Physics.CheckSphere(groundPosition.position, groundDistance, groundMask);
         
@@ -133,18 +132,4 @@ public class BasicPlayer : Pawn
         gameManager.GameOver(particleLifetime);
         GameObject.Destroy(this.gameObject);       
     }
-
-    //NEEDS UPDATING
-    /*IEnumerator ImpactEffect()
-    {
-        impactMaterial.SetFloat("_Alpha_Intensity", 1f);
-        float matAlpha = 1;
-
-        while(matAlpha > 0)
-        {
-            matAlpha -= 0.2f;
-            impactMaterial.SetFloat("_Alpha_Intensity", matAlpha);
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-    }*/
 }
