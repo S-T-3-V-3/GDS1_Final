@@ -36,7 +36,10 @@ public class Ability : MonoBehaviour
 
 
         public void OnAbility(InputValue value) {
-            Debug.Log("Ability Activated: " + value.isPressed);
+            if(value.isPressed)
+            {
+                Dash();
+            }
         }
 
         void Update()
@@ -46,7 +49,7 @@ public class Ability : MonoBehaviour
             switch (abilityType)
                 {
                     case AbilityType.DASH:
-                        StartCoroutine(dash());
+                        Dash();
                         break;
                     case AbilityType.RAPIDHEAL:
                         StartCoroutine(rapidHeal());                  
@@ -63,15 +66,17 @@ public class Ability : MonoBehaviour
             }
          }
 
-        IEnumerator dash()
+        void Dash()
         {
-            moveDirection = transform.forward * checkDashDistance();
-            characterController.Move(moveDirection);
-            characterController.Move(player.velocity * Time.deltaTime);
+            if(player.statHandler.Energy > 15)
+            {
+                moveDirection = transform.forward * checkDashDistance();
+                characterController.Move(moveDirection);
+                characterController.Move(player.velocity * Time.deltaTime);
 
-            yield return new WaitForSeconds(abilityStats.time);
-
-            moveDirection = Vector3.zero;
+                player.statHandler.Energy -= 15f;
+            }
+            
         }
 
         float checkDashDistance()
@@ -111,9 +116,9 @@ public class Ability : MonoBehaviour
        IEnumerator invisible()
        {
            player.canTakeDamage = false;
-       Debug.Log("de");
+            Debug.Log("test1");
            yield return new WaitForSeconds(abilityStats.time);
-
+            Debug.Log("test2");
            player.canTakeDamage = true;
        }
 }
