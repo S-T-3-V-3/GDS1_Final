@@ -86,13 +86,14 @@ public class Ability : MonoBehaviour
             }
             abilityType = abilitySettings.abilityType;
             abilityStats = abilitySettings.abilityStats;
-            Debug.Log("Ability Unlocked: " + abilityType);
+            GameManager.Instance.hud.SetAbilityText(abilityType);
         }
 
         void Dash()
         {
             if(player.statHandler.Energy > 15)
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilitySound);
                 moveDirection = transform.forward * checkDashDistance();
                 characterController.Move(moveDirection);
                 characterController.Move(player.velocity * Time.deltaTime);
@@ -116,6 +117,7 @@ public class Ability : MonoBehaviour
         {
             if(player.statHandler.Energy == player.statHandler.MaxEnergy)
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilitySound);
                 player.statHandler.RegenAbility();
                 StartCoroutine(healPlayer());
             }
@@ -139,6 +141,7 @@ public class Ability : MonoBehaviour
         {
             if(player.statHandler.Energy == player.statHandler.MaxEnergy)
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilitySound);
                 player.statHandler.AttackSpeedAbility();
                 StartCoroutine(rapidFire());
             }
@@ -162,6 +165,7 @@ public class Ability : MonoBehaviour
         {
             if(player.statHandler.Energy == player.statHandler.MaxEnergy)
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilitySound);
                 player.canTakeDamage = false;
                 StartCoroutine(ImmunityFrames());
             }
@@ -171,7 +175,7 @@ public class Ability : MonoBehaviour
             yield return null;
             if(player.statHandler.Energy > 0)
             {
-                player.statHandler.Energy -= 25f * Time.deltaTime;
+                player.statHandler.Energy -= 20f * Time.deltaTime;
                 StartCoroutine(ImmunityFrames());
             }
             else
