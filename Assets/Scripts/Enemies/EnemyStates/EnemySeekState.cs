@@ -13,9 +13,8 @@ public class EnemySeekState : EnemyState
     Transform playerTransform;
     CharacterController characterController;
 
-    float heavyGunnerTimeShooting = 0f;
-    float heavyGunnerSinceShooting;
-    bool heavyGunnerShooting = false;
+    float timeSinceMeleeStrike = 0f;
+    float meleeStrikeCooldown = 1f;
 
     public override void BeginState() {
         enemy = this.gameObject.GetComponent<BasicEnemy>();
@@ -55,31 +54,40 @@ public class EnemySeekState : EnemyState
 
             enemy.equippedWeapon.Shoot();
         }
+        else if (enemySettings.weaponType == WeaponType.MELEE && Vector3.Magnitude(this.transform.position - playerTransform.position) < 1.6f) {
+            DoMeleeStrike();
+        }
     }
 
-    private void OnCollisionEnter(Collision other) {
-        if (enemySettings.weaponType != WeaponType.MELEE)
-        {
-            return;
-        }
-        
-        if(other.gameObject.tag == "Player")
-        {
-            Debug.Log("Player Collide");
-        }
+    void DoMeleeStrike() {
+        if (timeSinceMeleeStrike > 0) return;
 
-        if (other.gameObject.GetComponent<IDamageable>() != null && other.gameObject.GetComponent<BasicEnemy>() == null) {
-            DamageType damage;
-            damage.owningObject = this.gameObject;
-            damage.impactPosition = other.contacts.First().point;
-            damage.impactVelocity = enemy.transform.forward * enemy.equippedWeapon.weaponStats.shotSpeed;
-            damage.damageAmount = enemy.statHandler.Damage;
-            damage.isCrit = false;
-            damage.isPiercing = false;
+        DamageType damage;
+        damage.owningObject = this.gameObject;
+        damage.impactPosition = this.gameObject.transform.position - playerTransform.position;
+        damage.impactVelocity = enemy.transform.forward * 2f;
+        damage.damageAmount = 10f;
+        damage.isCrit = false;
+        damage.isPiercing = false;
 
-            Debug.Log("Attack");
+        playerTransform.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);   
 
-            other.gameObject.GetComponent<IDamageable>().OnReceivedDamage(damage, damage.impactPosition, damage.impactVelocity.normalized, damage.impactVelocity.magnitude);
+        StartCoroutine(ReloadMelee()); 
+    }
+
+    IEnumerator ReloadMelee() {
+        bool isComplete = false;
+        while (!isComplete) {
+            timeSinceMeleeStrike += Time.deltaTime;
+
+            if (timeSinceMeleeStrike >= meleeStrikeCooldown) {
+                timeSinceMeleeStrike = 0f;
+                isComplete = true;
+            }
+            else {
+                yield return null;
+            }
         }
+        yield return null;
     }
 }

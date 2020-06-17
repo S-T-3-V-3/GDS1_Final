@@ -18,6 +18,7 @@ public class DroppedWeapon : MonoBehaviour
     {
         DelayedAction d = this.gameObject.AddComponent<DelayedAction>();
         d.maxDelayTime = 15f;
+        this.gameObject.transform.DOLocalRotate(new Vector3(0, 1280, 0), 15f, RotateMode.FastBeyond360);
     }
 
     public void Init(GameObject weaponModel, string originName){

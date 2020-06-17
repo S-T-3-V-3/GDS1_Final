@@ -320,7 +320,6 @@ GameObject:
   - component: {fileID: 7230700597859468890}
   - component: {fileID: 3667922500286367805}
   - component: {fileID: 8010630148170841428}
-  - component: {fileID: 6406086956710420469}
   - component: {fileID: 8520559857761323477}
   m_Layer: 0
   m_Name: BasicEnemyPrefab
@@ -469,20 +468,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6406086956710420469
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8582355962493277956}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &8520559857761323477
 CharacterController:
   m_ObjectHideFlags: 0
