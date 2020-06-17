@@ -171,6 +171,7 @@ public class UIUpgradeHandler : MonoBehaviour
     }
 
     void OnLevelUp() {
+        AudioManager.Instance.PlaySoundEffect(SoundType.LevelUp);
         RemainingSkillPoints++;
     }
 

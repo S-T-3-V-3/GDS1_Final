@@ -57,5 +57,6 @@ public enum SoundType
     Explosions,
     CritSound,
     AbilitySound,
-    AbilityShutdown
+    AbilityShutdown,
+    LevelUp
 }
