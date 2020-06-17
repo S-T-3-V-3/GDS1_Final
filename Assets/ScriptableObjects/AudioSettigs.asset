@@ -70,3 +70,7 @@ MonoBehaviour:
     soundClips:
     - {fileID: 8300000, guid: 5398005a324af4240b6278fe84ddb7d6, type: 3}
     volume: 0.5
+  - type: 15
+    soundClips:
+    - {fileID: 8300000, guid: 6d182d8e9fa8d3e41ba144f4a577c348, type: 3}
+    volume: 0.5
