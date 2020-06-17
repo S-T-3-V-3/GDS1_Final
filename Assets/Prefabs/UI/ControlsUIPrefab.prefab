@@ -219,7 +219,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ability requires level 5 to be unlocked
+  m_text: Pickup       | [Space] [South Controller Button]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 81eb7e03687683548b3a5499702aa4a5, type: 2}
   m_sharedMaterial: {fileID: -1673527659232002729, guid: 81eb7e03687683548b3a5499702aa4a5,
@@ -289,10 +289,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 5026494519888182697}
-    characterCount: 39
+    characterCount: 48
     spriteCount: 0
-    spaceCount: 6
-    wordCount: 7
+    spaceCount: 11
+    wordCount: 5
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level Up    | [Num 1-6 or Mouse Click]
+  m_text: Level Up    | [F1-F6 or Mouse Click]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 81eb7e03687683548b3a5499702aa4a5, type: 2}
   m_sharedMaterial: {fileID: -1673527659232002729, guid: 81eb7e03687683548b3a5499702aa4a5,
@@ -757,10 +757,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 9047375256373378318}
-    characterCount: 38
+    characterCount: 36
     spriteCount: 0
-    spaceCount: 10
-    wordCount: 7
+    spaceCount: 9
+    wordCount: 6
     linkCount: 0
     lineCount: 1
     pageCount: 1
