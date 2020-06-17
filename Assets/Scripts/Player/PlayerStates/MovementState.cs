@@ -21,7 +21,6 @@ public class MovementState : PlayerState
 
     //Mouse Aim Variables:
     Vector3 mousePos;
-    Camera camera;
     Ray ray;
     RaycastHit[] hits;
     RaycastHit[] filteredHits;
@@ -122,8 +121,7 @@ public class MovementState : PlayerState
         if (player.isPaused) return;
 
         mousePos = value.Get<Vector2>();
-        camera = GameManager.Instance.mainCamera;
-        Ray ray = camera.ScreenPointToRay(mousePos);
+        Ray ray = GameManager.Instance.mainCamera.ScreenPointToRay(mousePos);
 
         if (mouseIndicator == null)
             mouseIndicator = GameManager.Instance.hud.mouseIndicator.GetComponent<MouseIndicator>();
@@ -203,5 +201,13 @@ public class MovementState : PlayerState
         player.isSprinting = value.Get<float>() == 0 ? false : true;
         animationController.SetBool("isSprinting", player.isSprinting);
         player.statHandler.MoveSpeed = player.isSprinting ? player.statHandler.SprintSpeed : player.statHandler.WalkSpeed;
+    }
+
+    public void OnPickup(InputValue value) {
+        if (!value.isPressed) return;
+
+        if (player.nearbyWeapon != null) {
+            player.nearbyWeapon.EquipSelected();
+        }
     }
 }
