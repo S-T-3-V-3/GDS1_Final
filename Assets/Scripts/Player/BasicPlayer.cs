@@ -14,10 +14,11 @@ public class BasicPlayer : Pawn
     public Animator animationController;
     public LayerMask groundMask;
     public Vector3 velocity;
+    public DroppedWeapon nearbyWeapon;
+
     public float groundDistance;
     public bool isGrounded = true;
     public bool isSprinting = false;
-    
 
     IKWeaponsAnimator weaponsIK;
     PlayerSettings playerSettings;
@@ -71,8 +72,7 @@ public class BasicPlayer : Pawn
         if (isGrounded)
             velocity.y = 0;
 
-        velocity.y += gameSettings.gravity * Time.deltaTime;
-        
+        velocity.y += gameSettings.gravity * Time.deltaTime;   
     }
 
     //EQUIPS WEAPONS
@@ -111,6 +111,7 @@ public class BasicPlayer : Pawn
             DroppedWeapon dropState = droppedItem.GetComponent<DroppedWeapon>();
             dropState.weaponType = equippedWeapon.weaponType;
             dropState.Init(equippedWeapon.weaponModel, "Player");
+
             GameObject.Destroy(equippedWeapon.weaponModel);
             GameObject.Destroy(equippedWeapon);
         }
