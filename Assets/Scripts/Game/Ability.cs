@@ -11,6 +11,7 @@ public class Ability : MonoBehaviour
         GameManager gameManager;
         GameSettings gameSettings;
 
+        AbilitySettings abilitySettings;
         public AbilityType abilityType;
         public AbilityStats abilityStats;
 
@@ -18,6 +19,7 @@ public class Ability : MonoBehaviour
         BasicPlayer player;
 
         public Transform firePoint;
+
      
         void Start()
         {
@@ -27,24 +29,64 @@ public class Ability : MonoBehaviour
             characterController= GameManager.Instance.playerController.GetComponent<CharacterController>();
             player = GameManager.Instance.playerController.GetComponent<BasicPlayer>();
 
-            AbilitySettings abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.DASH).First();
-            abilityType = abilitySettings.abilityType;
-            abilityStats = abilitySettings.abilityStats;
+            GameManager.Instance.scoreManager.OnLevelUp.AddListener(OnLevelUp);
 
             firePoint = player.transform;
         }
 
 
         public void OnAbility(InputValue value) {
-            if(value.isPressed) //Check if ability is unlocked
+            if(value.isPressed && abilitySettings != null)
             {
-                //switch (abilityType) case AbilityType.DASH:
-
-                //Dash
-                //RapidHealAbility();
-                //RapidFireAbility();
-                //Invisible();
+                switch (abilityType)
+                {
+                    case AbilityType.DASH:
+                        Dash();
+                        break;
+                    case AbilityType.RAPIDHEAL:
+                        RapidHealAbility();
+                        break;
+                    case AbilityType.RAPIDFIRE:
+                        RapidFireAbility();
+                        break;
+                    case AbilityType.INVISIBILITY:
+                        Invisible();
+                        break;
+                }
             }
+        }
+
+        void OnLevelUp()
+        {
+            if(GameManager.Instance.scoreManager.playerLevel == 5)
+            {
+                UnlockAbility();
+            }
+        }
+
+        void UnlockAbility()
+        {
+            switch(Random.Range(0, 4))
+            {
+                case 0:
+                    abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.DASH).First();
+                    break;
+                case 1:
+                    abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.RAPIDHEAL).First();
+                    break;
+                case 2:
+                    abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.RAPIDFIRE).First();
+                    break;
+                case 3:
+                    abilitySettings = gameManager.gameSettings.Abilities.Where(x => x.abilityType == AbilityType.INVISIBILITY).First();
+                    break;
+                default:
+                    Debug.LogWarning("Out of bounds for ability array");
+                    break;
+            }
+            abilityType = abilitySettings.abilityType;
+            abilityStats = abilitySettings.abilityStats;
+            Debug.Log("Ability Unlocked: " + abilityType);
         }
 
         void Dash()
