@@ -133,6 +133,7 @@ public class Ability : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilityShutdown);
                 player.statHandler.StopRegenAbility();
             }
         }
@@ -157,6 +158,7 @@ public class Ability : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilityShutdown);
                 player.statHandler.StopAttackSpeedAbility();
             }
         }
@@ -180,6 +182,7 @@ public class Ability : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.PlaySoundEffect(SoundType.AbilityShutdown);
                 player.canTakeDamage = true;
             }
 
