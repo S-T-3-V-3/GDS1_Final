@@ -108,10 +108,12 @@ public class BasicPlayer : Pawn
         {
             Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
-            DroppedWeapon dropState = droppedItem.GetComponent<DroppedWeapon>();
-            dropState.weaponType = equippedWeapon.weaponType;
-            dropState.Init(equippedWeapon.weaponModel, "Player");
+            DroppedWeapon droppedWeapon = droppedItem.GetComponent<DroppedWeapon>();
+            droppedWeapon.weaponType = equippedWeapon.weaponType;
+            droppedWeapon.weaponStats = equippedWeapon.weaponStats;
+            droppedWeapon.dropped = true;
 
+            droppedWeapon.Init(equippedWeapon.weaponModel);
             GameObject.Destroy(equippedWeapon.weaponModel);
             GameObject.Destroy(equippedWeapon);
         }

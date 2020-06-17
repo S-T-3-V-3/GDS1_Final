@@ -5,7 +5,7 @@ using UnityEngine;
 public static class EnemyTransitionHandler
 {
     public static void OnStart(BasicEnemy enemy) {
-        if (GameManager.Instance.playerController == null)
+        if (GameManager.Instance.playerController == null || GameManager.Instance.playerController.transform == null)
             enemy.SetState<EnemyInactiveState>();
 
         switch (enemy.enemyType) {
@@ -98,7 +98,7 @@ public static class EnemyTransitionHandler
     }
 
     public static void OnLostPlayer(BasicEnemy enemy) {
-        if (GameManager.Instance.playerController == null) {
+        if (GameManager.Instance.playerController == null || GameManager.Instance.playerController.transform == null) {
             enemy.SetState<EnemyInactiveState>();
             return;
         }

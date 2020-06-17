@@ -61,4 +61,12 @@ MonoBehaviour:
   - type: 12
     soundClips:
     - {fileID: 8300000, guid: f8a205fba30e097428c5853815e00c17, type: 3}
-    volume: 1
+    volume: 0.8
+  - type: 13
+    soundClips:
+    - {fileID: 8300000, guid: 75157b4a20d13334c8b62886a9c26575, type: 3}
+    volume: 0.5
+  - type: 14
+    soundClips:
+    - {fileID: 8300000, guid: 5398005a324af4240b6278fe84ddb7d6, type: 3}
+    volume: 0.5

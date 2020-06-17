@@ -7,6 +7,7 @@ using TMPro;
 public class HUD : MonoBehaviour, IPausable
 {
     public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI abilityText;
     public GameObject PauseHUD;
     public GameObject mouseIndicator;
     public WeaponStatsUI weaponStats;
@@ -42,6 +43,26 @@ public class HUD : MonoBehaviour, IPausable
 
             yield return null;
         }
+    }
+
+    public void SetAbilityText(AbilityType abilityType)
+    {
+        switch (abilityType)
+        {
+            case AbilityType.DASH:
+                abilityText.text = $"Ability [Right Mouse]\n <b><size=28>TELEPORT</size></b>";
+                break;
+            case AbilityType.RAPIDHEAL:
+                abilityText.text = $"Ability [Right Mouse]\n <b><size=28>RAPID REGEN</size></b>";
+                break;
+            case AbilityType.RAPIDFIRE:
+                abilityText.text = $"Ability [Right Mouse]\n <b><size=28>RAPIDFIRE</size></b>";
+                break;
+            case AbilityType.INVISIBILITY:
+                abilityText.text = $"Ability [Right Mouse]\n <b><size=28>INVINCIBILITY</size></b>";
+                break;
+        }
+        
     }
 
     public void Pause()

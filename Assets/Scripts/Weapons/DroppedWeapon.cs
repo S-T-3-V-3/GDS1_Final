@@ -12,36 +12,42 @@ public class DroppedWeapon : MonoBehaviour
     public MeshRenderer[] indicatorRenderers;
     public WeaponStatsUI stats;
 
-    WeaponStats weaponStats;
+    public WeaponStats weaponStats;
+    public bool dropped = false;
 
     GameObject weaponModel;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        DelayedAction d = this.gameObject.AddComponent<DelayedAction>();
-        d.maxDelayTime = 15f;
-        weaponStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First().weaponBaseStats;
-        for (int i = 0; i < GameManager.Instance.scoreManager.playerLevel; i++) {
-            int randStat = Random.Range(0,3);
-            switch (randStat) {
-                case 0:
-                    weaponStats.attackSpeed *= 1.1f;
-                    break;
-                case 1:
-                    weaponStats.weaponDamage *= 1.1f;
-                    break;
-                case 2:
-                    weaponStats.range *= 1.1f;
-                    break;
-                case 3:
-                    weaponStats.shotSpeed *= 1.1f;
-                    break;
+    public void Init(GameObject weaponModel) {
+        if (!dropped) {
+            weaponStats = GameManager.Instance.gameSettings.WeaponList.Where(x => x.weaponType == weaponType).First().weaponBaseStats;
+            DelayedAction d = this.gameObject.AddComponent<DelayedAction>();
+            d.maxDelayTime = 25f;
+        }
+        else {
+            DelayedAction d = this.gameObject.AddComponent<DelayedAction>();
+            d.maxDelayTime = 60f;
+        }
+
+        if (!dropped) {
+            for (int i = 0; i < GameManager.Instance.scoreManager.playerLevel; i++) {
+                int randStat = Random.Range(0,3);
+                switch (randStat) {
+                    case 0:
+                        weaponStats.attackSpeed *= 1.1f;
+                        break;
+                    case 1:
+                        weaponStats.weaponDamage *= 1.1f;
+                        break;
+                    case 2:
+                        weaponStats.range *= 1.1f;
+                        break;
+                    case 3:
+                        weaponStats.shotSpeed *= 1.1f;
+                        break;
+                }
             }
         }  
-    }
 
-    public void Init(GameObject weaponModel, string originName){
         Material glowMat;
         weaponModel = Instantiate(weaponModel, modelDisplayPoint.position, Quaternion.identity);
         weaponModel.transform.parent = this.transform;
@@ -82,6 +88,10 @@ public class DroppedWeapon : MonoBehaviour
         if (other.gameObject.GetComponent<BasicPlayer>() == null) return;
 
         playerReference = other.gameObject.GetComponent<BasicPlayer>();
+
+        if (playerReference.nearbyWeapon != null && playerReference.nearbyWeapon != this)
+            playerReference.nearbyWeapon.Hide();
+
         playerReference.nearbyWeapon = this;
 
         Show();
@@ -99,15 +109,15 @@ public class DroppedWeapon : MonoBehaviour
     void Show() {
         stats.gameObject.SetActive(true);
         stats.droppedWeapon = this;
-        stats.Init(weaponType,weaponStats);
+        stats.Init(weaponType,weaponStats,true);
     }
 
-    void Hide() {
+    public void Hide() {
         stats.gameObject.SetActive(false);
     }
 
     private void Update() {
-        if (GameManager.Instance.playerController.transform == null) return;
+        if (GameManager.Instance.playerController == null || GameManager.Instance.playerController.transform == null) return;
         stats.gameObject.transform.LookAt(GameManager.Instance.mainCamera.transform, Vector3.up);
     }
 }

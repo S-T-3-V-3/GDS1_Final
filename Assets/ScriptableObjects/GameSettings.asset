@@ -33,6 +33,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e07ecb1e77e7040b791d0d797ef13682, type: 2}
   Abilities:
   - {fileID: 11400000, guid: e96fcc77254a6924ebe72d61de254b43, type: 2}
+  - {fileID: 11400000, guid: ee81327ba3c1e1948a1947247e7367f5, type: 2}
+  - {fileID: 11400000, guid: eb2a34172c053824db2cc1c253f7c72e, type: 2}
+  - {fileID: 11400000, guid: da8ef91afb92b0044bc22176008db74e, type: 2}
   gravity: -9.8
   DebrisSparkPrefab: {fileID: 1981929775162810702, guid: 1a7f17279ee474a7db50c3737395b6b7,
     type: 3}

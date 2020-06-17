@@ -49,7 +49,9 @@ public class BasicEnemy : Pawn
         // Test example of giving enemies points into random stats,
         // can obviously skew this based on enemy type later via
         // enemy prefabs by setting weights towards certain stats
-        int numRandomStats = 3;
+
+        int numRandomStats = GameManager.Instance.scoreManager.playerLevel + GameManager.Instance.scoreManager.playerLevel*2;
+
         while (numRandomStats > 0) {
             statHandler.LevelUp((StatType)Random.Range(1,7));
             numRandomStats--;
@@ -138,7 +140,10 @@ public class BasicEnemy : Pawn
         // Add to player's score
         gameManager.OnAddScore.Invoke(enemySettings.traits.enemyScore, this.transform.position);
 
-        DropWeapon();
+        float dropChance = Random.Range(0f,100f);
+        if (dropChance >= 70f)
+            DropWeapon();
+
         GameObject.Destroy(this.gameObject);
         //Debug.Log($"{gameObject.name} is Dead");
 
@@ -174,20 +179,9 @@ public class BasicEnemy : Pawn
             //WeaponDefinition weaponSettings = gameManager.gameSettings.WeaponList.Where(x => x.weaponType == enemySettings.weaponType).First();
             Vector3 spawnPos = new Vector3(hit.point.x, hit.point.y + 1, hit.point.z);
             GameObject droppedItem = GameObject.Instantiate(GameManager.Instance.gameSettings.dropIndicator, spawnPos, Quaternion.identity);
-            DroppedWeapon dropIdicator = droppedItem.GetComponent<DroppedWeapon>();
-            dropIdicator.Init(equippedWeapon.weaponModel, "Enemy");
-
-            ////THIS IS TEMPORARY
-            ///UNTIL WEAPON IS FIXED TODO IMPLEMENT THE EQUIPPED WEAPON TYPE
-            ///
-            int randomSelect = Random.Range(0, 25);
-
-            if (randomSelect > 16)
-                dropIdicator.weaponType = WeaponType.RIFLE;
-            else if (randomSelect > 8)
-                dropIdicator.weaponType = WeaponType.SHOTGUN;
-            else
-                dropIdicator.weaponType = WeaponType.MACHINE_GUN;
+            DroppedWeapon droppedWeapon = droppedItem.GetComponent<DroppedWeapon>();
+            droppedWeapon.weaponType = equippedWeapon.weaponType;
+            droppedWeapon.Init(equippedWeapon.weaponModel);
         }
     }
 
