@@ -38,18 +38,34 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Ability1",
+                    "name": "Pickup",
                     "type": "Value",
                     "id": "781f58b7-a290-4bd3-8b60-e2fcce663026",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Ability2",
+                    "name": "Ability",
                     "type": "Value",
                     "id": "ce42e826-3485-4f6d-8511-8bd7214cd4ed",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Value",
+                    "id": "1f8477b1-621c-40cc-b43f-52bef1862784",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "c9ca7116-4e2d-4633-9046-7703b48619dd",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -216,7 +232,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability1",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -227,18 +243,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability1",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "17eeeecb-2f5a-41f7-b01e-446832b72b77",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability2",
+                    "action": "Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -249,7 +265,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PlayerInput",
-                    "action": "Ability2",
+                    "action": "Ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -261,6 +277,61 @@
                     "processors": "",
                     "groups": "PlayerInput",
                     "action": "GamepadAim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5540d91-145f-444b-9e44-a7dcee1fdc1b",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2126d896-f2f8-4dc5-bfd7-644e27118d7c",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d190ede-1449-40be-b2ab-8df991cdfafc",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8693c19c-0c2b-4f98-9986-d117656a73cb",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7da26285-4c4f-4694-9a2f-e90dbc6e8af2",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerInput",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -13,13 +13,6 @@ MonoBehaviour:
   m_Name: AudioSettigs
   m_EditorClassIdentifier: 
   backgroundAmbience: {fileID: 8300000, guid: 258e8557831774facbd6423d99bc2881, type: 3}
-  standardGunClips:
-  - {fileID: 8300000, guid: 43f12fd8bc09b451e8aa8976e06f65f6, type: 3}
-  - {fileID: 8300000, guid: aeff497a2b1594dd7a2c2428c62c8197, type: 3}
-  - {fileID: 8300000, guid: 78e1397d53fa5495a9dc70efadff7474, type: 3}
-  shotgunClips: []
-  machineGunClips: []
-  sniperGunClips: []
   laserFireClip: {fileID: 0}
   laserHoldClip: {fileID: 0}
   playerFootstepClips:
@@ -29,3 +22,55 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2f9d9de60bd934a23ae2be0947db5db9, type: 3}
   - {fileID: 8300000, guid: 226dd438c99c045bcb0ea48aeb91288a, type: 3}
   footstepRate: 0.3
+  soundEffects:
+  - type: 0
+    soundClips:
+    - {fileID: 8300000, guid: 43f12fd8bc09b451e8aa8976e06f65f6, type: 3}
+    volume: 0.51
+  - type: 1
+    soundClips:
+    - {fileID: 8300000, guid: 65e8b1c1588774b20bf298b0764f2ca9, type: 3}
+    - {fileID: 8300000, guid: 3951561fbf479454cbc87e22e35afba4, type: 3}
+    - {fileID: 8300000, guid: aa54f393d34214ac9a50e2bf9db804f8, type: 3}
+    volume: 1
+  - type: 6
+    soundClips:
+    - {fileID: 8300000, guid: 05b9d898d8da6af4eb31da8b64a696ea, type: 3}
+    volume: 1.81
+  - type: 8
+    soundClips:
+    - {fileID: 8300000, guid: 293fc6b6f98354b6fa35be500801d7e3, type: 3}
+    volume: 1
+  - type: 9
+    soundClips:
+    - {fileID: 8300000, guid: 35f5a634f2c044da08ce1d420ad80056, type: 3}
+    volume: 1
+  - type: 10
+    soundClips:
+    - {fileID: 8300000, guid: 54d8edeb3be014bd8b15cce8f8b4059a, type: 3}
+    volume: 1
+  - type: 7
+    soundClips:
+    - {fileID: 8300000, guid: 3a541455c59ad464393822d5cdb067d7, type: 3}
+    volume: 3.18
+  - type: 11
+    soundClips:
+    - {fileID: 8300000, guid: a2196b4ad7b524c61a1104c805604e39, type: 3}
+    - {fileID: 8300000, guid: 0ca57ae8688d34eada933b408ae39803, type: 3}
+    volume: 1
+  - type: 12
+    soundClips:
+    - {fileID: 8300000, guid: f8a205fba30e097428c5853815e00c17, type: 3}
+    volume: 0.8
+  - type: 13
+    soundClips:
+    - {fileID: 8300000, guid: 75157b4a20d13334c8b62886a9c26575, type: 3}
+    volume: 0.5
+  - type: 14
+    soundClips:
+    - {fileID: 8300000, guid: 5398005a324af4240b6278fe84ddb7d6, type: 3}
+    volume: 0.5
+  - type: 15
+    soundClips:
+    - {fileID: 8300000, guid: 6d182d8e9fa8d3e41ba144f4a577c348, type: 3}
+    volume: 0.5

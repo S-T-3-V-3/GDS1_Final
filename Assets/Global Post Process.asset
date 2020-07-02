@@ -19,16 +19,16 @@ MonoBehaviour:
     m_Value: 2
   threshold:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.8
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 1
     min: 0
     max: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.732
+    m_Value: 0.54
     min: 0
     max: 1
   tint:
@@ -68,6 +68,61 @@ MonoBehaviour:
   components:
   - {fileID: -7384605384425706899}
   - {fileID: 8626088606045180497}
+  - {fileID: 6141211422481258256}
+  - {fileID: 79140227650732989}
+--- !u!114 &79140227650732989
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598e2d32e2c7b0c418e030c3236d663a, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  quality:
+    m_OverrideState: 1
+    m_Value: 1
+  spectralLut:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.167
+    min: 0
+    max: 1
+  m_MaxSamples:
+    m_OverrideState: 0
+    m_Value: 6
+    min: 3
+    max: 24
+--- !u!114 &6141211422481258256
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5ab44aadfb1804db5fd470983ac1b8, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  lift:
+    m_OverrideState: 0
+    m_Value: {x: 0.9876167, y: 1, z: 0.46529257, w: 0}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 0.9748541, y: 0.9965929, z: 1, w: 0.23477966}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 0.83214146, y: 0.8500024, z: 1, w: 0}
 --- !u!114 &8626088606045180497
 MonoBehaviour:
   m_ObjectHideFlags: 3

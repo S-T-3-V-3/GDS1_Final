@@ -13,25 +13,57 @@ MonoBehaviour:
   m_Name: RusherSettings
   m_EditorClassIdentifier: 
   enemyType: 1
-  stats:
-    maxHealth: 50
-    currentHealth: 0
-    healthRegenSpeed: 0
-    moveSpeed: 6
-    damage: 10
-    fireRate: 1
-    critChance: 0
-    maxStamina: 0
-    currentStamina: 0
-    staminaRegenSpeed: 0
+  statHandler:
+    currentStats:
+      health: 0
+      maxHealth: 0
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
+      moveSpeed: 0
+      sprintSpeed: 0
+      attackSpeed: 0
+      damageScale: 0
+      critChance: 0
+    baseStats:
+      health: 10
+      maxHealth: 10
+      healthRegen: 0
+      energy: 0
+      maxEnergy: 0
+      energyRegen: 0
+      moveSpeed: 10
+      sprintSpeed: 10
+      attackSpeed: 1
+      damageScale: 1
+      critChance: 0
+    modifiers:
+      MaxHealth: 10
+      HealthRegen: 0.1
+      Damage: 0.1
+      MaxEnergy: 10
+      AttackSpeed: 0.1
+      CritChance: 0.05
+    OnHealthChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnEnergyChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    maxHealthLevel: 0
+    healthRegenLevel: 0
+    damageLevel: 0
+    energyLevel: 0
+    attackSpeedLevel: 0
+    critChanceLevel: 0
   traits:
     wanderUpdateFrequency: {x: 0, y: 0}
     material: {fileID: 2100000, guid: 6343bd8cffa8d7a4b8190181409150e7, type: 2}
     turnSpeed: 2
-    detectionRange: 8
+    detectionRange: 20
     perceptiveness: 0
     wanderDistance: 5
     wanderStuckDistance: 1
-    canShootAndSeek: 0
     enemyScore: 50
   weaponType: 0

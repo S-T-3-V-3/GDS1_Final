@@ -9,6 +9,9 @@ public class CameraFollowState : CameraState
     Vector3 moveToPosition;
     CameraSettings cameraSettings;
     Vector3 velocity;
+    Vector3 velocity2;
+    CameraRaycast cameraRaycast;
+    float step = 1;
 
     public override void BeginState()
     {
@@ -16,8 +19,10 @@ public class CameraFollowState : CameraState
         cameraController = this.gameObject.GetComponent<CameraController>();
         targetTransform = cameraController.targetTransform;
         velocity = Vector3.zero;
+        velocity2 = Vector3.zero;
 
-        DoMovement(true);
+        cameraRaycast = this.gameObject.GetComponent<CameraRaycast>();
+
         this.gameObject.transform.LookAt(targetTransform);
     }
 
@@ -29,17 +34,38 @@ public class CameraFollowState : CameraState
         }
 
         DoMovement();
-        this.gameObject.transform.LookAt(targetTransform);
+
+        Vector3 targetPosition = Vector3.SmoothDamp(cameraController.previousPosition, targetTransform.position, ref velocity2, cameraSettings.lagSpeed / 4f);
+        this.gameObject.transform.LookAt(targetPosition);
+        cameraController.previousPosition = targetPosition;
     }
 
     void DoMovement(bool force = false) {
-        Vector3 offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * cameraSettings.followDistance;
-        moveToPosition = offset + Vector3.Normalize(this.transform.position - offset) * cameraSettings.minOffsetDistance;
-        moveToPosition.y = offset.y;
+        Vector3 offset;
+
+        float pauseZoom = 0.6f;
+
+        offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * cameraSettings.followDistance;
+        cameraRaycast.targetPos = offset + Vector3.Normalize(this.transform.position - offset) * cameraSettings.minOffsetDistance;
+        cameraRaycast.targetPos.y = offset.y;
+
+        if (GameManager.Instance.sessionData.isPaused) {
+            offset = targetTransform.position + Vector3.Normalize(cameraSettings.targetOffset) * (cameraSettings.followDistance * pauseZoom);
+            moveToPosition = offset + Vector3.Normalize(this.transform.position - offset) * (cameraSettings.minOffsetDistance * pauseZoom);
+            moveToPosition.y = (offset.y * pauseZoom);
+            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
+        }
+        else {
+            moveToPosition = cameraRaycast.targetPos;
+            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
+            
+            if (cameraRaycast.isBlocked) {
+                moveToPosition.y = cameraRaycast.hitInfo.point.y;
+                force = true;
+            }
+        }
 
         if (force)
-            this.gameObject.transform.position = moveToPosition;
-        else
-            this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, moveToPosition, ref velocity, cameraSettings.lagSpeed);
+            this.gameObject.transform.position = moveToPosition;             
     }
 }

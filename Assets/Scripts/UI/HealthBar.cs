@@ -2,60 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
 
 public class HealthBar : MonoBehaviour
 {
     public Image foregroundImage;
     public float sensitivity = 0.01f;
-    public float lerpSpeed = 1f; // Seconds
+    public float lerpSpeed = 0.3f; // Seconds
 
     Coroutine currentCoroutine;
     BasicPlayer playerRef;
     float timeSinceModified = 0;
-
-    public Transform foregroundImageTransform;
-    public Vector3 foregroundImageOriginalPos = new Vector3();
+    public TextMeshProUGUI healthNumberText;
+    float displayedCurrentHealth = 0f;
 
     void Start()
     {
         StartCoroutine(Initialize());
-        foregroundImageOriginalPos = foregroundImageTransform.position;
-    }
-
-    private void UpdateHealth()
-    {
-        float targetHealthPercent = playerRef.playerStats.currentHealth / playerRef.playerStats.maxHealth;
-
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
-        
-        currentCoroutine = StartCoroutine(UpdateImage(targetHealthPercent));
-    }
-
-    IEnumerator UpdateImage(float targetHealthPercent)
-    {
-        float currentHealthPercent = foregroundImage.fillAmount;
-        float startHealthPercent = currentHealthPercent;
-        timeSinceModified = 0f;
-
-        //Lerp to the new health percent
-        while (Mathf.Abs(currentHealthPercent - targetHealthPercent) > sensitivity)
-        {
-            yield return new WaitForEndOfFrame();
-
-            timeSinceModified += Time.deltaTime;
-            currentHealthPercent = Mathf.Lerp(startHealthPercent, targetHealthPercent, timeSinceModified / lerpSpeed);
-            
-            foregroundImage.fillAmount = currentHealthPercent;
-
-           AdjustHealthBarPos(currentHealthPercent); 
-        }
-
-        //Set image to the new health amount
-        foregroundImage.fillAmount = targetHealthPercent;
-
-        AdjustHealthBarPos(targetHealthPercent); 
-        
     }
 
     IEnumerator Initialize() {
@@ -66,15 +30,24 @@ public class HealthBar : MonoBehaviour
             yield return null;
         }
 
-        // TODO: Explore other methods, as health regen now runs every frame that we aren't full HP!
-        playerRef.OnHealthChanged.AddListener(UpdateHealth);
+        playerRef.statHandler.OnHealthChanged.AddListener(UpdateHealth);
+        //// TODO: Delete below line
+        GameManager.Instance.hud.playerRef = playerRef;
         UpdateHealth();
     }
 
-    private void AdjustHealthBarPos(float targetHealthPercent)
+    public void UpdateHealth()
     {
-        foregroundImageTransform.position = new Vector2(
-             targetHealthPercent * (foregroundImageOriginalPos.x+110) - 110,
-             foregroundImageTransform.position.y);
+        DOTween.To(
+            () => displayedCurrentHealth,
+            x => {
+                displayedCurrentHealth = x;
+                healthNumberText.text = $"{string.Format("{0:#0.0}",displayedCurrentHealth)}/{string.Format("{0:#0.0}",playerRef.statHandler.MaxHealth)}";
+                foregroundImage.fillAmount = displayedCurrentHealth / playerRef.statHandler.MaxHealth;
+            },
+            Mathf.Max(playerRef.statHandler.CurrentHealth, 0),
+            0.75f
+        ).SetUpdate(UpdateType.Fixed);
     }
+
 }

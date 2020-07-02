@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemySettings : ScriptableObject
 {
     public EnemyType enemyType;
-    public ObjectStats stats;
+    public StatHandler statHandler;
     public EnemyTraits traits;
     public WeaponType weaponType;
 }
@@ -30,6 +30,5 @@ public struct EnemyTraits {
     public float perceptiveness;
     public float wanderDistance;    
     public float wanderStuckDistance;
-    public bool canShootAndSeek;
     public int enemyScore;
 }

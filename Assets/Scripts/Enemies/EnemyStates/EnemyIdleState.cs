@@ -10,17 +10,26 @@ public class EnemyIdleState : EnemyState
     EnemySettings enemySettings;
 
     Transform targetTransform;
+    CharacterController characterController;
 
     public override void BeginState() {
+        if (GameManager.Instance.playerController.transform == null)
+            enemy.SetState<EnemyInactiveState>();
+            
         enemy = this.gameObject.GetComponent<BasicEnemy>();
         enemyType = enemy.enemyType;
         enemySettings = enemy.enemySettings;
 
         targetTransform = GameManager.Instance.playerController.transform;
+        characterController = this.GetComponent<CharacterController>();  
     }
 
     void Update() {
+        if (enemy.isPaused) return;
         if (targetTransform == null) return;
+
+        enemy.GravityUpdate();
+        characterController.Move(enemy.velocity * Time.deltaTime);
 
         if (BasicEnemy.IsPlayerInRange(this.enemy)) {
             EnemyTransitionHandler.OnDetectPlayer(this.enemy);
