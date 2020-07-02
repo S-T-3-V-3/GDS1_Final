@@ -54,6 +54,6 @@ public class WeaponStatsUI : MonoBehaviour
         rangeText.text = $"{(int)weaponStats.range}";
         damageText.text = $"{(int)weaponStats.weaponDamage}";
         shotSpeedText.text = $"{(int)weaponStats.shotSpeed}";
-        attackSpeedText.text = $"{(int)weaponStats.attackSpeed}";
+        attackSpeedText.text = $"{Mathf.Round(weaponStats.attackSpeed * 100f) / 100f}";
     }
 }
