@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pink_Crystal
+  m_Name: Purple_Crystal
   m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _BLENDMODE_ADD _BLENDMODE_PRESERVE_SPECULAR_LIGHTING
     _DISABLE_DECALS _DISABLE_SSR _EMISSION _ENVIRONMENTREFLECTIONS_OFF _MATERIAL_FEATURE_TRANSMISSION
@@ -329,8 +329,8 @@ Material:
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 0.82, g: 0, b: 0.4508938, a: 0.82}
-    - _EmissiveColorLDR: {r: 1, g: 0, b: 0.5498705, a: 1}
+    - _EmissiveColor: {r: 0.48235294, g: 0, b: 0.82, a: 0.82}
+    - _EmissiveColorLDR: {r: 0.5882353, g: 0, b: 1, a: 1}
     - _Glow_Color: {r: 0.6603774, g: 0, b: 0, a: 0}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
