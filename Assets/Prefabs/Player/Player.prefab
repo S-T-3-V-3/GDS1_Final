@@ -2270,7 +2270,7 @@ MonoBehaviour:
       MaxHealth: 10
       HealthRegen: 0.5
       Damage: 5
-      MaxEnergy: 10
+      MaxEnergy: 20
       AttackSpeed: 0.3
       CritChance: 0.05
     OnHealthChanged:
@@ -2297,6 +2297,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   velocity: {x: 0, y: 0, z: 0}
+  nearbyWeapon: {fileID: 0}
   groundDistance: 0.4
   isGrounded: 1
   isSprinting: 0
